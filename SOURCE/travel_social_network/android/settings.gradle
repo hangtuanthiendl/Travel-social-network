@@ -1,0 +1,3 @@
+rootProject.name = 'travel_social_network'
+
+include ':app'
