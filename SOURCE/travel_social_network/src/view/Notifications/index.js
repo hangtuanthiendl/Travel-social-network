@@ -12,12 +12,12 @@ import {
   View
 } from 'react-native';
 
-export default class Profile extends Component {
+export default class Notification extends Component {
   render() {
     return (
       <View>
         <Text>
-          Profile
+          Notification
         </Text>
       </View>
     );
