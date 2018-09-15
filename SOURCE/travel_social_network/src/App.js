@@ -12,7 +12,8 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  Dimensions
 } from 'react-native';
 const {height, width} = Dimensions.get('window');
 const TabBar = createBottomTabNavigator({
@@ -79,7 +80,7 @@ const RootNavigator = createStackNavigator({
 export default class App extends Component {
   render() {
     return (
-      <View>
+      <View style={{flex: 1}}>
         <RootNavigator/>
       </View>
     );
