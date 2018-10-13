@@ -52,14 +52,14 @@ const TabBar = createBottomTabNavigator({
       showLabel: false,
       showIcon: true,
       style: {
-          backgroundColor: global.colorF4,
+          backgroundColor: global.black,
           borderTopColor: 'white',
           borderTopWidth: 0.18,
           height: height / 14,
 
       },
-      inactiveTintColor: global.colorA5,
-      activeTintColor: global.colorTextPrimary,
+      inactiveTintColor: global.darkBlue,
+      activeTintColor: global.yellow,
       indicatorStyle: {
           backgroundColor: 'transparent',
       },
@@ -77,8 +77,12 @@ const RootNavigator = createStackNavigator({
   headerMode: "none",
 }
 );
+
 export default class App extends Component {
-  render() {
+    componentWillMount(){
+        console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];
+    }
+    render() {
     return (
       <View style={{flex: 1}}>
         <RootNavigator/>
@@ -87,3 +91,4 @@ export default class App extends Component {
   }
 }
 
+console.disableYellowBox = true;
