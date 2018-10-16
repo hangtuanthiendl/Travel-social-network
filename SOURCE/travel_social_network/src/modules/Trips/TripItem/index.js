@@ -13,7 +13,7 @@ const TripItem = ({uriImage,title,price})=>{
             <View>
                 <Image
                     style={{width: 50, height: 50}}
-                    source={{uri:'http://file.vforum.vn/hinh/2018/01/top-nhung-hot-girl-viet-nam-xinh-nhat-hien-nay-2018-12.png'}}
+                    source={{uri:uriImage}}
                 />
             </View>
             <View>

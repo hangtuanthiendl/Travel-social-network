@@ -29,4 +29,14 @@ viewLine: {
     height: 0.5,
     width: width,
 },
+viewItem: {
+    elevation: 2,
+    backgroundColor: '#FFF',
+    height: 250,
+    width: (width - (height / 120 * 4)) / 2,
+    margin: height / 120,
+    borderRadius: height / 100,
+    overflow: 'hidden',
+    flex: 1
+},
 });

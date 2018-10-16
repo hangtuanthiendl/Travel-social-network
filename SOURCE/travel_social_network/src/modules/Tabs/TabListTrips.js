@@ -16,7 +16,7 @@ class TabListTrips extends React.Component {
   _renderLabel = ({ position, navigationState }) => ({ route, index }) => {
     const inputRange = navigationState.routes.map((x, i) => i);
     const outputRange = inputRange.map(
-      inputIndex => (inputIndex === index ? global.colorTextPrimary : global.colorA5)
+      inputIndex => (inputIndex === index ? global.colorTextPrimary : global.colorFF)
     );
     const outputFont = inputRange.map(
       inputIndex => (inputIndex === index ? global.colorTextPrimary : global.colorA5)
@@ -27,11 +27,11 @@ class TabListTrips extends React.Component {
     });
     return (
       <Animated.Text style={[styles.label, { color }]}>
-        {route.title}
+          {route.title}
       </Animated.Text>
     );
   };
-  _renderHeader = props => (
+  renderTabBar = props => (
     <TabBar
       {...props}
       scrollEnabled={true}
@@ -42,15 +42,15 @@ class TabListTrips extends React.Component {
     />
   );
   render() {
-    const{renderScene, onIndexChange,index, routes} = this.props;
+    const{renderScene, onIndexChange} = this.props;
     return (
           <TabView
             style={[styles.container, this.props.style]}
             navigationState={this.props}
             renderScene={renderScene}
-            renderHeader={this._renderHeader}
+            renderTabBar={this.renderTabBar}
             onIndexChange={onIndexChange}
-            initialLayout={initialLayout}
+           initialLayout={initialLayout}
           />
     );
   }
@@ -61,24 +61,32 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   tab_bar: {
-    backgroundColor: global.colorF4,
-    overflow: 'hidden',
+    backgroundColor: global.darkBlue,
+    height:50,
+    width:initialLayout.width,
    justifyContent:'center',
+      shadowColor: '#000000',
+      shadowOffset: {
+          width: 0,
+          height:1,
+      },
+      shadowRadius: 5,
+      shadowOpacity:0.5,
   },
   tab: {
-      width:120,
+    width:initialLayout.width / 3,
     justifyContent:'center',
     alignItems:'center',
   },
   indicator: {
-    backgroundColor: global.colorTextPrimary,
+    backgroundColor: global.orange,
     height:3,
     justifyContent:'center',
     alignSelf:'center',
   },
   label: {
-    fontSize: global.sizeP18,
-    color: global.colorTextPrimary,
+    fontSize: global.sizeP16,
+    //color: 'white',
   },
 });
 TabListTrips.defaultProps = {

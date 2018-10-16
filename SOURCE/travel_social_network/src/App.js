@@ -9,12 +9,14 @@ import Login from './view/Login'
 import global from './Styles/global'
 import {createBottomTabNavigator,createStackNavigator} from 'react-navigation'
 import {
-  Platform,
-  StyleSheet,
-  Text,
+    StatusBar,
   View,
   Dimensions
 } from 'react-native';
+import { PersistGate } from 'redux-persist/lib/integration/react';
+import configureStore from "./store/configStore";
+import {Provider} from 'react-redux';
+const { persistor, store } = configureStore();
 const {height, width} = Dimensions.get('window');
 const TabBar = createBottomTabNavigator({
   Home: Home,
@@ -80,13 +82,21 @@ const RootNavigator = createStackNavigator({
 
 export default class App extends Component {
     componentWillMount(){
-        console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];
+        console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];//hide warning
     }
     render() {
     return (
-      <View style={{flex: 1}}>
-        <RootNavigator/>
-      </View>
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <View style={{flex: 1}}>
+                    <StatusBar
+                        backgroundColor="#2980b9"
+                        translucent={false}
+                    />
+                    <RootNavigator/>
+                </View>
+            </PersistGate>
+        </Provider>
     );
   }
 }

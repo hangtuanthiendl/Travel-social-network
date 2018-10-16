@@ -18,11 +18,9 @@ class Home extends Component {
         this.state ={
             index: 0,
             routes: [
-                {key: '1', title: 'Cá Tươi'},
-                {key: '2', title: 'Cá sống'},
-                {key: '3', title: 'Cua - Ghẹ'},
-                {key: '4', title: 'Sò - Ốc'},
-                {key: '5', title: 'Tôm - Mực'},],
+                {key: '1', title: 'Đã diễn ra'},
+                {key: '2', title: 'Đang diễn ra'},
+                {key: '3', title: 'Chưa diễn ra'},]
         };
         this._onScroll = this._onScroll.bind(this);
 
@@ -73,7 +71,50 @@ class Home extends Component {
                 title: 'Cá bò da',
                 price: '5000'
             }]
-        }];
+        },
+            {
+                id:'a4',
+                time: '232323',
+                total: '35000',
+                product: [{
+                    id:1,
+                    image: 'http://tunghaisan.com/sites/default/files/1427691019_giap.jpg',
+                    title: 'Cá bò da',
+                    price: '5000'
+                }]
+            },
+             {
+                id:'a5',
+                time: '232323',
+                total: '35000',
+                product: [{
+                    id:1,
+                    image: 'http://tunghaisan.com/sites/default/files/1427691019_giap.jpg',
+                    title: 'Cá bò da',
+                    price: '5000'
+                }]
+            }, {
+                id:'a6',
+                time: '232323',
+                total: '35000',
+                product: [{
+                    id:1,
+                    image: 'http://tunghaisan.com/sites/default/files/1427691019_giap.jpg',
+                    title: 'Cá bò da',
+                    price: '5000'
+                }]
+            }, {
+                id:'a7',
+                time: '232323',
+                total: '35000',
+                product: [{
+                    id:1,
+                    image: 'http://tunghaisan.com/sites/default/files/1427691019_giap.jpg',
+                    title: 'Cá bò da',
+                    price: '5000'
+                }]
+            }
+        ];
     }
 
     componentDidMount(){
@@ -124,10 +165,6 @@ class Home extends Component {
             case '2':
                 return <TripListView onScroll={this._onScroll} data={data}/>;
             case '3':
-                return <TripListView onScroll={this._onScroll} data={data}/>;
-            case '4':
-                return <TripListView onScroll={this._onScroll} data={data}/>;
-            case '5':
                 return <TripListView onScroll={this._onScroll} data={data}/>;
             default:
                 return null;
