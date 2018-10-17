@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Home from './view/Home';
-import Messaging from './view/Messaging';
+import Messaging from './view/Mytrip';
 import Profile from './view/Profile';
 import Notification from './view/Notifications';
 import Ionicons from 'react-native-vector-icons/Ionicons'

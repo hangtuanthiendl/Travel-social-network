@@ -14,6 +14,8 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: global.colorFF,
+        width: '100%',
+        height: '100%',
     },
     modalbox:{
         justifyContent: 'center',
@@ -40,5 +42,9 @@ export default StyleSheet.create({
         alignSelf: 'center',
         textDecorationLine: 'underline',
         textAlign: 'center'
+    },
+    overlay: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgba(69,85,117,0.7)',
     }
 });

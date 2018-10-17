@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, StatusBar, UIManager, LayoutAnimation, Image,
+    View, StatusBar, UIManager, LayoutAnimation, Image,ImageBackground,
 } from 'react-native';
 import Header from "../../modules/Header";
 import global from '../../Styles/global';
@@ -9,6 +9,8 @@ import styles from './styles';
 import Text from '../../Components/Text/Text';
 import TripListView from "../../modules/Trips/TripListView";
 import TabListTrips from "../../modules/Tabs/TabListTrips";
+import image from "../../themes/Images";
+import styleGlobal from "../../Styles/styles";
 
 let data = {};
 class Home extends Component {
@@ -176,7 +178,8 @@ class Home extends Component {
         });
   render() {
     return (
-        <View style={styles.container}>
+        <ImageBackground source={image.backgroundImage} style={styleGlobal.container}>
+            <View style={styleGlobal.imgBackground}>
             <Header
                 customHeaderStyle={{backgroundColor: global.yellow}}
                 leftHeader={<IconButton nameIcon='ios-search' iconStyle={{fontSize: 35, color: global.black}}/>}
@@ -186,7 +189,7 @@ class Home extends Component {
                     size={global.sizeP20}
                     />}
                 rightHeader={
-                    <IconButton nameIcon='ios-cart' iconStyle={{fontSize: 35, color: global.black}}
+                    <IconButton nameIcon='ios-search' iconStyle={{fontSize: 35, color: global.black}}
                                 onClick={() => alert("TrungDo")}/>}
             />
             <TabListTrips
@@ -195,7 +198,8 @@ class Home extends Component {
                 routes={this.state.routes}
                 onIndexChange={this._handleIndexChange}
             />
-      </View>
+            </View>
+      </ImageBackground>
     );
   }
 }
