@@ -13,6 +13,7 @@ import image from "../../themes/Images";
 import styleGlobal from "../../Styles/styles";
 
 let data = {};
+let dataTrip = [];
 class Home extends Component {
 
     constructor(props){
@@ -28,7 +29,8 @@ class Home extends Component {
 
     }
     componentWillMount(){
-        this.init();
+        //this.init();
+        this.initData();
     }
     init(){
         data = [{
@@ -118,6 +120,113 @@ class Home extends Component {
             }
         ];
     }
+    initData() {
+        //0: chua dien ra, 1: dang dien ra, 2: da ket thuc
+        dataTrip = [
+            {
+                id: 'a1',
+                title: 'Du lich Nha Trang Du lich Nha Trang Du lich Nha Trang',
+                numberParticipant: 20,
+                quantity: 30,
+                status: 0,
+                numberStar: 4,
+                timeStart: '20/10/2018',
+                timeEnd: '20/11/2018',
+                locationStart: 'Tp. Ho Chi Minh',
+                namePersonCreate:'Trung Do',
+                imgBackground:'http://hoangkimvilla.com/wp-content/uploads/2017/12/nha-tho-con-ga-diem-den-khong-the-quen-khi-den-da-lat-1.jpg',
+                imgAvatar:'http://biketsworldtour.com/wp-content/uploads/2013/04/ef995443d411c0847e8d5f67c83bfd9c_large-e1367182889174.jpeg',
+            },
+            {
+                id: 'a2',
+                title: 'Du lich Da Lat',
+                numberParticipant: 20,
+                quantity: 30,
+                status: 0,
+                numberStar: 4,
+                timeStart: '20/10/2018',
+                timeEnd: '20/11/2018',
+                locationStart: 'Tp. Ho Chi Minh',
+                namePersonCreate:'Trung Do',
+                imgBackground:'http://hoangkimvilla.com/wp-content/uploads/2017/12/nha-tho-con-ga-diem-den-khong-the-quen-khi-den-da-lat-1.jpg',
+                imgAvatar:'http://biketsworldtour.com/wp-content/uploads/2013/04/ef995443d411c0847e8d5f67c83bfd9c_large-e1367182889174.jpeg',
+            },
+            {
+                id: 'a3',
+                title: 'Du lich Nha Trang',
+                numberParticipant: 20,
+                quantity: 30,
+                status: 0,
+                numberStar: 4,
+                timeStart: '20/10/2018',
+                timeEnd: '20/11/2018',
+                locationStart: 'Tp. Ho Chi Minh',
+                namePersonCreate:'Trung Do',
+                imgBackground:'http://hoangkimvilla.com/wp-content/uploads/2017/12/nha-tho-con-ga-diem-den-khong-the-quen-khi-den-da-lat-1.jpg',
+                imgAvatar:'http://biketsworldtour.com/wp-content/uploads/2013/04/ef995443d411c0847e8d5f67c83bfd9c_large-e1367182889174.jpeg',
+            },
+            {
+                id: 'a4',
+                title: 'Du lich Nha Trang',
+                numberParticipant: 20,
+                quantity: 30,
+                status: 0,
+                numberStar: 4,
+                timeStart: '20/10/2018',
+                timeEnd: '20/11/2018',
+                locationStart: 'Tp. Ho Chi Minh',
+                namePersonCreate:'Trung Do',
+                imgBackground:'http://hoangkimvilla.com/wp-content/uploads/2017/12/nha-tho-con-ga-diem-den-khong-the-quen-khi-den-da-lat-1.jpg',
+                imgAvatar:'http://biketsworldtour.com/wp-content/uploads/2013/04/ef995443d411c0847e8d5f67c83bfd9c_large-e1367182889174.jpeg',
+            },
+            {
+                id: 'a5',
+                title: 'Du lich Nha Trang',
+                numberParticipant: 20,
+                quantity: 30,
+                status: 0,
+                numberStar: 4,
+                timeStart: '20/10/2018',
+                timeEnd: '20/11/2018',
+                locationStart: 'Tp. Ho Chi Minh',
+                namePersonCreate:'Trung Do',
+                imgBackground:'http://hoangkimvilla.com/wp-content/uploads/2017/12/nha-tho-con-ga-diem-den-khong-the-quen-khi-den-da-lat-1.jpg',
+                imgAvatar:'http://biketsworldtour.com/wp-content/uploads/2013/04/ef995443d411c0847e8d5f67c83bfd9c_large-e1367182889174.jpeg',
+            },
+            {
+                id: 'a6',
+                title: 'Du lich Nha Trang',
+                numberParticipant: 20,
+                quantity: 30,
+                status: 0,
+                numberStar: 4,
+                timeStart: '20/10/2018',
+                timeEnd: '20/11/2018',
+                locationStart: 'Tp. Ho Chi Minh',
+                namePersonCreate:'Trung Do',
+                imgBackground:'http://hoangkimvilla.com/wp-content/uploads/2017/12/nha-tho-con-ga-diem-den-khong-the-quen-khi-den-da-lat-1.jpg',
+                imgAvatar:'http://biketsworldtour.com/wp-content/uploads/2013/04/ef995443d411c0847e8d5f67c83bfd9c_large-e1367182889174.jpeg',
+            },
+            {
+                id: 'a7',
+                title: 'Du lich Nha Trang',
+                numberParticipant: 20,
+                quantity: 30,
+                status: 0,
+                numberStar: 4,
+                timeStart: '20/10/2018',
+                timeEnd: '20/11/2018',
+                locationStart: 'Tp. Ho Chi Minh',
+                namePersonCreate:'Trung Do',
+                imgBackground:'http://hoangkimvilla.com/wp-content/uploads/2017/12/nha-tho-con-ga-diem-den-khong-the-quen-khi-den-da-lat-1.jpg',
+                imgAvatar:'http://biketsworldtour.com/wp-content/uploads/2013/04/ef995443d411c0847e8d5f67c83bfd9c_large-e1367182889174.jpeg',
+            },
+
+        ];
+    }
+
+
+
 
     componentDidMount(){
       StatusBar.setHidden(true);
@@ -163,11 +272,11 @@ class Home extends Component {
     _renderScene = ({route}) => {
         switch (route.key) {
             case '1':
-                return <TripListView onScroll={this._onScroll} data={data}/>;
+                return <TripListView key={1} onScroll={this._onScroll} data={dataTrip}/>;
             case '2':
-                return <TripListView onScroll={this._onScroll} data={data}/>;
+                return <TripListView key={2} onScroll={this._onScroll} data={dataTrip}/>;
             case '3':
-                return <TripListView onScroll={this._onScroll} data={data}/>;
+                return <TripListView key={3} onScroll={this._onScroll} data={dataTrip}/>;
             default:
                 return null;
         }

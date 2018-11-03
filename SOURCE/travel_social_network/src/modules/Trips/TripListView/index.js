@@ -12,10 +12,19 @@ const TripListView = ({data}) =>{
             keyExtractor={(item) => item.id}
             renderItem={({item,index})=>
                 <TripListItem
+                    index={index}
                     id={item.id}
-                    time={item.time}
-                    total={item.total}
-                    data={item.product}
+                    title={item.title}
+                    numberParticipant={item.numberParticipant}
+                    quantity={item.quantity}
+                    status={item.status}
+                    numberStar={item.numberStar}
+                    timeStart={item.timeStart}
+                    timeEnd={item.timeEnd}
+                    locationStart={item.locationStart}
+                    namePersonCreate={item.namePersonCreate}
+                    imgBackground={item.imgBackground}
+                    imgAvatar={item.imgAvatar}
                 />
             }
         />

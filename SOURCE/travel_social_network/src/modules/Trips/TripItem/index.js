@@ -7,7 +7,6 @@ import Text from '../../../Components/Text/Text';
 const {height, width} = Dimensions.get('window');
 
 const TripItem = ({uriImage,title,price})=>{
-    console.log("image",uriImage);
     return(
         <View style={{flexDirection:'row',marginLeft:20,marginTop:10,marginBottom:10}}>
             <View>

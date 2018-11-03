@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Text} from "react-native";
 import global from '../../Styles/global';
 
-const TextComponent = ({text, style, numberOfLines = 1, allowFontScaling =true, size, bold, color,fontFamily}) => {
+const   TextComponent = ({text, style, numberOfLines = 1, allowFontScaling =true, size, bold, color,fontFamily}) => {
     let textVar = "";
     if (text) {
         textVar = text;

@@ -13,30 +13,82 @@ export const imageHeight = (imageWidth / 500) * 330;
 export default StyleSheet.create({
 container: {
     flex: 1,
-    backgroundColor: global.colorF4,
+    height:200,
+    width:'100%',
+    position:'relative',
+    marginBottom: 2,
 },
-icon:{
-    fontSize: 35,
-    color: global.colorF3,
-},
-card_container:{
-    width:width,
-    backgroundColor: global.colorFF,
-    marginBottom:15,
-},
-viewLine: {
-    backgroundColor: '#CFD8DC',
-    height: 0.5,
-    width: width,
-},
-viewItem: {
-    elevation: 2,
-    backgroundColor: '#FFF',
-    height: 250,
-    width: (width - (height / 120 * 4)) / 2,
-    margin: height / 120,
-    borderRadius: height / 100,
-    overflow: 'hidden',
-    flex: 1
-},
+    headerCard:{
+        flex:0.2,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 10,
+        marginTop: 5,
+    },
+    bodyCard:{
+        flex:0.6,
+        flexDirection: 'row',
+        display: 'flex',
+        width :width,
+        height:100,
+    },
+    bodyLeft:{
+        flex: 0.8,
+        flexDirection:'row',
+    },
+    bodyRight:{
+        flex: 0.2,
+    },
+    footerCard:{
+        flex:0.2,
+        justifyContent:'flex-end',
+        alignItems:'center',
+        width:width,
+        display:'flex',
+        flexDirection:'row',
+        paddingRight:10,
+    },
+    left:{
+        flex:1,
+    },
+    right:{
+        flex:1,
+        marginLeft: 8,
+    },
+    line_left:{
+        flexDirection:'row',
+        display:'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        marginTop: 10,
+        height:20,
+    },
+    line_right:{
+        flexDirection:'row',
+        display:'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        marginTop: 10,
+        height:20,
+    },
+    avatar:{
+        width:40,
+        height:40,
+        borderRadius:20,
+    },
+    text:{
+        fontSize: 15,
+        color: global.colorFF,
+    },
+    text1:{
+        marginRight:3,
+        fontSize: 15,
+        color: global.colorFF,
+    },
+    icon:{
+        fontSize:15,
+        color: global.orangeColor,
+        marginRight:4,
+    },
 });

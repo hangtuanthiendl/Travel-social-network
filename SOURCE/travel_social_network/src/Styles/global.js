@@ -19,6 +19,7 @@ export default  {
   
     // for Avatar random background
     imgBackground:'rgba(20, 20, 20, 0.8)',
+    imgBackgroundCard:'rgba(20, 20, 20, 0.9)',
     naviGreen: '#1ABC9C',
     green: '#2ECC71',
     purple: '#9B59B6',

@@ -84,6 +84,9 @@ export default class App extends Component {
     componentWillMount(){
         console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];//hide warning
     }
+    componentDidMount(){
+        StatusBar.setHidden(true);
+    }
     render() {
     return (
         <Provider store={store}>

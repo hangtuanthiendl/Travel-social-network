@@ -19,5 +19,13 @@ export default StyleSheet.create({
        right:0,
        left:0,
        backgroundColor: global.imgBackground,
+   },
+   imgBackgroundCard:{
+       position:'absolute',
+       top:0,
+       bottom:0,
+       right:0,
+       left:0,
+       backgroundColor: global.imgBackground,
    }
 });
