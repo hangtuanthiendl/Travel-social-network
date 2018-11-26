@@ -17,7 +17,7 @@ const Header =({leftHeader={}, rightHeader={}, body={}, customHeaderStyle })=>{
       </View>
     );
   
-}
+};
 Header.defaultProps = {};
 Header.propTypes = {
   rightHeader: PropTypes.object,

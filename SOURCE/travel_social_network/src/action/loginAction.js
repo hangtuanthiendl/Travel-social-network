@@ -18,6 +18,7 @@ export function login(username, password) {
         dispatch(requestLogin(login()));
         api.login(username,password).then((res)=>{
             if(res && res.status){
+                console.log("data",res);
                 dispatch(loginSuccess(res.data))
             }else{
                 dispatch(loginFail(true,res.data))

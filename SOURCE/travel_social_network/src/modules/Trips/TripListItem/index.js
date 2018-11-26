@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Dimensions, Animated, ImageBackground,Image} from 'react-native';
+import {View, Dimensions, Animated, ImageBackground,Image,TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import global from '../../../Styles/global';
@@ -34,17 +34,17 @@ class TripListItem extends Component {
     renderStar=(number)=>{
         const fields = [];
         for (let i = 0; i < number; i++){
-            fields.push(<IconButton nameIcon='ios-heart' iconStyle={styles.icon}/>)
+            fields.push(<IconButton key ={i} nameIcon='ios-heart' iconStyle={styles.icon} onClick={()=>alert('Tim')}/>)
         }
         return fields;
     };
     render() {
         const {id, title, numberParticipant, quantity, status, numberStar, timeStart, timeEnd, locationStart,
             namePersonCreate,
-            imgBackground,
+            imgBackground,onClick,
             imgAvatar} = this.props;
         return (
-            <Animated.View   style={{
+            <Animated.View style={{
                 //  opacity: this.state.animation, // Binds directly
                 transform: [{
                     translateY: this.state.animation.interpolate({
@@ -54,22 +54,23 @@ class TripListItem extends Component {
                     }),
                 }],
             }}>
-                <ImageBackground source={{uri:imgBackground}} style={styles.container}>
-                    <View style={[styleGlobal.imgBackgroundCard]}>
-                        <View style={styles.headerCard}>
-                            <Image
-                                source={{uri:imgAvatar}}
-                                style={styles.avatar}
-                            />
-                            <TextComponent
-                                text={title}
-                                color={global.colorFF}
-                                bold={'700'}
-                                style={{marginLeft: 5,flex:0.5,width:50,fontSize:18}}
+                <TouchableOpacity onPress={onClick}>
+                    <ImageBackground source={{uri:imgBackground}} style={styles.container}>
+                        <View style={[styleGlobal.imgBackgroundCard]}>
+                            <View style={styles.headerCard}>
+                                <Image
+                                    source={{uri:imgAvatar}}
+                                    style={styleGlobal.avatar}
+                                />
+                                <TextComponent
+                                    text={title}
+                                    color={global.colorFF}
+                                    bold={'700'}
+                                    style={{marginLeft: 5,flex:0.5,width:50,fontSize:18}}
 
-                            />
-                        </View>
-                        <View style={styles.bodyCard}>
+                                />
+                            </View>
+                            <View style={styles.bodyCard}>
                                 <View style={styles.bodyLeft}>
                                     <View style={styles.left}>
                                         <View style={styles.line_left}>
@@ -85,7 +86,7 @@ class TripListItem extends Component {
                                                 style={styles.text1}
                                             />
                                             <TextComponent
-                                                text={numberParticipant.toString()}
+                                                text={numberParticipant}
                                                 style={styles.text}
                                             />
                                         </View>
@@ -100,7 +101,7 @@ class TripListItem extends Component {
                                         </View>
                                         <View style={styles.line_right}>
                                             <TextComponent
-                                                text={numberStar.toString()}
+                                                text={numberStar}
                                                 style={styles.text1}
                                             />
                                             {this.renderStar(numberStar)}
@@ -110,16 +111,17 @@ class TripListItem extends Component {
                                 <View style={styles.bodyRight}>
 
                                 </View>
+                            </View>
+                            <View style={styles.footerCard}>
+                                <IconButton nameIcon='ios-pulse' iconStyle={styles.icon}/>
+                                <TextComponent
+                                    text={this.getStatus(status)}
+                                    style={styles.text}
+                                />
+                            </View>
                         </View>
-                        <View style={styles.footerCard}>
-                            <IconButton nameIcon='ios-pulse' iconStyle={styles.icon}/>
-                            <TextComponent
-                                text={'Chưa diễn ra'}
-                                style={styles.text}
-                            />
-                        </View>
-                    </View>
-                </ImageBackground>
+                    </ImageBackground>
+                </TouchableOpacity>
             </Animated.View>
         );
     }
@@ -138,5 +140,6 @@ TripListItem.propTypes = {
     namePersonCreate:PropTypes.string,
     imgBackground:PropTypes.string,
     imgAvatar:PropTypes.string,
+    onClick:PropTypes.func,
 };
 export default TripListItem;

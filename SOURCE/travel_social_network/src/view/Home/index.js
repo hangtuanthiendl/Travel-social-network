@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, StatusBar, UIManager, LayoutAnimation, Image,ImageBackground,
+    View, StatusBar, UIManager, LayoutAnimation, Image, ImageBackground, FlatList,
 } from 'react-native';
 import Header from "../../modules/Header";
 import global from '../../Styles/global';
@@ -11,6 +11,7 @@ import TripListView from "../../modules/Trips/TripListView";
 import TabListTrips from "../../modules/Tabs/TabListTrips";
 import image from "../../themes/Images";
 import styleGlobal from "../../Styles/styles";
+import TripListItem from "../../modules/Trips/TripListItem";
 
 let data = {};
 let dataTrip = [];
@@ -134,7 +135,7 @@ class Home extends Component {
                 timeEnd: '20/11/2018',
                 locationStart: 'Tp. Ho Chi Minh',
                 namePersonCreate:'Trung Do',
-                imgBackground:'http://hoangkimvilla.com/wp-content/uploads/2017/12/nha-tho-con-ga-diem-den-khong-the-quen-khi-den-da-lat-1.jpg',
+                imgBackground:'http://vietnamtourism.gov.vn/images/MuCangChai-YenBai1.jpg',
                 imgAvatar:'http://biketsworldtour.com/wp-content/uploads/2013/04/ef995443d411c0847e8d5f67c83bfd9c_large-e1367182889174.jpeg',
             },
             {
@@ -148,7 +149,7 @@ class Home extends Component {
                 timeEnd: '20/11/2018',
                 locationStart: 'Tp. Ho Chi Minh',
                 namePersonCreate:'Trung Do',
-                imgBackground:'http://hoangkimvilla.com/wp-content/uploads/2017/12/nha-tho-con-ga-diem-den-khong-the-quen-khi-den-da-lat-1.jpg',
+                imgBackground:'http://vietnamtourism.gov.vn/images/MuCangChai-YenBai1.jpg',
                 imgAvatar:'http://biketsworldtour.com/wp-content/uploads/2013/04/ef995443d411c0847e8d5f67c83bfd9c_large-e1367182889174.jpeg',
             },
             {
@@ -162,7 +163,7 @@ class Home extends Component {
                 timeEnd: '20/11/2018',
                 locationStart: 'Tp. Ho Chi Minh',
                 namePersonCreate:'Trung Do',
-                imgBackground:'http://hoangkimvilla.com/wp-content/uploads/2017/12/nha-tho-con-ga-diem-den-khong-the-quen-khi-den-da-lat-1.jpg',
+                imgBackground:'http://vietnamtourism.gov.vn/images/MuCangChai-YenBai1.jpg',
                 imgAvatar:'http://biketsworldtour.com/wp-content/uploads/2013/04/ef995443d411c0847e8d5f67c83bfd9c_large-e1367182889174.jpeg',
             },
             {
@@ -176,7 +177,7 @@ class Home extends Component {
                 timeEnd: '20/11/2018',
                 locationStart: 'Tp. Ho Chi Minh',
                 namePersonCreate:'Trung Do',
-                imgBackground:'http://hoangkimvilla.com/wp-content/uploads/2017/12/nha-tho-con-ga-diem-den-khong-the-quen-khi-den-da-lat-1.jpg',
+                imgBackground:'http://vietnamtourism.gov.vn/images/MuCangChai-YenBai1.jpg',
                 imgAvatar:'http://biketsworldtour.com/wp-content/uploads/2013/04/ef995443d411c0847e8d5f67c83bfd9c_large-e1367182889174.jpeg',
             },
             {
@@ -190,7 +191,7 @@ class Home extends Component {
                 timeEnd: '20/11/2018',
                 locationStart: 'Tp. Ho Chi Minh',
                 namePersonCreate:'Trung Do',
-                imgBackground:'http://hoangkimvilla.com/wp-content/uploads/2017/12/nha-tho-con-ga-diem-den-khong-the-quen-khi-den-da-lat-1.jpg',
+                imgBackground:'http://vietnamtourism.gov.vn/images/MuCangChai-YenBai1.jpg',
                 imgAvatar:'http://biketsworldtour.com/wp-content/uploads/2013/04/ef995443d411c0847e8d5f67c83bfd9c_large-e1367182889174.jpeg',
             },
             {
@@ -204,7 +205,7 @@ class Home extends Component {
                 timeEnd: '20/11/2018',
                 locationStart: 'Tp. Ho Chi Minh',
                 namePersonCreate:'Trung Do',
-                imgBackground:'http://hoangkimvilla.com/wp-content/uploads/2017/12/nha-tho-con-ga-diem-den-khong-the-quen-khi-den-da-lat-1.jpg',
+                imgBackground:'http://vietnamtourism.gov.vn/images/MuCangChai-YenBai1.jpg',
                 imgAvatar:'http://biketsworldtour.com/wp-content/uploads/2013/04/ef995443d411c0847e8d5f67c83bfd9c_large-e1367182889174.jpeg',
             },
             {
@@ -218,7 +219,7 @@ class Home extends Component {
                 timeEnd: '20/11/2018',
                 locationStart: 'Tp. Ho Chi Minh',
                 namePersonCreate:'Trung Do',
-                imgBackground:'http://hoangkimvilla.com/wp-content/uploads/2017/12/nha-tho-con-ga-diem-den-khong-the-quen-khi-den-da-lat-1.jpg',
+                imgBackground:'http://vietnamtourism.gov.vn/images/MuCangChai-YenBai1.jpg',
                 imgAvatar:'http://biketsworldtour.com/wp-content/uploads/2013/04/ef995443d411c0847e8d5f67c83bfd9c_large-e1367182889174.jpeg',
             },
 
@@ -269,14 +270,75 @@ class Home extends Component {
         // Update your scroll position
         this._listViewOffset = currentOffset;
     }
+
     _renderScene = ({route}) => {
         switch (route.key) {
             case '1':
-                return <TripListView key={1} onScroll={this._onScroll} data={dataTrip}/>;
+                return (<TripListView onScroll={this._onScroll} data={dataTrip}
+                                     renderItem={({item,index})=>
+                                         <TripListItem
+                                             key={index}
+                                             index={index}
+                                             id={item.id}
+                                             title={item.title}
+                                             numberParticipant={item.numberParticipant}
+                                             quantity={item.quantity}
+                                             status={item.status}
+                                             numberStar={item.numberStar}
+                                             timeStart={item.timeStart}
+                                             timeEnd={item.timeEnd}
+                                             locationStart={item.locationStart}
+                                             namePersonCreate={item.namePersonCreate}
+                                             imgBackground={item.imgBackground}
+                                             imgAvatar={item.imgAvatar}
+                                             onClick={()=>this.props.navigation.navigate('Details')}
+                                         />
+                                     }
+                />);
             case '2':
-                return <TripListView key={2} onScroll={this._onScroll} data={dataTrip}/>;
+                return (<TripListView onScroll={this._onScroll} data={dataTrip}
+                                      renderItem={({item,index})=>
+                                          <TripListItem
+                                              key={index}
+                                              index={index}
+                                              id={item.id}
+                                              title={item.title}
+                                              numberParticipant={item.numberParticipant}
+                                              quantity={item.quantity}
+                                              status={item.status}
+                                              numberStar={item.numberStar}
+                                              timeStart={item.timeStart}
+                                              timeEnd={item.timeEnd}
+                                              locationStart={item.locationStart}
+                                              namePersonCreate={item.namePersonCreate}
+                                              imgBackground={item.imgBackground}
+                                              imgAvatar={item.imgAvatar}
+                                              onClick={()=>this.props.navigation.navigate('Details')}
+                                          />
+                                      }
+                />);
             case '3':
-                return <TripListView key={3} onScroll={this._onScroll} data={dataTrip}/>;
+                return (<TripListView onScroll={this._onScroll} data={dataTrip}
+                                      renderItem={({item,index})=>
+                                          <TripListItem
+                                              key={index}
+                                              index={index}
+                                              id={item.id}
+                                              title={item.title}
+                                              numberParticipant={item.numberParticipant}
+                                              quantity={item.quantity}
+                                              status={item.status}
+                                              numberStar={item.numberStar}
+                                              timeStart={item.timeStart}
+                                              timeEnd={item.timeEnd}
+                                              locationStart={item.locationStart}
+                                              namePersonCreate={item.namePersonCreate}
+                                              imgBackground={item.imgBackground}
+                                              imgAvatar={item.imgAvatar}
+                                              onClick={()=>this.props.navigation.navigate('Details')}
+                                          />
+                                      }
+                />);
             default:
                 return null;
         }

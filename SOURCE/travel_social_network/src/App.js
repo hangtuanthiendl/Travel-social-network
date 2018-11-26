@@ -6,7 +6,10 @@ import Notification from './view/Notifications';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import History from './view/History';
 import Login from './view/Login'
-import global from './Styles/global'
+import global from './Styles/global';
+import TripDetails from './modules/Trips/TripDetails';
+import TripTimeline from './modules/Trips/TripTimeLine';
+import SettingProfile from  './modules/Profile/SettingProfile';
 import {createBottomTabNavigator,createStackNavigator} from 'react-navigation'
 import {
     StatusBar,
@@ -45,7 +48,7 @@ const TabBar = createBottomTabNavigator({
           return <Ionicons name={iconName} style={{fontSize: height/18, color: tintColor}}/>;
       },
   }),
-  initialRouteName: 'Home',
+  initialRouteName: 'Profile',
   lazyLoad: true,
   swipeEnabled: false,
   animationEnabled: false,
@@ -73,9 +76,12 @@ const RootNavigator = createStackNavigator({
   TabBar: {screen: TabBar},
   Login: {screen: Login},
   History:{screen:History},
+  Details:{screen:TripDetails},
+  TripTimeline:{screen:TripTimeline},
+  SettingProfile:{screen:SettingProfile},
 },
 {
-  initialRouteName: "TabBar",
+  initialRouteName: "Login",
   headerMode: "none",
 }
 );

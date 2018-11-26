@@ -13,38 +13,29 @@ export const imageHeight = (imageWidth / 500) * 330;
 export default StyleSheet.create({
     container: {
         flex: 1,
-        width: '100%',
-        height: '100%',
+        width: width,
+        height: height,
         backgroundColor: 'rgba(52, 52, 52, 0.8)'
     },
-    modalbox:{
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '30%',
-        width: '80%',
-        borderRadius: 20,
-        backgroundColor: global.colorTextPrimary
+    header_profile:{
+        flex: 1,
+        width:width,
+        position: 'relative',
     },
-    btn_with_icon:{
-        margin: 5,
-        width: 200,
-        height: 45,
-        backgroundColor: global.colorF3,
-        borderRadius: 20,
-        alignSelf: 'center',
-        alignItems: 'center',
-        justifyContent: 'center'
+    header_profile_view:{
+      position:'absolute',
+      top:0,
+      left:0,
+      right:0,
+      bottom:0,
+        justifyContent:'center',
+        alignItems:'center',
+      backgroundColor:global.imgBackgroundCard,
+
     },
-    btn_with_icon_text:{
-        color: global.colorTextPrimary,
-        fontSize: global.sizeP16,
-        fontFamily: global.fontBold,
-        alignSelf: 'center',
-        textDecorationLine: 'underline',
-        textAlign: 'center'
-    },
-    overlay: {
-        opacity: 0.5,
-        //filter: alpha(opacity=50),
+    body_profile:{
+      flex:2,
+      width:width,
+      backgroundColor:global.colorFF
     }
 });

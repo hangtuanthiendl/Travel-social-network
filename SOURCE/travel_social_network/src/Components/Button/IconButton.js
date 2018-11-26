@@ -5,20 +5,13 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import TextComponent from "../Text/Text";
 import global from "../../Styles/global";
 
-const IconButton = ({nameIcon, btnStyle, iconStyle, badge, onClick}) => {
+const IconButton = ({nameIcon, btnStyle, iconStyle, badge, onClick,badgeStyle}) => {
     let buttonStyle = {
         justifyContent: 'center',
         alignItems: 'center',
     };
-    let badgeStyle = {
-        position: 'absolute',
-        top: 0, left: 0, bottom: 0, right: 15,
-        backgroundColor: global.red,
-        borderRadius:10,height:20,width:20,
-        textAlign:'center'
-    };
     return (
-        <TouchableOpacity onPress={onClick}>
+        <TouchableOpacity onPress={onClick} style={{borderColor:'red'}}>
             <View style={[buttonStyle, btnStyle]}>
                 <Icon name={nameIcon} style={iconStyle}/>
                 {badge && <TextComponent text={badge} size={global.sizeP15} color={global.colorF4} style={badgeStyle}/>}
@@ -32,7 +25,8 @@ IconButton.propTypes = {
     badge: PropTypes.string,
     btnStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.array]),
     iconStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.array]),
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    badgeStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.array]),
 };
 
 export default IconButton;

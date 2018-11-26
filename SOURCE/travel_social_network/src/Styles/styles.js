@@ -11,6 +11,7 @@ export default StyleSheet.create({
        flex: 1,
        width: '100%',
        height: '100%',
+       position:'relative',
    },
    imgBackground:{
        position:'absolute',
@@ -27,5 +28,10 @@ export default StyleSheet.create({
        right:0,
        left:0,
        backgroundColor: global.imgBackground,
-   }
+   },
+    avatar:{
+        width:40,
+        height:40,
+        borderRadius:20,
+    },
 });

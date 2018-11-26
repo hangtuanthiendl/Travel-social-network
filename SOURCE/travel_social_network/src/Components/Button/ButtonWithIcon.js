@@ -46,7 +46,7 @@ const ButtonWithIcon = ({nameIcon, icoStyle, style, buttonText, styleText, onCli
         </TouchableOpacity>
 
     );
-}
+};
 
 ButtonWithIcon.defaultProps = {
     name: '',

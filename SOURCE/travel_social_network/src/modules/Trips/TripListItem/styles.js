@@ -72,11 +72,7 @@ container: {
         marginTop: 10,
         height:20,
     },
-    avatar:{
-        width:40,
-        height:40,
-        borderRadius:20,
-    },
+
     text:{
         fontSize: 15,
         color: global.colorFF,
