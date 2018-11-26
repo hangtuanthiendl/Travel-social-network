@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
 import Home from './view/Home';
-import Messaging from './view/Messaging';
+import Messaging from './view/Mytrip';
 import Profile from './view/Profile';
 import Notification from './view/Notifications';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import History from './view/History';
 import Login from './view/Login'
-import global from './Styles/global'
+import global from './Styles/global';
+import TripDetails from './modules/Trips/TripDetails';
+import TripTimeline from './modules/Trips/TripTimeLine';
+import SettingProfile from  './modules/Profile/SettingProfile';
 import {createBottomTabNavigator,createStackNavigator} from 'react-navigation'
 import {
-  Platform,
-  StyleSheet,
-  Text,
+    StatusBar,
   View,
   Dimensions
 } from 'react-native';
+import { PersistGate } from 'redux-persist/lib/integration/react';
+import configureStore from "./store/configStore";
+import {Provider} from 'react-redux';
+const { persistor, store } = configureStore();
 const {height, width} = Dimensions.get('window');
 const TabBar = createBottomTabNavigator({
   Home: Home,
@@ -43,7 +48,7 @@ const TabBar = createBottomTabNavigator({
           return <Ionicons name={iconName} style={{fontSize: height/18, color: tintColor}}/>;
       },
   }),
-  initialRouteName: 'Home',
+  initialRouteName: 'Profile',
   lazyLoad: true,
   swipeEnabled: false,
   animationEnabled: false,
@@ -52,14 +57,14 @@ const TabBar = createBottomTabNavigator({
       showLabel: false,
       showIcon: true,
       style: {
-          backgroundColor: global.colorF4,
+          backgroundColor: global.black,
           borderTopColor: 'white',
           borderTopWidth: 0.18,
           height: height / 14,
 
       },
-      inactiveTintColor: global.colorA5,
-      activeTintColor: global.colorTextPrimary,
+      inactiveTintColor: global.darkBlue,
+      activeTintColor: global.yellow,
       indicatorStyle: {
           backgroundColor: 'transparent',
       },
@@ -71,19 +76,38 @@ const RootNavigator = createStackNavigator({
   TabBar: {screen: TabBar},
   Login: {screen: Login},
   History:{screen:History},
+  Details:{screen:TripDetails},
+  TripTimeline:{screen:TripTimeline},
+  SettingProfile:{screen:SettingProfile},
 },
 {
-  initialRouteName: "TabBar",
+  initialRouteName: "Login",
   headerMode: "none",
 }
 );
+
 export default class App extends Component {
-  render() {
+    componentWillMount(){
+        console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];//hide warning
+    }
+    componentDidMount(){
+        StatusBar.setHidden(true);
+    }
+    render() {
     return (
-      <View style={{flex: 1}}>
-        <RootNavigator/>
-      </View>
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <View style={{flex: 1}}>
+                    <StatusBar
+                        backgroundColor="#2980b9"
+                        translucent={false}
+                    />
+                    <RootNavigator/>
+                </View>
+            </PersistGate>
+        </Provider>
     );
   }
 }
 
+console.disableYellowBox = true;
