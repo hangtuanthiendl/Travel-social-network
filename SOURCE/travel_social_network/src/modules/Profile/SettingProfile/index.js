@@ -102,6 +102,7 @@ class SettingProfile extends Component {
                         visible={this.state.showEditProfile}
                         onCloseModal={this.onCloseModal}
                         doneEdit ={this.doneEdit}
+                        title={'Email'}
                     />
                 </ImageBackground>
             </View>

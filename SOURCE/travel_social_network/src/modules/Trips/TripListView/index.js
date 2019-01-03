@@ -17,6 +17,7 @@ class TripListView extends Component{
                 showsVerticalScrollIndicator={false}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItem}
+                onScroll={this.props.onScroll}
             />
         );
     }

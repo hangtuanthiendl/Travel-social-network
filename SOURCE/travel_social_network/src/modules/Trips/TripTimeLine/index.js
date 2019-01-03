@@ -133,10 +133,8 @@ class TripTimeline extends Component {
                 <View style={styleGlobal.imgBackground}>
                     <Header
                         customHeaderStyle={{backgroundColor: global.yellow}}
-                        leftHeader={<IconButton
-                            nameIcon='ios-arrow-back'
-                            iconStyle={{fontSize: 35, color: global.black}}
-                            onClick={()=>this.props.navigation.goBack()}
+                        leftHeader={<TextComponent
+                            text={''}
                         />}
                         body={<TextComponent
                             text='Hành trình tour'
@@ -144,8 +142,9 @@ class TripTimeline extends Component {
                             size={global.sizeP20}
                             bold={global.fontWeightDark}/>}
                         rightHeader={<IconButton
-                            nameIcon=''
+                            nameIcon='ios-close'
                             iconStyle={{fontSize: 35, color: global.black}}
+                            onClick={()=>this.props.navigation.goBack()}
                         />}
                     />
                     <Timeline

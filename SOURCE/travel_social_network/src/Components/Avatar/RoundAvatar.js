@@ -4,7 +4,7 @@ import styles from './styles';
 import PropTypes from 'prop-types';
 import global from "../../Styles/global";
 
-const RoundAvatar = ({size, icSrc, onPress, canClick, style, styleIc, isShowDot}) => {
+const RoundAvatar = ({size, icSrc, onPress, canClick, style, styleIc, isShowDot,imageLocal}) => {
     let styleRadiusSize = null;
     let styleDot = null;
     let styleAvatar = {};
@@ -56,7 +56,31 @@ const RoundAvatar = ({size, icSrc, onPress, canClick, style, styleIc, isShowDot}
                 }}/> : null
             }
         </TouchableOpacity>
-    ) : null;
+    )
+        :
+        <TouchableOpacity
+            activeOpacity={0.85}
+            disabled={!canClick} style={[styles.viewAvatar, {borderRadius: styleRadiusSize}, style]}
+            onPress={onPress}
+        >
+            <Image source={imageLocal}
+                   style={[styleAvatar, styleIc]}
+                   borderRadius={styleRadiusSize}
+                   resizeMode={'cover'}
+            />
+            {
+                isShowDot ? <View style={{
+                    backgroundColor: global.lightGreen,
+                    width: (styleRadiusSize - 5) / 2,
+                    height: (styleRadiusSize - 5) / 2,
+                    borderRadius: (styleRadiusSize - 5) / 4,
+                    position: 'absolute',
+                    right: (styleRadiusSize - 5) / 6, bottom: 0,
+                    borderColor: global.colorFF,
+                    borderWidth: 1
+                }}/> : null
+            }
+        </TouchableOpacity>;
 };
 
 RoundAvatar.defaultProps = {
@@ -75,7 +99,8 @@ RoundAvatar.propTypes = {
     onPress: PropTypes.func,
     icSrc: PropTypes.string,
     canClick: PropTypes.bool,
-    isShowDot: PropTypes.bool
+    isShowDot: PropTypes.bool,
+    imageLocal:PropTypes.number,
 };
 
 export default RoundAvatar;

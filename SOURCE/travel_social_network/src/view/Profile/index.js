@@ -4,7 +4,8 @@ import {
     Dimensions,
     ImageBackground,
     View,
-    Text,
+    BackHandler,
+    Alert
 } from 'react-native';
 import styles from "../Profile/styles";
 import image from "../../themes/Images";
@@ -13,17 +14,21 @@ import Icon from "react-native-vector-icons/Ionicons";
 import global from "../../Styles/global";
 import TextComponent from "../../Components/Text/Text";
 import AlineItem from "../../Components/Items/AlineItem";
-import IconButton from "../../Components/Button/IconButton";
+import { AsyncStorage } from 'react-native';
 const {
     height,
     width
 } = Dimensions.get('window');
 export default class Profile extends Component {
 
+    constructor(props){
+        super(props);
+        this.thoatApp = this.thoatApp.bind(this);
+    }
     renderStar=(number)=>{
         const fields = [];
         for (let i = 0; i < number; i++){
-            fields.push(<Icon name={'ios-star'} style={{
+            fields.push(<Icon key={i} name={'ios-star'} style={{
                 color:global.yellowColor,
                 fontSize:20,
                 marginLeft:4,
@@ -31,12 +36,33 @@ export default class Profile extends Component {
         }
         return fields;
     };
-  render() {
+    thoatApp() {
+        Alert.alert(
+            "Thông báo",
+            "Bạn muốn thoát ứng dụng?",
+            [
+                { text: 'Không', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                {
+                    text: 'Có', onPress: () => {
+                        let keys = ['Token_User'];
+                            AsyncStorage.multiRemove(keys, (err) => {
+                                // keys k1 & k2 removed, if they existed
+                                // do most stuff after removal (if you want)
+                            });
+                        this.props.navigation.navigate('SplashScreen');
+                    }
+                },
+            ])
+
+    }
+
+    render() {
     return (
         <View style={styles.container}>
             <ImageBackground source={image.img_bg_1} style={styles.header_profile}>
                 <View style={styles.header_profile_view}>
                     <RoundAvatar
+                        onPress={()=>alert('change images')}
                         size={'x-large'}
                         icSrc={'https://anh.24h.com.vn//upload/1-2015/images/2015-02-12/1423706954-anhgirlxinh.jpg'}/>
                     <View style={{flexDirection: 'row',marginTop: 10}}>
@@ -62,30 +88,6 @@ export default class Profile extends Component {
                         <TextComponent
                             text={'Theo dõi: 100'}
                             style={{color:global.colorFF}}
-                        />
-                    </View>
-                    <View style={{
-                        position:'absolute',
-                        width:width,
-                        height:50,
-                        top:0,
-                        justifyContent:'center',
-                        alignItems:'center',
-                    }}>
-                        <IconButton
-                            nameIcon={'ios-reverse-camera'}
-                            iconStyle={{
-                                fontSize:35,
-                                color:global.colorFF,
-                            }}
-                            btnStyle={{
-                                width:40,
-                                height:40,
-                                borderRadius:10,
-                                backgroundColor:global.backgroudText,
-                                marginLeft:80,
-                            }}
-                            onClick={()=>alert('Change Photo')}
                         />
                     </View>
                 </View>
@@ -125,7 +127,7 @@ export default class Profile extends Component {
                     styleIcon={{
                         color:global.colorC5
                     }}
-                    onClick={()=>alert('Hello')}
+                    onClick={this.thoatApp}
                 />
 
             </View>

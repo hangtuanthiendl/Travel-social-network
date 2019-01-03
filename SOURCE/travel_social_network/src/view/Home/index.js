@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, StatusBar, UIManager, LayoutAnimation, Image, ImageBackground, FlatList,
+    View, StatusBar, UIManager, LayoutAnimation, Image, ImageBackground, FlatList, Dimensions,
 } from 'react-native';
 import Header from "../../modules/Header";
 import global from '../../Styles/global';
@@ -12,114 +12,60 @@ import TabListTrips from "../../modules/Tabs/TabListTrips";
 import image from "../../themes/Images";
 import styleGlobal from "../../Styles/styles";
 import TripListItem from "../../modules/Trips/TripListItem";
-
-let data = {};
+import {bindActionCreators} from "redux";
+import * as loginActions from "../../action/loginAction";
+import * as placeAction from "../../action/placeAction";
+import connect from "react-redux/es/connect/connect";
+import * as tripActions from "../../action/tripAction";
+import { setToLocal,getFromLocal } from "../../services/storage";
+const {height, width} = Dimensions.get('window');
 let dataTrip = [];
 class Home extends Component {
 
     constructor(props){
         super(props);
         this.state ={
-            index: 0,
+            index: 1,
             routes: [
-                {key: '1', title: 'Đã diễn ra'},
-                {key: '2', title: 'Đang diễn ra'},
-                {key: '3', title: 'Chưa diễn ra'},]
+                {key: '2', title: 'Đã diễn ra'},
+                {key: '1', title: 'Đang diễn ra'},
+                {key: '0', title: 'Chưa diễn ra'},],
+            onScrolling: false,
         };
+        this.data_DaDienRa = [];
+        this.data_ChuaDienRa = [];
+        this.data_DangDienRa = [];
         this._onScroll = this._onScroll.bind(this);
+        this.handleGetListPlace = this.handleGetListPlace.bind(this);
 
     }
-    componentWillMount(){
-        //this.init();
-        this.initData();
-    }
-    init(){
-        data = [{
-            id:'a1',
-            time: '232323',
-            total: '35000',
-            product: [{
-                id:1,
-                image: 'http://tunghaisan.com/sites/default/files/1427691019_giap.jpg',
-                title: 'Cá bò da',
-                price: '5000'
-            },
-                {
-                    id:2,
-                    image: 'http://phannha.net/files/assets/ca_bo_da.jpg',
-                    title: 'Cá bò heo',
-                    price: '5000'
-                },
-                {
-                    id:3,
-                    image: 'http://tunghaisan.com/sites/default/files/1427691019_giap.jpg',
-                    title: 'Cá bò chó',
-                    price: '5000'
-                }]
-        },{
-            id:'a2',
-            time: '232323',
-            total: '35000',
-            product: [{
-                id:1,
-                image: 'http://phannha.net/files/assets/ca_bo_da.jpg',
-                title: 'Cá bò da',
-                price: '5000'
-            }]
-        }, {
-            id:'a3',
-            time: '232323',
-            total: '35000',
-            product: [{
-                id:1,
-                image: 'http://tunghaisan.com/sites/default/files/1427691019_giap.jpg',
-                title: 'Cá bò da',
-                price: '5000'
-            }]
-        },
-            {
-                id:'a4',
-                time: '232323',
-                total: '35000',
-                product: [{
-                    id:1,
-                    image: 'http://tunghaisan.com/sites/default/files/1427691019_giap.jpg',
-                    title: 'Cá bò da',
-                    price: '5000'
-                }]
-            },
-             {
-                id:'a5',
-                time: '232323',
-                total: '35000',
-                product: [{
-                    id:1,
-                    image: 'http://tunghaisan.com/sites/default/files/1427691019_giap.jpg',
-                    title: 'Cá bò da',
-                    price: '5000'
-                }]
-            }, {
-                id:'a6',
-                time: '232323',
-                total: '35000',
-                product: [{
-                    id:1,
-                    image: 'http://tunghaisan.com/sites/default/files/1427691019_giap.jpg',
-                    title: 'Cá bò da',
-                    price: '5000'
-                }]
-            }, {
-                id:'a7',
-                time: '232323',
-                total: '35000',
-                product: [{
-                    id:1,
-                    image: 'http://tunghaisan.com/sites/default/files/1427691019_giap.jpg',
-                    title: 'Cá bò da',
-                    price: '5000'
-                }]
+    handleData(dataTrip){
+        dataTrip && dataTrip.map((item,index)=>{
+            if(item.status === 0){
+                this.data_ChuaDienRa.push(item);
+            }else if(item.status === 1){
+                this.data_DangDienRa.push(item);
+            }else if(item.status === 2){
+                this.data_DaDienRa.push(item);
             }
-        ];
+        });
+        console.log("data0",this.data_ChuaDienRa);
+        console.log("data1",this.data_DangDienRa);
+        console.log("data2",this.data_DaDienRa);
+    }
+    componentWillMount(){
+        this.initData();
+        this.handleData(dataTrip)
+    }
+    async componentDidMount(){
+        console.log("this.props.login.token",this.props.login.token);
+        if(this.props.login.token === null && await getFromLocal('Token_User') !== null){
+            setToLocal('Token_User', this.props.login.data.token);
+        }
+        StatusBar.setHidden(true);
+    }
+    handleGetListPlace(){
+        this.props.placeAction.getListPlace(1,this.props.login.data.token);
     }
     initData() {
         //0: chua dien ra, 1: dang dien ra, 2: da ket thuc
@@ -157,7 +103,7 @@ class Home extends Component {
                 title: 'Du lich Nha Trang',
                 numberParticipant: 20,
                 quantity: 30,
-                status: 0,
+                status: 1,
                 numberStar: 4,
                 timeStart: '20/10/2018',
                 timeEnd: '20/11/2018',
@@ -185,7 +131,7 @@ class Home extends Component {
                 title: 'Du lich Nha Trang',
                 numberParticipant: 20,
                 quantity: 30,
-                status: 0,
+                status: 2,
                 numberStar: 4,
                 timeStart: '20/10/2018',
                 timeEnd: '20/11/2018',
@@ -226,12 +172,6 @@ class Home extends Component {
         ];
     }
 
-
-
-
-    componentDidMount(){
-      StatusBar.setHidden(true);
-  }
     _onScroll(event) {
         // Simple fade-in / fade-out animation
         UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -270,11 +210,10 @@ class Home extends Component {
         // Update your scroll position
         this._listViewOffset = currentOffset;
     }
-
     _renderScene = ({route}) => {
         switch (route.key) {
-            case '1':
-                return (<TripListView onScroll={this._onScroll} data={dataTrip}
+            case '0':
+                return (<TripListView onScroll={this._onScroll} data={this.data_ChuaDienRa}
                                      renderItem={({item,index})=>
                                          <TripListItem
                                              key={index}
@@ -295,8 +234,8 @@ class Home extends Component {
                                          />
                                      }
                 />);
-            case '2':
-                return (<TripListView onScroll={this._onScroll} data={dataTrip}
+            case '1':
+                return (<TripListView onScroll={this._onScroll} data={this.data_DangDienRa}
                                       renderItem={({item,index})=>
                                           <TripListItem
                                               key={index}
@@ -317,8 +256,8 @@ class Home extends Component {
                                           />
                                       }
                 />);
-            case '3':
-                return (<TripListView onScroll={this._onScroll} data={dataTrip}
+            case '2':
+                return (<TripListView onScroll={this._onScroll} data={this.data_DaDienRa}
                                       renderItem={({item,index})=>
                                           <TripListItem
                                               key={index}
@@ -351,28 +290,69 @@ class Home extends Component {
     return (
         <ImageBackground source={image.backgroundImage} style={styleGlobal.container}>
             <View style={styleGlobal.imgBackground}>
-            <Header
-                customHeaderStyle={{backgroundColor: global.yellow}}
-                leftHeader={<IconButton nameIcon='ios-search' iconStyle={{fontSize: 35, color: global.black}}/>}
-                body={<Text
-                    text='Home'
-                    color={global.black}
-                    size={global.sizeP20}
-                    />}
-                rightHeader={
-                    <IconButton nameIcon='ios-search' iconStyle={{fontSize: 35, color: global.black}}
-                                onClick={() => alert("TrungDo")}/>}
-            />
-            <TabListTrips
-                renderScene={this._renderScene}
-                index={this.state.index}
-                routes={this.state.routes}
-                onIndexChange={this._handleIndexChange}
-            />
+                <Header
+                    customHeaderStyle={{backgroundColor: global.yellow}}
+                    leftHeader={<IconButton nameIcon='ios-search' iconStyle={{fontSize: 35, color: global.black}}/>}
+                    body={<Text
+                        text='Home'
+                        color={global.black}
+                        size={global.sizeP20}
+                        />}
+                    rightHeader={
+                        <IconButton nameIcon='ios-pin' iconStyle={{fontSize: 35, color: global.black}}
+                                    onClick={this.handleGetListPlace}/>}
+                />
+                <TabListTrips
+                    renderScene={this._renderScene}
+                    index={this.state.index}
+                    routes={this.state.routes}
+                    onIndexChange={this._handleIndexChange}
+                />
+                {!this.state.onScrolling &&
+                    <View style={{
+                        width:width,
+                        height:50,
+                        position:'absolute',
+                        bottom:20,
+                        justifyContent: 'center',
+                        alignItems: 'flex-end',
+                        paddingRight: 30
+                    }}>
+                        <IconButton
+                            nameIcon='ios-create'
+                            iconStyle={{fontSize: 30,fontWeight: global.fontWeightBold, color: global.orange}}
+                            onClick={()=>this.props.navigation.navigate("CreateTrip")}
+                            btnStyle={{
+                                backgroundColor:global.colorF3,
+                                width:50,
+                                height:50,
+                                borderRadius:25,
+                            }}/>
+                    </View>
+                }
             </View>
       </ImageBackground>
     );
   }
 }
+//this.props.tripActions.createTrip(this.props.login.data.token)
+function mapStateToProps(state, ownProps) {
+    return {
+        login: state.loginReducer,
+        error: state.loginReducer.error,
+    };
+}
 
-export default Home;
+function mapDispatchToProps(dispatch) {
+    return {
+        loginActions: bindActionCreators(loginActions, dispatch),
+        placeAction: bindActionCreators(placeAction,dispatch),
+        tripActions:bindActionCreators(tripActions,dispatch),
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Home);
+

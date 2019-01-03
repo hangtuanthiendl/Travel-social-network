@@ -34,7 +34,7 @@ export default class SettingProfileModal extends EditProfileModal{
                 borderTopRightRadius:20,
             }}>
                 <TextComponent
-                    text={'Email'}
+                    text={this.props.title}
                     style={{fontWeight: global.fontWeightBold,fontSize:20}}
                 />
             </View>
@@ -101,4 +101,5 @@ SettingProfileModal.defaultProps = {};
 
 SettingProfileModal.propTypes = {
     doneEdit:PropTypes.func,
+    title:PropTypes.string,
 };

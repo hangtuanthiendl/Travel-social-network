@@ -23,11 +23,8 @@ export default StyleSheet.create({
         position: 'relative',
     },
     body_details:{
-        position:'absolute',
-        top:0,
-        right:0,
-        left:0,
-        bottom:0,
+        position: 'relative',
+        flex:1,
         backgroundColor: global.imgBackgroundCard,
     },
     footer_details:{

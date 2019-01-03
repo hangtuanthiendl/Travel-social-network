@@ -45,7 +45,7 @@ export default  {
     colorFa: '#FAFAFA',
     colorAf: '#afafaf',
     colorDd: '#dddddd',
-    colorFb: '#4A6EAA',
+    colorFb: '#2955ff',
     colorE2: '#e2e2e2',
     colorB2: '#b2b2b2',
     colorCc: '#CCCCCC',

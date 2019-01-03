@@ -22,6 +22,11 @@ export default function loginReducer(state = defaultState.login, action) {
         case types.USER_LOGIN_FAIL: {
             return state.merge({ fetching: false, error: action.error, isLogin: false, msg: action.msg });
         }
+        case types.TOKEN_USER:{
+            return state.merge({
+                token:action.token
+            })
+        }
         default:
             return state;
     }

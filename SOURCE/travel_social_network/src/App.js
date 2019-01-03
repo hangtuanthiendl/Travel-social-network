@@ -10,6 +10,8 @@ import global from './Styles/global';
 import TripDetails from './modules/Trips/TripDetails';
 import TripTimeline from './modules/Trips/TripTimeLine';
 import SettingProfile from  './modules/Profile/SettingProfile';
+import CreateTrip from './modules/Trips/CreateTrip';
+import SplashScreen from './view/SplashScreen'
 import {createBottomTabNavigator,createStackNavigator} from 'react-navigation'
 import {
     StatusBar,
@@ -48,7 +50,7 @@ const TabBar = createBottomTabNavigator({
           return <Ionicons name={iconName} style={{fontSize: height/18, color: tintColor}}/>;
       },
   }),
-  initialRouteName: 'Profile',
+  initialRouteName: 'Home',
   lazyLoad: true,
   swipeEnabled: false,
   animationEnabled: false,
@@ -79,9 +81,11 @@ const RootNavigator = createStackNavigator({
   Details:{screen:TripDetails},
   TripTimeline:{screen:TripTimeline},
   SettingProfile:{screen:SettingProfile},
+  CreateTrip:{screen:CreateTrip},
+  SplashScreen:{screen:SplashScreen},
 },
 {
-  initialRouteName: "Login",
+  initialRouteName: "SplashScreen",
   headerMode: "none",
 }
 );

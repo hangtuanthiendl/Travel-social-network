@@ -6,11 +6,28 @@ export default {
         userName: null,
         password: null,
         error: null,
-        data: '',
+        data: {},
         fetching: false,
         registerError: null,
         userInfo: {},
         userProfile: {},
         isResetPassword: false,//
+        token:null
     }),
+    trip: Immutable({
+        dataTrip:[],
+        fetching:false,
+        error :null,
+        msg:null,
+    }),
+    place: Immutable({
+        dataPlace:[],
+        fetching:false,
+        error :null,
+        msg:null,
+    }),
+    registerUser:Immutable({
+        fetching: false,
+        data: {},
+    })
 };

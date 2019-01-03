@@ -7,8 +7,6 @@ const {
     width
 } = Dimensions.get('window');
 import global from '../../../Styles/global';
-export const imageWidth = width;
-export const imageHeight = (imageWidth / 500) * 330;
 
 export default StyleSheet.create({
     container: {
@@ -22,13 +20,11 @@ export default StyleSheet.create({
         width:width,
         position: 'relative',
     },
-    header_profile_view_setting:{
-        flex:1,
-        alignItems:'center',
-        backgroundColor:global.imgBackgroundCard,
-
+    txt_time:{
+        marginLeft: 20,fontSize:20,color:global.color66
     },
-    setting_item:{
-
+    txt_time_warning:{
+        borderColor:global.colorRed,
+        borderWidth: 1,
     }
 });

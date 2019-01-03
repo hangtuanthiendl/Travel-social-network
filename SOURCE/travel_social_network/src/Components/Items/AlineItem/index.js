@@ -41,7 +41,7 @@ const AlineItem = ({nameIcon,styleIcon,txtAction,txtName,onClick}) => {
                     />
                 </View>
             </View>
-            <View style={{width: width,height:0.5, backgroundColor: global.backgroudText}}>
+            <View style={{width: width,height:1, backgroundColor: global.backgroudText}}>
 
             </View>
         </TouchableOpacity>

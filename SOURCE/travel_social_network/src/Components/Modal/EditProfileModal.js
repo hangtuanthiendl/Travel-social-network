@@ -35,7 +35,7 @@ export default class EditProfileModal extends Modal {
                     justifyContent: 'center',
                     alignItems: 'center',
                     width:300,
-                    height:150,
+                    height:200,
                     borderRadius:20,
                 }}>
                     {this.renderHeader()}

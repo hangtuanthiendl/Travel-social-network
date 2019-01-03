@@ -126,7 +126,7 @@ class TripDetails extends Component {
     renderStar=(number)=>{
         const fields = [];
         for (let i = 0; i < number; i++){
-            fields.push(<Icon name={'ios-star'} style={{
+            fields.push(<Icon key={i} name={'ios-star'} style={{
                 color:global.imgBackgroundOrange,
                 fontSize:20,
                 marginLeft:4,
@@ -218,10 +218,7 @@ class TripDetails extends Component {
                        </View>
                        <ScrollView
                            showsVerticalScrollIndicator={false}
-                           style={{
-                               paddingVertical: 20,
-                               marginBottom: 45,
-                       }}>
+                         >
                            <Accordion
                                sections={SECTIONS}
                                activeSections={this.state.activeSections}
