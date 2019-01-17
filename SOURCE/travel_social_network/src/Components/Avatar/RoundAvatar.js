@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import global from "../../Styles/global";
 
 const RoundAvatar = ({size, icSrc, onPress, canClick, style, styleIc, isShowDot,imageLocal}) => {
+    {console.log("icSrc",icSrc)}
+    {console.log("imageLocal",imageLocal)}
     let styleRadiusSize = null;
     let styleDot = null;
     let styleAvatar = {};
@@ -89,7 +91,8 @@ RoundAvatar.defaultProps = {
     canClick: true,
     isShowDot:false,
     onPress: () => {
-    }
+    },
+    imageLocal:{}
 };
 
 RoundAvatar.propTypes = {
@@ -100,7 +103,7 @@ RoundAvatar.propTypes = {
     icSrc: PropTypes.string,
     canClick: PropTypes.bool,
     isShowDot: PropTypes.bool,
-    imageLocal:PropTypes.number,
+    imageLocal: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.array]),
 };
 
 export default RoundAvatar;

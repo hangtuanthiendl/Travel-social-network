@@ -35,10 +35,11 @@ class SplashScreen extends Component {
         clearTimeout(this.timeOutSplash)
     }
     handelRender(){
+        console.log("this.token_user",this.token_user);
         if(this.token_user !== null){
             this.props.navigation.navigate('TabBar');
         }else{
-            this.setState({
+             this.setState({
                 isShowLogin_Register:true
             },()=>clearTimeout(this.timeOutSplash))
         }
@@ -180,7 +181,7 @@ class SplashScreen extends Component {
         if(this.state.isShowLogin_Register)
             return null;
         return(
-            <ImageBackground source={image.backgroundImage} style={[styleGlobal.container]}>
+            <ImageBackground source={image.backgroundImage} style={styleGlobal.container}>
                 <View style={styles.imgBackground_splash}>
                     <View style={styles.logo1}>
                         <Image
@@ -193,14 +194,17 @@ class SplashScreen extends Component {
             </ImageBackground>
         );
     }
+    handleTimeout(){
+        this.timeOutSplash = setTimeout(()=>{
+            this.handelRender()
+        },2000)
+    }
     render() {
         return(
             <View style={styles.container_splash}>
                 {this.renderSplash()}
                 {
-                    this.timeOutSplash = setTimeout(()=>{
-                        this.handelRender()
-                    },2000)
+                  this.handleTimeout()
                 }
                 {this.renderLogin_Register()}
             </View>

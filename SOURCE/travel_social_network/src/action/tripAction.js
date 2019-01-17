@@ -40,10 +40,10 @@ export function createTripFail() {
     return {type: types.CREATE_TRIP_FAIL};
 }
 
-export function createTrip(token) {
+export function createTrip(token,option) {
     return function (dispatch) {
         dispatch(requestCreateTrip());
-        api.createTrip(token).then((res)=>{
+        api.createTrip(token,option).then((res)=>{
             if(res && res.status){
                 console.log("Create trip",res);
                 dispatch(createTripSuccess(res.data))

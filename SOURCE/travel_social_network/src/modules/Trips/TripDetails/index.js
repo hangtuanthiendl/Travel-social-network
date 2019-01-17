@@ -22,6 +22,14 @@ const {height, width} = Dimensions.get('window');
 import image from "../../../themes/Images";
 import Accordion from 'react-native-collapsible/Accordion';
 import Icon from "react-native-vector-icons/Ionicons";
+import {bindActionCreators} from "redux";
+import * as loginActions from "../../../action/loginAction";
+import * as placeAction from "../../../action/placeAction";
+import * as tripActions from "../../../action/tripAction";
+import * as userInfoAction from "../../../action/userAction"
+import connect from "react-redux/es/connect/connect";
+import UserProfileModal from "../../../modules/Profile/UserProfileModal";
+import _ from "underscore";
 let data = {};
 const SECTIONS = [
     {
@@ -54,17 +62,44 @@ class TripDetails extends Component {
         this.state ={
             activeSections: [],
             activeSectionsDETAILS: [],
-
+            userInfo: this.props.userInfo,
+            isShowUserInfo:false,
+        };
+        this.handleShowUserInfo = this.handleShowUserInfo.bind(this);
+        this.onCloseModal = this.onCloseModal.bind(this);
+        this.doneEdit = this.doneEdit.bind(this);
+    }
+     componentWillMount(){
+        this.initData();
+         console.log("nextProps.userInfo",this.props.userInfo);
+    }
+    componentWillReceiveProps(nextProps){
+        console.log("nextProps.userInfo",this.props.userInfo,nextProps.userInfo);
+        if(this.props.userInfo && nextProps.userInfo && !_.isEqual(this.props.userInfo,nextProps.userInfo)){
+            this.setState({
+                userInfo:nextProps.userInfo
+            },()=> console.log("nextProps.userInfo",this.state.userInfo))
         }
     }
-    componentWillMount(){
-        this.initData();
-    }
-
     initData(){
         data = [{img:image.img_bg_1},
             {img:image.img_bg_2},
             {img:image.img_bg_3}]
+    }
+    handleShowUserInfo(){
+        this.setState({
+            isShowUserInfo:true,
+        })
+    }
+    onCloseModal(){
+        this.setState({
+            isShowUserInfo:false,
+        })
+    }
+    doneEdit(){
+        this.setState({
+            isShowUserInfo:false,
+        })
     }
     _renderHeader =  (section,_,isActive) => {
         return (
@@ -323,9 +358,17 @@ class TripDetails extends Component {
                        nameIcon={'ios-person'}
                        iconStyle={{color:global.orange,fontSize:30}}
                        btnStyle={{width:40,height:40,borderRadius:20,backgroundColor:global.colorF3,marginRight:10}}
-                       onClick={()=>alert('Information of User create')}
+                       onClick={this.handleShowUserInfo}
                    />
                </View>
+               <UserProfileModal
+                   visible={this.state.isShowUserInfo}
+                   onCloseModal={this.onCloseModal}
+                   doneEdit ={this.doneEdit}
+                   title={'Thông tin người tạo'}
+                   userName={'Do Quoc Trung'}
+                   numberPhone={'0934197445'}
+               />
            </View>
         );
     }
@@ -334,4 +377,24 @@ TripDetails.defaultProps = {};
 TripDetails.propTypes = {
 
 };
-export default TripDetails;
+function mapStateToProps(state) {
+    return {
+        login: state.loginReducer,
+        error: state.loginReducer.error,
+        userInfo:state.userReducer
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        loginActions: bindActionCreators(loginActions, dispatch),
+        placeAction: bindActionCreators(placeAction,dispatch),
+        tripActions:bindActionCreators(tripActions,dispatch),
+        userInfoAction:bindActionCreators(userInfoAction,dispatch)
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TripDetails);

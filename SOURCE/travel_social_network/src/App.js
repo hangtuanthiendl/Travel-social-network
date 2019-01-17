@@ -11,7 +11,11 @@ import TripDetails from './modules/Trips/TripDetails';
 import TripTimeline from './modules/Trips/TripTimeLine';
 import SettingProfile from  './modules/Profile/SettingProfile';
 import CreateTrip from './modules/Trips/CreateTrip';
+import MyMap from  './view/MapView';
+import SearchTrip from './modules/Trips/SearchTrip';
 import SplashScreen from './view/SplashScreen'
+import CreateStopInTrip from './modules/Trips/CreateStopInTrip';
+import ListPlace from './modules/Trips/ListPlace';
 import {createBottomTabNavigator,createStackNavigator} from 'react-navigation'
 import {
     StatusBar,
@@ -83,6 +87,10 @@ const RootNavigator = createStackNavigator({
   SettingProfile:{screen:SettingProfile},
   CreateTrip:{screen:CreateTrip},
   SplashScreen:{screen:SplashScreen},
+  MyMap:{screen:MyMap},
+  SearchTrip:{screen:SearchTrip},
+  CreateStopInTrip:{screen:CreateStopInTrip},
+  ListPlace:{screen:ListPlace}
 },
 {
   initialRouteName: "SplashScreen",

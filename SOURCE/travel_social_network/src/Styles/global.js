@@ -77,6 +77,7 @@ export default  {
     sizeP30: 30,
   // for member search screen
     lightGreen:"#7BCB45",
-    lightGrey:"#f3f3f3"
+    lightGrey:"#f3f3f3",
+    apiKey:'AIzaSyAKSoqkh5ct2FAbRF-QfYJJAVYM30viFBk',
   };
   

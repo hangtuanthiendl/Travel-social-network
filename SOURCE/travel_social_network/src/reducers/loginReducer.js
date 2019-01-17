@@ -3,11 +3,13 @@ import defaultState from "./defaultState";
 export default function loginReducer(state = defaultState.login, action) {
     switch (action.type) {
         case types.USER_LOGIN_SUCCESS: {
+            {console.log("action.data",action.data)}
             return state.merge({
                 fetching: false,
                 error: false,
                 data: action.data,
-                isLogin: true
+                isLogin: true,
+                token:action.data.token
             });
         }
         case types.USER_REQUEST_LOGIN: {

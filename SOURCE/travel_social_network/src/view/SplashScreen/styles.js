@@ -79,6 +79,7 @@ export default StyleSheet.create({
         width:width,
         height:200,
         bottom: 50,
+        backgroundColor:global.backgroudTransparent,
     },
     logo1:{
         width:width,

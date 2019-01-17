@@ -10,9 +10,9 @@ const Header =({leftHeader={}, rightHeader={}, body={}, customHeaderStyle })=>{
     return (
       <View style={[styles.container, customHeaderStyle]}>
         <View style={styles.wrapper}>
-          <View style={styles.leftHeader}>{leftHeader}</View>
-          <View style={styles.bodyHeader}>{body}</View>
-          <View style={styles.rightHeader}>{rightHeader}</View>
+          <View style={styles.leftHeader}>{leftHeader ? leftHeader :''}</View>
+          <View style={styles.bodyHeader}>{body ? body :''}</View>
+          <View style={styles.rightHeader}>{rightHeader ? rightHeader:''}</View>
         </View>
       </View>
     );

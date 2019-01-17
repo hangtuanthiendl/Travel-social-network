@@ -18,6 +18,7 @@ import * as placeAction from "../../action/placeAction";
 import connect from "react-redux/es/connect/connect";
 import * as tripActions from "../../action/tripAction";
 import { setToLocal,getFromLocal } from "../../services/storage";
+import * as userInfoAction from "../../action/userAction";
 const {height, width} = Dimensions.get('window');
 let dataTrip = [];
 class Home extends Component {
@@ -37,6 +38,7 @@ class Home extends Component {
         this.data_DangDienRa = [];
         this._onScroll = this._onScroll.bind(this);
         this.handleGetListPlace = this.handleGetListPlace.bind(this);
+        this.handleSearchTrip = this.handleSearchTrip.bind(this);
 
     }
     handleData(dataTrip){
@@ -53,19 +55,27 @@ class Home extends Component {
         console.log("data1",this.data_DangDienRa);
         console.log("data2",this.data_DaDienRa);
     }
-    componentWillMount(){
+    async componentWillMount(){
         this.initData();
-        this.handleData(dataTrip)
+        this.handleData(dataTrip);
+        if(await getFromLocal('Token_User') !== null){
+            this.props.userInfoAction.getUserInfo(await getFromLocal('Token_User'))
+        }else{
+            this.props.userInfoAction.getUserInfo(this.props.login.data.token)
+        }
     }
     async componentDidMount(){
         console.log("this.props.login.token",this.props.login.token);
-        if(this.props.login.token === null && await getFromLocal('Token_User') !== null){
-            setToLocal('Token_User', this.props.login.data.token);
+        console.log("getFromLocal('Token_User')1",await getFromLocal('Token_User'));
+        if(this.props.login.token !== null && await getFromLocal('Token_User') === null){
+            console.log("getFromLocal('Token_User')2",await getFromLocal('Token_User'));
+            await setToLocal('Token_User', this.props.login.data.token);
         }
         StatusBar.setHidden(true);
     }
     handleGetListPlace(){
-        this.props.placeAction.getListPlace(1,this.props.login.data.token);
+        //this.props.placeAction.getListPlace(1,this.props.login.data.token);
+        this.props.navigation.navigate("MyMap");
     }
     initData() {
         //0: chua dien ra, 1: dang dien ra, 2: da ket thuc
@@ -286,13 +296,16 @@ class Home extends Component {
         this.setState({
             index,
         });
+    handleSearchTrip(){
+        this.props.navigation.navigate('SearchTrip');
+    }
   render() {
     return (
         <ImageBackground source={image.backgroundImage} style={styleGlobal.container}>
             <View style={styleGlobal.imgBackground}>
                 <Header
                     customHeaderStyle={{backgroundColor: global.yellow}}
-                    leftHeader={<IconButton nameIcon='ios-search' iconStyle={{fontSize: 35, color: global.black}}/>}
+                    leftHeader={<IconButton nameIcon='ios-search' iconStyle={{fontSize: 35, color: global.black}} onClick={this.handleSearchTrip}/>}
                     body={<Text
                         text='Home'
                         color={global.black}
@@ -336,10 +349,11 @@ class Home extends Component {
   }
 }
 //this.props.tripActions.createTrip(this.props.login.data.token)
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
         login: state.loginReducer,
         error: state.loginReducer.error,
+        userInfo:state.userReducer
     };
 }
 
@@ -348,6 +362,7 @@ function mapDispatchToProps(dispatch) {
         loginActions: bindActionCreators(loginActions, dispatch),
         placeAction: bindActionCreators(placeAction,dispatch),
         tripActions:bindActionCreators(tripActions,dispatch),
+        userInfoAction:bindActionCreators(userInfoAction,dispatch)
     };
 }
 

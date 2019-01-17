@@ -29,5 +29,13 @@ export default {
     registerUser:Immutable({
         fetching: false,
         data: {},
+    }),
+    image:Immutable({
+        fetching: false,
+        data: {},
+    }),
+    userInfo:Immutable({
+        fetching: false,
+        data: {},
     })
 };

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {FlatList,Alert} from 'react-native';
-import TripListItem from '../TripListItem';
 import PropTypes from 'prop-types';
 class TripListView extends Component{
     constructor(props){

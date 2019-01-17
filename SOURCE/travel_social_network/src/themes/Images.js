@@ -11,6 +11,10 @@ const images = {
     ic_google:require("../images/google.png"),
     logo:require("../images/logoHome.png"),
     noPhoto:require("../images/noImage.jpg"),
+    home:require("../images/house.png"),
+    hotel:require("../images/hotel.png"),
+    eat:require("../images/eat.png"),
+    atm:require("../images/atm.png"),
 
 };
 export default images;

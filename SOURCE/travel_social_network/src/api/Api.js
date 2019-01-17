@@ -8,7 +8,7 @@ const customAxios = axios.create({
 export const login = (username,password) =>{
   let url = urls.BASE_URL + urls.USER_LOGIN;
       return customAxios.post(url,{
-      email:username,
+      username:username,
       password:password
   })
 };
@@ -29,35 +29,69 @@ export const getListPlace = (offset,token)=>{
     });
 };
 
+export const upLoadImage = (token,option) =>{
+    let url = urls.BASE_URL + urls.UPLOAD_IMAGE;
+    console.log("url",url);
+    const data = new FormData();
+   // data.append('name', 'testName'); // you can append anyone.
+    console.log("option",option);
+    data.append('image', {
+        uri: option.uri,
+        type: option.type, // or photo.type
+        name: option.fileName,
+    });
+   // data.append('image', option);
+   // data.append('hash', option.data);
+    console.log("data",token);
+    // fetch(url, {
+    //     method: 'post',
+    //     headers:
+    //         {
+    //             token:token,
+    //         },
+    //     body: data
+    // }).then(res => {
+    //     console.log("trungdo",res);
+    // });
+    return customAxios.post(url,
+        data,
+        {
+            headers:
+                {
+                    token:token,
+                    'Content-Type': 'multipart/form-data',
+                }
+        }
 
+    );
+};
+export const getUserInfo = (token)=>{
+    let url = urls.BASE_URL + urls.GET_USER_INFO;
+    console.log("URL",url,token);
+
+    return customAxios.get(url,
+        {
+            headers:
+                {
+                    token:token,
+                }
+        });
+};
 export const registerUser = (option) =>{
     let url = urls.BASE_URL + urls.CREATE_USER;
     console.log("URL",url,option);
 
     return customAxios.post(url,option);
 };
-export const createTrip = (token) =>{
+export const createTrip = (token,option) =>{
     let url = urls.BASE_URL + urls.CREATE_TRIP;
     console.log("URL",url);
+    console.log("option",option);
     return customAxios.post(url,{
         headers:
             {
                 token:token,
             },
-        body:{
-            "idLocation": 1,
-            "idCreator": 1,
-            "tittle": "test",
-            // "description": "test",
-            // "img": "test",
-            // "numberParticipant": "{1}",
-            // "status": 1,
-            // "star": 10,
-            // "quantity": 1,
-            // "timeStart": "01-01-2019",
-            // "timeEnd": "01-01-2019",
-            // "createdAt": "01-01-2018",
-            // "updatedAt": "01-01-2018"
-        }
+        option
     });
 };

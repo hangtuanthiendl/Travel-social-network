@@ -19,6 +19,7 @@ import image from "../../../themes/Images";
 import TextComponent from "../../../Components/Text/Text";
 import styleGlobal from "../../../Styles/styles";
 import Icon from "react-native-vector-icons/Ionicons";
+import CardTripItem from "../../../modules/Trips/CardTripItem";
 
 class TripTimeline extends Component {
     constructor(){
@@ -78,52 +79,11 @@ class TripTimeline extends Component {
 
     renderDetail(rowData, sectionID, rowID) {
         return (
-            <View style={{flex:1,
-                backgroundColor:global.colorFF,
-                marginRight: 10,
-                borderRadius:5,
-                flexDirection: 'row',
-                paddingTop: 10,
-                paddingBottom: 10,
-                borderRightWidth: 50,
-                borderRightColor:global.orange,
-            }}>
-                <View style={{justifyContent: 'center',alignItems: 'center',marginLeft: 5}}>
-                    <Image source={{uri: rowData.imageUrl}} style={styles.image}/>
-                </View>
-                <View style={{marginLeft:5, maxWidth: 200,}}>
-                    <Text style={{
-                        fontSize:global.sizeP16,
-                        fontWeight: global.fontWeightBold,
-                        color:global.black
-                    }}>{rowData.title}</Text>
-                    <Text style={{
-                        color:global.color53
-                    }}>{rowData.description}</Text>
-                    <View style={{flexDirection:'row',
-                        justifyContent:'space-between',
-                        marginLeft:5,
-                        maxWidth:100}}>
-                        <View style={{flexDirection:'row'}}>
-                            <Text>4.5</Text>
-                            <Icon name={'ios-star'} style={{
-                                color:global.colorRed,
-                                fontSize:15,
-                                marginLeft:5,
-                            }}/>
-                        </View>
-                        <View style={{flexDirection:'row'}}>
-                            <Text>2</Text>
-                            <Icon name={'ios-chatbubbles'} style={{
-                                color:global.green,
-                                fontSize:15,
-                                marginLeft:5,
-                            }}/>
-                        </View>
-
-                    </View>
-                </View>
-            </View>
+            <CardTripItem
+            title={rowData.title}
+            description={rowData.description}
+            imageUrl={rowData.imageUrl}
+            />
         )
     }
 

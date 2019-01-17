@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes';
 import defaultState from "./defaultState";
-export default function placeReducer(state = defaultState.login, action) {
+export default function placeReducer(state = defaultState.place, action) {
     switch (action.type) {
         case types.GET_LIST_PLACE_SUCCESS: {
             console.log("trungdo data place",action.data);

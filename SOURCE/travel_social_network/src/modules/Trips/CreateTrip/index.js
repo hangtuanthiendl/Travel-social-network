@@ -6,6 +6,7 @@ import {
     TouchableOpacity,
     Text, TextInput, ScrollView, Image
 } from 'react-native';
+import _ from "underscore";
 import styles from "../CreateTrip/styles";
 import Header from "../../../modules/Header";
 import global from "../../../Styles/global";
@@ -16,6 +17,14 @@ import Icon from "react-native-vector-icons/Ionicons";
 import TextInputItems from "../../../Components/Items/TextInputItem";
 import RoundAvatar from "../../../Components/Avatar/RoundAvatar";
 import DatePicker from 'react-native-datepicker'
+import {bindActionCreators} from "redux";
+import * as loginActions from "../../../action/loginAction";
+import * as placeAction from "../../../action/placeAction";
+import * as tripActions from "../../../action/tripAction";
+import * as uploadImageAction from '../../../action/uploadImgaeAction';
+import connect from "react-redux/es/connect/connect";
+import {getFromLocal} from "../../../services/storage";
+import moment from 'moment';
 let ImagePicker = require('react-native-image-picker');
 const {
     height,
@@ -42,8 +51,8 @@ class CreateTrip extends Component {
             nameTrip:'',
             nameStartPlace:'',
             nameEndPlace:'',
-            timeStart:"2018-12-03",
-            timeEnd:"2018-12-03",
+            timeStart:moment().format('YYYY-MM-DD'),
+            timeEnd:moment().format('YYYY-MM-DD'),
             warningTrip:false,
             warningStartPlace:false,
             warningEndPlace:false,
@@ -54,9 +63,28 @@ class CreateTrip extends Component {
             numberParticipant:'',
             warningDescription:false,
             description:'',
+            pathImage:'',
+            params:{},
         };
         this.handleCreateTrip = this.handleCreateTrip.bind(this);
         this.changePhotoBgr = this.changePhotoBgr.bind(this);
+        this.handleShowListPlace = this.handleShowListPlace.bind(this);
+        console.log("moment().format('L')",moment().format('YYYY-MM-DD'))
+    }
+    componentWillReceiveProps(nextProps){
+        console.log("this.props.dataImage",this.props.dataImage.data,nextProps.dataImage.data.file);
+        if(this.props.dataImage.data && nextProps.dataImage.data && !_.isEqual(this.props.dataImage.data,nextProps.dataImage.data )){
+            this.setState({
+                pathImage:nextProps.dataImage.data.file.path.replace("public","."),
+            },()=> console.log("pathImage",this.state.pathImage));
+        }
+    }
+    async componentDidMount(){
+        if(await getFromLocal('Token_User') !== null) {
+            this.props.placeAction.getListPlace(0, await getFromLocal('Token_User'))
+        }else{
+            this.props.placeAction.getListPlace(0, this.props.login.data.token)
+        }
     }
     renderWarningTextInput(){
         if(this.state.nameTrip === ''){
@@ -123,8 +151,45 @@ class CreateTrip extends Component {
             })
         }
     }
+    handleShowListPlace(){
+        this.props.navigation.navigate('ListPlace')
+    }
     handleCreateTrip(){
-        this.renderWarningTextInput();
+        const { nameTrip,
+            nameStartPlace,
+            nameEndPlace,
+            timeStart,
+            timeEnd,avatarSource, numberParticipant,
+            description} = this.state;
+        if(nameStartPlace !== '' &&
+            nameTrip !== ''&&
+            nameEndPlace !== ''&&
+            timeEnd === ''&&
+            timeStart !== '' &&
+            avatarSource !== ''&&
+            description !== ''
+        ){
+            let option = {
+                "idLocation": 1,
+                "idCreator": 1,
+                "tittle": nameTrip,
+                "description": description,
+                "img": avatarSource,
+                "status": 1,
+                "star": 5,
+                "quantity": numberParticipant,
+                "timeStart": timeStart.toString(),
+                "timeEnd": timeEnd.toString(),
+                "createdAt": "01-01-2018",
+                "updatedAt": "01-01-2018"
+            };
+            this.props.tripActions.createTrip(this.props.login.data.token,option)
+        }else{
+            //this.renderWarningTextInput();
+           // this.props.navigation.navigate('CreateStopInTrip');
+            console.log('trungdo', this.props.navigation.state.params)
+        }
+
     }
     changePhotoBgr(){
         ImagePicker.showImagePicker(options, (response) => {
@@ -136,18 +201,15 @@ class CreateTrip extends Component {
                 console.log('ImagePicker Error: ', response.error);
             }else {
                 const source = { uri: response.uri };
-                console.log("Uri",source);
-                // You can also display the image using data:
-                // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-
                 this.setState({
                     avatarSource: source,
-                });
+                },()=>this.props.uploadImageAction.updateLoadImage(this.props.login.token,response));
             }
         });
-
         }
     render() {
+        const { params } = this.props.navigation.state;
+        console.log('params',params);
         return (
             <View style={styles.container}>
                 <Header
@@ -173,23 +235,25 @@ class CreateTrip extends Component {
                         warning={this.state.warningTrip}
                         maxLength={20}
                     />
+                    {/*<TextInputItems*/}
+                        {/*nameIcon={'ios-trending-up'}*/}
+                        {/*styleIcon={{color:global.green}}*/}
+                        {/*namePlaceholder={'Nơi xuất phát'}*/}
+                        {/*onChangeText={(nameStartPlace) => this.setState({nameStartPlace})}*/}
+                        {/*txtContent={this.state.nameStartPlace}*/}
+                        {/*warning={this.state.warningStartPlace}*/}
+                        {/*maxLength={15}*/}
+                    {/*/>*/}
                     <TextInputItems
-                        nameIcon={'ios-trending-up'}
-                        styleIcon={{color:global.green}}
-                        namePlaceholder={'Nơi xuất phát'}
-                        onChangeText={(nameStartPlace) => this.setState({nameStartPlace})}
-                        txtContent={this.state.nameStartPlace}
-                        warning={this.state.warningStartPlace}
-                        maxLength={15}
-                    />
-                    <TextInputItems
-                        nameIcon={'ios-trending-down'}
+                        nameIcon={'ios-create'}
                         styleIcon={{color:global.colorRed}}
-                        namePlaceholder={'Điểm đến cuối hành trình'}
+                        namePlaceholder={'Điểm đến (click vào icon)'}
                         onChangeText={(nameEndPlace) => this.setState({nameEndPlace})}
-                        txtContent={this.state.nameEndPlace}
+                        txtContent={params ? params.item.name : ''}
                         warning={this.state.warningEndPlace}
                         maxLength={15}
+                        editable={false}
+                        onClick={this.handleShowListPlace}
                     />
                     <TextInputItems
                         nameIcon={'ios-contacts'}
@@ -290,6 +354,7 @@ class CreateTrip extends Component {
                         <Text style={{fontSize:20,color:global.black,marginLeft: 10}}>
                             Hình ảnh chuyến đi:
                         </Text>
+                        {console.log("this.state.avatarSource",require("../../../images/noImage.jpg"))}
                         <RoundAvatar
                             size={'x-large'}
                             //icSrc={'https://anh.24h.com.vn//upload/1-2015/images/2015-02-12/1423706954-anhgirlxinh.jpg'}
@@ -326,4 +391,25 @@ class CreateTrip extends Component {
         );
     }
 }
-export  default  CreateTrip;
+
+function mapStateToProps(state) {
+    return {
+        login: state.loginReducer,
+        error: state.loginReducer.error,
+        dataImage:state.imageReducer,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        loginActions: bindActionCreators(loginActions, dispatch),
+        placeAction: bindActionCreators(placeAction,dispatch),
+        tripActions:bindActionCreators(tripActions,dispatch),
+        uploadImageAction:bindActionCreators(uploadImageAction,dispatch),
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CreateTrip);

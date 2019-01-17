@@ -27,14 +27,16 @@ class SettingProfile extends Component {
         super(props);
         this.state = {
             showEditProfile:false,
+            titleSetting:'',
         };
         this.handleOpenEditProfile = this.handleOpenEditProfile.bind(this);
         this.onCloseModal = this.onCloseModal.bind(this);
         this.doneEdit = this.doneEdit.bind(this);
     }
-    handleOpenEditProfile(){
+    handleOpenEditProfile(titleSetting){
         this.setState({
             showEditProfile:true,
+            titleSetting:titleSetting,
         })
     }
     onCloseModal(){
@@ -102,7 +104,7 @@ class SettingProfile extends Component {
                         visible={this.state.showEditProfile}
                         onCloseModal={this.onCloseModal}
                         doneEdit ={this.doneEdit}
-                        title={'Email'}
+                        title={this.state.titleSetting}
                     />
                 </ImageBackground>
             </View>

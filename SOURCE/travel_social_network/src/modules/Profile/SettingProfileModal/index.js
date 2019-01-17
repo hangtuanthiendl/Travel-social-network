@@ -15,12 +15,13 @@ export default class SettingProfileModal extends EditProfileModal{
     constructor(props) {
         super(props);
         this.state = {
+            name:'',
         };
         //this.openModal = this.openModal.bind(this);
        this.doneEdit = this.doneEdit.bind(this);
     }
     doneEdit(){
-        this.props.doneEdit();
+        this.props.doneEdit(this.state.name);
     }
     renderHeader() {
         return (
@@ -49,7 +50,7 @@ export default class SettingProfileModal extends EditProfileModal{
                 backgroundColor:global.colorFF
             }}>
                 <TextInput
-                    onChangeText={(text) => this.setState({username: text})}
+                    onChangeText={(text) => this.setState({name: text})}
                     style={{
                         color:global.black,
                         width:300,
@@ -59,8 +60,8 @@ export default class SettingProfileModal extends EditProfileModal{
                     }}
                     multiline={true}
                     maxLength={150}
-                    placeholder={'Viết bình luận '}
-                    value={this.state.username}
+                    placeholder={'...'}
+                    value={this.state.name}
                     placeholderTextColor={global.black}
                     autoCapitalize = 'none'
                     underlineColorAndroid="transparent"

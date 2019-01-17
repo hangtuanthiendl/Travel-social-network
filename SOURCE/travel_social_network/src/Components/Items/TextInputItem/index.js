@@ -3,11 +3,12 @@ import {View, TouchableOpacity, Text, Dimensions, TextInput} from 'react-native'
 import PropTypes from 'prop-types';
 import Icon from "react-native-vector-icons/Ionicons";
 import global from "../../../Styles/global";
+import IconButton from "../../Button/IconButton";
 const {
     height,
     width
 } = Dimensions.get('window');
-const TextInputItems = ({nameIcon,namePlaceholder,isForget,multiline,styleIcon,secureTextEntry,isNumber,txtStyle,styleDevider,txtContent,onChangeText,warning,style,maxLength}) => {
+const TextInputItems = ({onClick,editable,nameIcon,namePlaceholder,isForget,multiline,styleIcon,secureTextEntry,isNumber,txtStyle,styleDevider,txtContent,onChangeText,warning,style,maxLength}) => {
 
     let colorIcon = {
         color:global.yellowColor,
@@ -38,7 +39,7 @@ const TextInputItems = ({nameIcon,namePlaceholder,isForget,multiline,styleIcon,s
     return (
         <View>
             <View style={[styleContener,style, warning && colorWarning,]}>
-                <Icon name={nameIcon} style={[colorIcon,styleIcon]}/>
+                <IconButton nameIcon={nameIcon} onClick={onClick}  iconStyle={[colorIcon,styleIcon]}/>
                 <TextInput
                     onChangeText={onChangeText}
                     style={[txt,txtStyle]}
@@ -51,6 +52,7 @@ const TextInputItems = ({nameIcon,namePlaceholder,isForget,multiline,styleIcon,s
                     autoCapitalize = 'none'
                     underlineColorAndroid="transparent"
                     secureTextEntry={secureTextEntry}
+                    editable={editable}
                 />
             </View>
             <View style={[devider,styleDevider]}>
@@ -65,6 +67,8 @@ TextInputItems.defaultProps = {
     isNumber:false,
     secureTextEntry:false,
     multiline:false,
+    editable:true,
+    onClick : ()=>{}
 };
 
 TextInputItems.propTypes = {
@@ -81,6 +85,8 @@ TextInputItems.propTypes = {
     warning:PropTypes.bool,
     secureTextEntry:PropTypes.bool,
     multiline:PropTypes.bool,
+    editable:PropTypes.bool,
+    onClick:PropTypes.func,
 };
 
 export default TextInputItems;
