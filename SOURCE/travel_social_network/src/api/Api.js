@@ -15,6 +15,7 @@ export const login = (username,password) =>{
 
 export const getListTrip = (offset) =>{
     let url = urls.BASE_URL + urls.GET_LIST_TRIP + offset;
+    console.log("URL",url);
     return customAxios.get(url);
 };
 
@@ -31,28 +32,15 @@ export const getListPlace = (offset,token)=>{
 
 export const upLoadImage = (token,option) =>{
     let url = urls.BASE_URL + urls.UPLOAD_IMAGE;
+    console.log("token",token);
     console.log("url",url);
     const data = new FormData();
-   // data.append('name', 'testName'); // you can append anyone.
-    console.log("option",option);
     data.append('image', {
         uri: option.uri,
         type: option.type, // or photo.type
         name: option.fileName,
     });
-   // data.append('image', option);
-   // data.append('hash', option.data);
-    console.log("data",token);
-    // fetch(url, {
-    //     method: 'post',
-    //     headers:
-    //         {
-    //             token:token,
-    //         },
-    //     body: data
-    // }).then(res => {
-    //     console.log("trungdo",res);
-    // });
+    console.log("data image",data);
     return customAxios.post(url,
         data,
         {
@@ -87,11 +75,42 @@ export const createTrip = (token,option) =>{
     let url = urls.BASE_URL + urls.CREATE_TRIP;
     console.log("URL",url);
     console.log("option",option);
-    return customAxios.post(url,{
-        headers:
-            {
-                token:token,
-            },
-        option
-    });
+    return customAxios.post(url,
+        option,
+        {
+            headers:
+                {
+                    token: token,
+                }
+        }
+    );
+};
+export const createNewPlace = (token,option) =>{
+    let url = urls.BASE_URL + urls.CREATE_PLACE;
+    console.log("URL",url);
+    console.log("option",option);
+    return customAxios.post(url,
+        option,
+        {
+            headers:
+                {
+                    token: token,
+                }
+        }
+    );
+};
+
+export const createNewStop = (token,option) =>{
+    let url = urls.BASE_URL + urls.CREATE_STOP;
+    console.log("URL",url);
+    console.log("option",option);
+    return customAxios.post(url,
+        option,
+        {
+            headers:
+                {
+                    token: token,
+                }
+        }
+    );
 };

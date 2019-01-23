@@ -15,15 +15,37 @@ import global from "../../Styles/global";
 import TextComponent from "../../Components/Text/Text";
 import AlineItem from "../../Components/Items/AlineItem";
 import { AsyncStorage } from 'react-native';
+import {getFromLocal} from "../../services/storage";
+import {bindActionCreators} from "redux";
+import * as loginActions from "../../action/loginAction";
+import * as placeAction from "../../action/placeAction";
+import * as tripActions from "../../action/tripAction";
+import * as userInfoAction from "../../action/userAction";
+import connect from "react-redux/es/connect/connect";
 const {
     height,
     width
 } = Dimensions.get('window');
-export default class Profile extends Component {
+class Profile extends Component {
 
     constructor(props){
         super(props);
+        this.state={
+            isLogin:this.props.login.isLogin,
+        };
         this.thoatApp = this.thoatApp.bind(this);
+    }
+    // async componentDidMount(){
+    //     if(await getFromLocal('Token_User') === null || this.state.isLogin) {
+    //         this.props.navigation.navigate('Login')
+    //     }
+    // }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.login && nextProps.login.isLogin !== this.props.login.isLogin && nextProps.login.isLogin) {
+            this.setState({
+                isLogin:nextProps.login.isLogin,
+            });
+        }
     }
     renderStar=(number)=>{
         const fields = [];
@@ -44,7 +66,7 @@ export default class Profile extends Component {
                 { text: 'Không', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
                 {
                     text: 'Có', onPress: () => {
-                        let keys = ['Token_User'];
+                        let keys = ['Token_User','History_Search'];
                             AsyncStorage.multiRemove(keys, (err) => {
                                 // keys k1 & k2 removed, if they existed
                                 // do most stuff after removal (if you want)
@@ -136,3 +158,24 @@ export default class Profile extends Component {
   }
 }
 
+function mapStateToProps(state) {
+    return {
+        login: state.loginReducer,
+        error: state.loginReducer.error,
+        userInfo:state.userReducer
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        loginActions: bindActionCreators(loginActions, dispatch),
+        placeAction: bindActionCreators(placeAction,dispatch),
+        tripActions:bindActionCreators(tripActions,dispatch),
+        userInfoAction:bindActionCreators(userInfoAction,dispatch)
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Profile);

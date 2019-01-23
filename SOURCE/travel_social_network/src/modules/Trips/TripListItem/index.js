@@ -6,12 +6,17 @@ import global from '../../../Styles/global';
 import TextComponent from '../../../Components/Text/Text';
 import styleGlobal from "../../../Styles/styles";
 import IconButton from "../../../Components/Button/IconButton";
+import image from "../../../themes/Images";
 const {height, width} = Dimensions.get('window');
 
 class TripListItem extends Component {
-    state = {
-        animation: new Animated.Value(0)
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            animation: new Animated.Value(0)
+        };
+        this.convertNumberToCurrency = this.convertNumberToCurrency.bind(this);
+    }
     componentWillMount(){
         Animated.timing(this.state.animation,{
             toValue:1,
@@ -19,12 +24,20 @@ class TripListItem extends Component {
             delay: this.props.index* 400
         }).start();
     }
+    convertNumberToCurrency(money) {
+        let value = money.toString();
+        if (value != "") {
+            value = value.replace(/\D/g, "");
+            value = value.replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1" + '.');
+        }
+        return value
+    }
     getStatus(status){
         switch (status) {
             case 0:
                 return 'Chưa diễn ra';
             case 1:
-                return 'ang diễn ra';
+                return 'Đang diễn ra';
             case 2:
                 return 'Đã diễn ra';
             default:
@@ -34,7 +47,7 @@ class TripListItem extends Component {
     renderStar=(number)=>{
         const fields = [];
         for (let i = 0; i < number; i++){
-            fields.push(<IconButton key ={i} nameIcon='ios-heart' iconStyle={styles.icon} onClick={()=>alert('Tim')}/>)
+            fields.push(<IconButton key ={i} nameIcon='ios-star' iconStyle={styles.icon} onClick={()=>alert('Tim')}/>)
         }
         return fields;
     };
@@ -43,6 +56,7 @@ class TripListItem extends Component {
             namePersonCreate,
             imgBackground,onClick,
             imgAvatar} = this.props;
+        console.log("this.props",this.props);
         return (
             <Animated.View style={{
                 //  opacity: this.state.animation, // Binds directly
@@ -58,10 +72,20 @@ class TripListItem extends Component {
                     <ImageBackground source={{uri:imgBackground}} style={styles.container}>
                         <View style={[styleGlobal.imgBackgroundCard]}>
                             <View style={styles.headerCard}>
-                                <Image
-                                    source={{uri:imgAvatar}}
-                                    style={styleGlobal.avatar}
-                                />
+                                {imgAvatar!== null
+                                ?
+                                    <Image
+                                        source={{uri:imgAvatar}}
+                                        style={styleGlobal.avatar}
+                                    />
+                                :
+                                    <Image
+                                        source={image.avatarTrip}
+                                        style={styleGlobal.avatar}
+                                    />
+
+                                }
+
                                 <TextComponent
                                     text={title}
                                     color={global.colorFF}
@@ -81,12 +105,13 @@ class TripListItem extends Component {
                                             />
                                         </View>
                                         <View style={styles.line_left}>
+                                            <IconButton nameIcon='ios-ribbon' iconStyle={styles.icon1}/>
                                             <TextComponent
-                                                text={'Số chỗ trống :'}
+                                                text={'Kinh phí:'}
                                                 style={styles.text1}
                                             />
                                             <TextComponent
-                                                text={numberParticipant}
+                                                text={this.convertNumberToCurrency(quantity) + " Đ"}
                                                 style={styles.text}
                                             />
                                         </View>
@@ -95,22 +120,22 @@ class TripListItem extends Component {
                                         <View style={styles.line_right}>
                                             <IconButton nameIcon='ios-calendar' iconStyle={styles.icon}/>
                                             <TextComponent
-                                                text={timeStart}
+                                                text={timeStart.slice(0,10)}
                                                 style={styles.text}
                                             />
                                         </View>
                                         <View style={styles.line_right}>
                                             <TextComponent
-                                                text={numberStar}
+                                                text={parseInt(numberStar) > 0 ? parseInt(numberStar) : 1}
                                                 style={styles.text1}
                                             />
-                                            {this.renderStar(numberStar)}
+                                            {this.renderStar(parseInt(numberStar) > 0 ? parseInt(numberStar) : 1)}
                                         </View>
                                     </View>
                                 </View>
-                                <View style={styles.bodyRight}>
+                                {/*<View style={styles.bodyRight}>*/}
 
-                                </View>
+                                {/*</View>*/}
                             </View>
                             <View style={styles.footerCard}>
                                 <IconButton nameIcon='ios-pulse' iconStyle={styles.icon}/>
@@ -133,7 +158,7 @@ TripListItem.propTypes = {
     numberParticipant: PropTypes.number,
     quantity: PropTypes.number,
     status: PropTypes.number,
-    numberStar: PropTypes.number,
+    numberStar: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     timeStart: PropTypes.string,
     timeEnd: PropTypes.string,
     locationStart: PropTypes.string,

@@ -15,6 +15,7 @@ const images = {
     hotel:require("../images/hotel.png"),
     eat:require("../images/eat.png"),
     atm:require("../images/atm.png"),
+    avatarTrip:require("../images/avatarTrip.jpg"),
 
 };
 export default images;

@@ -34,7 +34,7 @@ container: {
         height:100,
     },
     bodyLeft:{
-        flex: 0.8,
+        flex: 1,
         flexDirection:'row',
     },
     bodyRight:{
@@ -50,19 +50,20 @@ container: {
         paddingRight:10,
     },
     left:{
-        flex:1,
+        flex:0.6,
     },
     right:{
-        flex:1,
+        flex:0.4,
         marginLeft: 8,
     },
     line_left:{
         flexDirection:'row',
         display:'flex',
-        justifyContent: 'flex-end',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         marginTop: 10,
         height:20,
+        marginLeft:20,
     },
     line_right:{
         flexDirection:'row',
@@ -84,7 +85,12 @@ container: {
     },
     icon:{
         fontSize:15,
-        color: global.orangeColor,
+        color: global.red,
+        marginRight:4,
+    },
+    icon1:{
+        fontSize:15,
+        color: global.yellow,
         marginRight:4,
     },
 });

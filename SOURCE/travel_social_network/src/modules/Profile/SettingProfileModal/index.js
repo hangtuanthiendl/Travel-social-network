@@ -21,7 +21,7 @@ export default class SettingProfileModal extends EditProfileModal{
        this.doneEdit = this.doneEdit.bind(this);
     }
     doneEdit(){
-        this.props.doneEdit(this.state.name);
+        this.props.doneEdit(!this.props.editable ? this.props.name :this.state.name);
     }
     renderHeader() {
         return (
@@ -45,7 +45,7 @@ export default class SettingProfileModal extends EditProfileModal{
     renderContent() {
         return (
             <View style={{
-                height: 100,
+                minHeight: 100,
                 alignItems: 'flex-start',
                 backgroundColor:global.colorFF
             }}>
@@ -61,10 +61,11 @@ export default class SettingProfileModal extends EditProfileModal{
                     multiline={true}
                     maxLength={150}
                     placeholder={'...'}
-                    value={this.state.name}
+                    value={this.props.name}
                     placeholderTextColor={global.black}
                     autoCapitalize = 'none'
                     underlineColorAndroid="transparent"
+                    editable={this.props.editable}
                 />
             </View>
         );
@@ -98,9 +99,13 @@ export default class SettingProfileModal extends EditProfileModal{
     }
 }
 
-SettingProfileModal.defaultProps = {};
+SettingProfileModal.defaultProps = {
+    editable:true,
+};
 
 SettingProfileModal.propTypes = {
     doneEdit:PropTypes.func,
     title:PropTypes.string,
+    name:PropTypes.string,
+    editable:PropTypes.bool
 };

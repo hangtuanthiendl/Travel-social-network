@@ -31,38 +31,41 @@ class TripTimeline extends Component {
         this.data = [
             {
                 time: '09:00',
-                title: 'Archery Training',
-                description: 'The Beginner Archery and Beginner Crossbow course does not require you to bring any equipment, since everything you need will be provided for the course. ',
+                title: 'Đồi chè Cầu Đất',
+                description: 'Tới đây bạn sẽ được tận hưởng cảnh vật và thiên nhiên trong lành.',
                 icon: require('../../../images/bycle.jpg'),
-                imageUrl: 'https://cloud.githubusercontent.com/assets/21040043/24240340/c0f96b3a-0fe3-11e7-8964-fe66e4d9be7a.jpg'
+                imageUrl: 'http://a9.vietbao.vn/images/vi955/2013/12/55600814-1388139129-da-lat.jpg'
             },
             {
                 time: '10:45',
-                title: 'Play Badminton',
-                description: 'Badminton is a racquet sport played using racquets to hit a shuttlecock across a net.',
+                title: 'Cây Thông Cô Đơn',
+                description: 'Thông luôn là biểu tượng từ bao đời của xứ sở ngàn hoa vì nó mang nét đẹp vĩnh cửu của thành phố sương. ',
                 icon: require('../../../images/bycle.jpg'),
-                imageUrl: 'https://cloud.githubusercontent.com/assets/21040043/24240405/0ba41234-0fe4-11e7-919b-c3f88ced349c.jpg'
+                imageUrl: 'https://fastly.4sqi.net/img/general/200x200/35465889_fV1LOnOJSpkaJOtHcSbBUdLTVmFQfBBcoXGZisFGFAg.jpg'
             },
             {
                 time: '12:00',
-                title: 'Lunch',
+                title: 'Đỉnh núi Lang Biang',
                 icon: require('../../../images/bycle.jpg'),
-                description: 'Team sport played between two teams of eleven players with a spherical ball. ',
-                imageUrl: 'https://cloud.githubusercontent.com/assets/21040043/24240419/1f553dee-0fe4-11e7-8638-6025682232b1.jpg'
+                description: '"Langbiang được ví như "nóc nhà" của Đà Lạt. Từ trên đỉnh núi có thể nhìn thấy Suối Vàng ' +
+                    'và Suối Bạc và toàn cảnh Đà Lạt trên cao, với những màn sương mù bay phất phơ trước mặt làm bạn cứ ngỡ ' +
+                    'như là đang ở trên mây.',
+                imageUrl: 'https://phongvehoanggia.com.vn/wp-content/uploads/2016/06/du-lich-sapa-2-ngay-2-dem-200x200.jpg'
             },
             {
                 time: '14:00',
-                title: 'Watch Soccer',
-                description: 'Team sport played between two teams of eleven players with a spherical ball. ',
+                title: 'Thung Lũng Tình Yêu',
+                description: '"Muốn tham quan địa điểm du lịch ở Đà Lạt đẹp và nổi tiếng thì nhất định phải tới đây nha.' +
+                    ' Thung lũng Tình Yêu đẹp và cuốn hút bởi thung lũng sâu và đồi thông quanh năm xanh biếc.',
                 icon: require('../../../images/bycle.jpg'),
-                imageUrl: 'https://cloud.githubusercontent.com/assets/21040043/24240419/1f553dee-0fe4-11e7-8638-6025682232b1.jpg'
+                imageUrl: 'http://tiepthivagiadinh.vn/UserFile/News/635347047205352564_17631/2012-01-27-073222994.jpg'
             },
             {
                 time: '16:30',
-                title: 'Go to Fitness center',
-                description: 'Look out for the Best Gym & Fitness Centers around me :)',
+                title: 'Tiệm Bánh Cối Xay Gió',
+                description: '"Đây là địa điểm được check in nhiều nhất năm 2018 của các bạn trẻ ở Đà Lạt.',
                 icon: require('../../../images/bycle.jpg'),
-                imageUrl: 'https://cloud.githubusercontent.com/assets/21040043/24240422/20d84f6c-0fe4-11e7-8f1d-9dbc594d0cfa.jpg'
+                imageUrl: 'https://danangxanh.com.vn/data/news/200/den-da-lat-check-in-ngay-resort-nay-de-co-view-ho-tuyen-lam-dep-khong-tuong.jpg'
             }
         ];
         this.state = {selected: null}

@@ -219,6 +219,8 @@ export default class MyMap extends Component {
                     showsUserLocation={true}
                     showsMyLocationButton={false}
                     showsCompass={false}
+                    followsUserLocation={true}
+                    userLocationAnnotationTitle={'My Location'}
                 >
                     {this.state.places}
                 </MapView>

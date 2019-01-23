@@ -25,11 +25,14 @@ class SplashScreen extends Component {
         this.timeOutSplash = null;
         this.token_user = null;
     }
+   async componentWillMount(){
+        await this.props.tripActions.getListTrip(0);
+    }
     async componentDidMount(){
         this.token_user = await getFromLocal('Token_User');
         await this.props.loginActions.updateToken(this.token_user);
         console.log("datalogin",this.token_user);
-        this.props.tripActions.getListTrip(2);
+
     }
     componentWillUnmount(){
         clearTimeout(this.timeOutSplash)

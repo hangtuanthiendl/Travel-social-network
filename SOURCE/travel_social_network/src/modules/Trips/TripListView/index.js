@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import {FlatList,Alert} from 'react-native';
+import {FlatList, Alert, View, Dimensions} from 'react-native';
 import PropTypes from 'prop-types';
+const {
+    height,
+    width
+} = Dimensions.get('window');
 class TripListView extends Component{
     constructor(props){
         super(props);
@@ -17,6 +21,12 @@ class TripListView extends Component{
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItem}
                 onScroll={this.props.onScroll}
+                ItemSeparatorComponent={() => <View
+                    style={{
+                        height: 1,
+                        width: width,
+                    }}
+                />}
             />
         );
     }

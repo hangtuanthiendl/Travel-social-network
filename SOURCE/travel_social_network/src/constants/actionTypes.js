@@ -26,3 +26,22 @@ export const UPLOAD_IMAGE_FAIL = 'UPLOAD_IMAGE_FAIL';
 export const REQUEST_USER_INFO_SUCCESS = 'REQUEST_USER_INFO_SUCCESS';
 export const USER_INFO_REQUEST = 'USER_INFO_REQUEST';
 export const REQUEST_USER_INFO_FAIL = 'REQUEST_USER_INFO_FAIL';
+// create place
+export const REQUEST_CREATE_NEW_PLACE = 'REQUEST_CREATE_NEW_PLACE';
+export const CREATE_NEW_PLACE_SUCCESS = 'CREATE_NEW_PLACE_SUCCESS';
+export const CREATE_NEW_PLACE_FAIL = 'CREATE_NEW_PLACE_FAIL';
+//Stop
+export const REQUEST_CREATE_NEW_STOP = 'REQUEST_CREATE_NEW_STOP';
+export const CREATE_NEW_STOP_SUCCESS = 'CREATE_NEW_STOP_SUCCESS';
+export const CREATE_NEW_STOP_FAIL = 'CREATE_NEW_STOP_FAIL';
+export const GET_LIST_STOP_LOADING = 'GET_LIST_STOP_LOADING';
+export const GET_LIST_STOP_SUCCESS = 'GET_LIST_STOP_SUCCESS';
+export const GET_LIST_STOP_FAIL    = 'GET_LIST_STOP_FAIL';
+
+import {NavigationActions} from "react-navigation";
+export const resetAction = (name) => NavigationActions.reset({
+    index: 0,
+    actions: [
+        NavigationActions.navigate({routeName: name})
+    ]
+});

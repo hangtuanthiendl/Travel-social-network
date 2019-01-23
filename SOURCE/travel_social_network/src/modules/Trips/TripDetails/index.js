@@ -30,7 +30,10 @@ import * as userInfoAction from "../../../action/userAction"
 import connect from "react-redux/es/connect/connect";
 import UserProfileModal from "../../../modules/Profile/UserProfileModal";
 import _ from "underscore";
+import call from "react-native-phone-call";
+import {getFromLocal} from "../../../services/storage";
 let data = {};
+let numberPhone = '000';
 const SECTIONS = [
     {
         title1: 'Nơi khởi hành:',
@@ -68,10 +71,11 @@ class TripDetails extends Component {
         this.handleShowUserInfo = this.handleShowUserInfo.bind(this);
         this.onCloseModal = this.onCloseModal.bind(this);
         this.doneEdit = this.doneEdit.bind(this);
+        this.handleCall = this.handleCall.bind(this);
     }
-     componentWillMount(){
+    async componentWillMount(){
         this.initData();
-         console.log("nextProps.userInfo",this.props.userInfo);
+        console.log("nextProps.userInfo",this.props.userInfo);
     }
     componentWillReceiveProps(nextProps){
         console.log("nextProps.userInfo",this.props.userInfo,nextProps.userInfo);
@@ -169,6 +173,15 @@ class TripDetails extends Component {
         }
         return fields;
     };
+    handleCall(){
+        numberPhone = this.state.userInfo.data.phone;
+        const args = {
+            number:numberPhone,
+            prompt:true,
+        };
+        //console.log("args",args);
+        call(args).catch(console.error);
+    }
     render() {
         return (
            <View style={styles.container_details}>
@@ -366,8 +379,9 @@ class TripDetails extends Component {
                    onCloseModal={this.onCloseModal}
                    doneEdit ={this.doneEdit}
                    title={'Thông tin người tạo'}
-                   userName={'Do Quoc Trung'}
-                   numberPhone={'0934197445'}
+                   userName={this.state.userInfo.data.firstName +this.state.userInfo.data.middleName + this.state.userInfo.data.lastName }
+                   numberPhone={this.state.userInfo.data.phone}
+                   onClick={this.handleCall}
                />
            </View>
         );

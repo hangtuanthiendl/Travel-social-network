@@ -6,7 +6,7 @@ const {height, width} = Dimensions.get('window');
 export default StyleSheet.create({
     body_trip_stop:{
         width:width,
-        //height:300,
+        height:300,
         backgroundColor:'transparent',
         marginTop: 20,
         position: 'relative'
@@ -17,7 +17,7 @@ export default StyleSheet.create({
         alignItems:'center',
         width:width,
         height:200,
-        bottom: 5,
+        bottom: 50,
         backgroundColor:global.backgroudTransparent,
     },
     txt_search:{
@@ -37,8 +37,8 @@ export default StyleSheet.create({
     view_btn_create:{
         width:width,
         justifyContent: 'center',
-        alignItems: 'flex-start',
-        height:50,
+        alignItems: 'center',
+        marginTop:10,
     },
     view_btn_create_place:{
         width:width,
@@ -46,7 +46,7 @@ export default StyleSheet.create({
         flexDirection: 'row',
         paddingLeft:10,
         paddingRight:10,
-        marginBottom: 10,
+        marginBottom: 20,
     },
     btn_create_place:{
         height:40,
@@ -66,15 +66,16 @@ export default StyleSheet.create({
         elevation:5,
     },
     btn_create:{
-      height:40,
+        height:40,
+        width:100,
         paddingLeft:10,
         paddingRight:10,
-      borderRadius: 20,
+        borderRadius: 20,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor:global.orange,
         marginLeft: 15,
-        marginTop:5,
+        marginTop:10,
         shadowColor: '#000000',
         shadowOffset: {
             width: 2,

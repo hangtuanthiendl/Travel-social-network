@@ -1,6 +1,6 @@
 import * as types from '../constants/actionTypes';
 import defaultState from "./defaultState";
-export default function tripReducer(state = defaultState.login, action) {
+export default function tripReducer(state = defaultState.trip, action) {
     switch (action.type) {
         case types.GET_LIST_TRIP_SUCCESS: {
             console.log("trungdo data trip",action.data);
@@ -18,8 +18,10 @@ export default function tripReducer(state = defaultState.login, action) {
             return state.merge({ fetching: false, error: action.error, msg: action.msg });
         }
         case types.CREATE_TRIP_SUCCESS:{
+            console.log("action.data.data",action);
             return state.merge({
                 fetching: false,
+                dataTripCreateNew:action.data.data,
             })
         }
         case types.REQUEST_TRIP:{

@@ -43,6 +43,7 @@ class Login extends Component {
           passRegisterAgain:'',
           phoneNumber:'',
           emailRegister:'',
+          isHome:false,
 
       };
       this.login = this.login.bind(this);
@@ -85,7 +86,8 @@ class Login extends Component {
             })
         }
     }
-  login(){
+   async login(){
+      await this.props.tripActions.getListTrip(0);
       if(this.state.username.length > 0 && this.state.password.length > 0){
          this.props.loginActions.login(this.state.username, this.state.password);
          this.setState({
@@ -187,6 +189,7 @@ class Login extends Component {
     }
     //register
     componentWillReceiveProps(nextProps) {
+        console.log("login",nextProps.login,this.props.login);
         if (nextProps.login && nextProps.login.isLogin !== this.props.login.isLogin && nextProps.login.isLogin) {
             this.setState({errorMsg: '', loading:  nextProps.login.fetching}, () => {
                 this.props.navigation.navigate('TabBar');
@@ -202,10 +205,11 @@ class Login extends Component {
                 password:this.state.passRegister,
             });
         }
-        if(nextProps.tripReducer && nextProps.tripReducer.dataTrip.length > 0){
+        console.log("tripReducer",nextProps.tripReducer);
+        if(this.state.isHome && nextProps.tripReducer && nextProps.tripReducer.dataTrip.length > 0){
             this.setState({
                 loading:nextProps.tripReducer.fetching
-            })
+            },()=> this.props.navigation.navigate('TabBar'));
         }
     }
     handleShowRegister(){
@@ -252,7 +256,7 @@ class Login extends Component {
                   secureTextEntry={true}
                   warning={this.state.warningPassLogin}
               />
-              <TouchableOpacity style={styles.btn_login_email} onPress={()=>this.login()}>
+              <TouchableOpacity style={styles.btn_login_email} onPress={this.login}>
                   <Text style={{
                       color:global.colorFF,
                       fontSize:global.sizeP18,
@@ -372,15 +376,12 @@ class Login extends Component {
           </View>
       );
     }
-    handleNextHome(){
-      const {tripReducer} = this.props;
+    async handleNextHome(){
       this.setState({
+          isHome:true,
           loading:true,
       });
-      console.log("tripReducer.dataTrip",tripReducer.dataTrip);
-      if(tripReducer.dataTrip.length > 0){
-          this.props.navigation.navigate('TabBar')
-      }
+      await this.props.tripActions.getListTrip(0);
     }
   render() {
     return (

@@ -9,12 +9,12 @@ export function getListTripFail(error, msg) {
     return {type: types.GET_LIST_TRIP_FAIL, error, msg};
 }
 
-export function requestgetListTrip() {
-    return {type: types.GET_LIST_TRIP_LOADING};
+export function requestgetListTrip(fetching) {
+    return {type: types.GET_LIST_TRIP_LOADING,fetching};
 }
 export function getListTrip(offset) {
     return function (dispatch) {
-        dispatch(requestgetListTrip());
+        dispatch(requestgetListTrip(true));
         api.getListTrip(offset).then((res)=>{
             if(res && res.status){
                 console.log("dataTrip",res.data);
@@ -33,14 +33,15 @@ export function getListTrip(offset) {
 export function requestCreateTrip() {
     return {type: types.REQUEST_TRIP};
 }
-export function createTripSuccess() {
-    return {type: types.CREATE_TRIP_SUCCESS};
+export function createTripSuccess(data) {
+    return {type: types.CREATE_TRIP_SUCCESS,data};
 }
-export function createTripFail() {
-    return {type: types.CREATE_TRIP_FAIL};
+export function createTripFail(error) {
+    return {type: types.CREATE_TRIP_FAIL,error};
 }
 
 export function createTrip(token,option) {
+    console.log("Token",token,option);
     return function (dispatch) {
         dispatch(requestCreateTrip());
         api.createTrip(token,option).then((res)=>{
@@ -48,7 +49,7 @@ export function createTrip(token,option) {
                 console.log("Create trip",res);
                 dispatch(createTripSuccess(res.data))
             }else{
-                dispatch(createTripFail(true,res.data))
+                dispatch(createTripFail(res.status))
             }
         })
             .catch((err)=>{

@@ -17,7 +17,8 @@ const TextInputItems = ({onClick,editable,nameIcon,namePlaceholder,isForget,mult
     let txt={
         color:global.black,
         marginLeft:10,
-        width:260,
+        minWidth:260,
+        maxWidth:width,
         fontSize:global.sizeP20,
     };
     let devider={

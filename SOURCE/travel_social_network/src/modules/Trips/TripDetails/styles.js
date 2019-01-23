@@ -16,6 +16,7 @@ export default StyleSheet.create({
         height:height,
         width:width,
         position:'relative',
+        backgroundColor:global.imgBackgroundCard
     },
     header_details:{
         flex:1,
@@ -29,12 +30,11 @@ export default StyleSheet.create({
     },
     footer_details:{
         width:width,
-        position:'absolute',
-        bottom:10,
         height:50,
         justifyContent:'space-between',
         alignItems:'center',
         flexDirection:'row',
+        backgroundColor:global.imgBackgroundCard,
     },
     header_title_details:{
         position:'absolute',

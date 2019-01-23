@@ -36,10 +36,10 @@ class ListPlace extends Component {
     renderItem(){
 
     }
-    handleSelectPlace(item){
-        this.props.navigation.navigate('CreateTrip',{
-            item:item
-        });
+    handleSelectPlace(item) {
+        const {navigation} = this.props;
+        navigation.state.params.onSelect({item: item});
+        navigation.goBack();
     }
     render() {
 
@@ -52,7 +52,7 @@ class ListPlace extends Component {
                                                 onClick={()=>this.props.navigation.goBack()}
                                                 iconStyle={{fontSize: 35, color: global.black}}/>}
                         body={<TextComponent
-                            text='Danh sách điểm dừng'
+                            text='Địa điểm du lịch'
                             color={global.black}
                             size={global.sizeP20}
                             bold={global.fontWeightDark}/>}
@@ -64,11 +64,12 @@ class ListPlace extends Component {
                                           const onActionClick = ()=>this.handleSelectPlace(item);
                                           return(
                                               <CardTripItem
-                                                  imageUrl={'http://imagesfb.tintuc.vn/upload/images/kiengiang/20181018/img-3310.jpeg'}
+                                                  imageUrl={'http://a9.vietbao.vn/images/vi955/2013/12/55600814-1388139129-da-lat.jpg'}
                                                   title={item.name}
                                                   description={item.description}
                                                   isShowBtn={true}
                                                   onClick={onActionClick}
+                                                  withView={240}
                                               />
                                           );
                                       }

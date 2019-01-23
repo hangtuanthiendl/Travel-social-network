@@ -18,6 +18,12 @@ import PropTypes from "prop-types";
 import Icon from "react-native-vector-icons/Ionicons";
 import SettingItem from "../../../Components/Items/SetteingItem";
 import SettingProfileModal from "../SettingProfileModal";
+import {bindActionCreators} from "redux";
+import * as loginActions from "../../../action/loginAction";
+import * as placeAction from "../../../action/placeAction";
+import * as tripActions from "../../../action/tripAction";
+import * as uploadImageAction from "../../../action/uploadImgaeAction";
+import connect from "react-redux/es/connect/connect";
 const {
     height,
     width
@@ -28,15 +34,20 @@ class SettingProfile extends Component {
         this.state = {
             showEditProfile:false,
             titleSetting:'',
+            email:this.props.userInfo.data.email,
+            phone:this.props.userInfo.data.phone,
+            nameUser:this.props.userInfo.data.firstName +' '+this.props.userInfo.data.middleName +' '+this.props.userInfo.data.lastName,
+            name:'',
         };
         this.handleOpenEditProfile = this.handleOpenEditProfile.bind(this);
         this.onCloseModal = this.onCloseModal.bind(this);
         this.doneEdit = this.doneEdit.bind(this);
     }
-    handleOpenEditProfile(titleSetting){
+    handleOpenEditProfile(titleSetting,name){
         this.setState({
             showEditProfile:true,
             titleSetting:titleSetting,
+            name:name,
         })
     }
     onCloseModal(){
@@ -44,7 +55,21 @@ class SettingProfile extends Component {
             showEditProfile:false,
         })
     }
-    doneEdit(){
+    doneEdit(content){
+       console.log("content",content);
+        if(this.state.titleSetting === 'Email'){
+            this.setState({
+                email:content,
+            })
+        }else if(this.state.titleSetting === 'Tên hiển thị'){
+            this.setState({
+                nameUser:content,
+            })
+        }else{
+            this.setState({
+                phone:content,
+            })
+        }
         this.setState({
             showEditProfile:false,
         })
@@ -70,21 +95,23 @@ class SettingProfile extends Component {
                             <SettingItem
                                 nameIcon='ios-finger-print'
                                 styleIcon={{color:global.orange,fontSize: 30,}}
-                                txtDetails={'doquoctrung95@gmail.com'}
+                                txtDetails={this.state.email}
                                 txtTitle={'Email'}
-                                onClick={this.handleOpenEditProfile}
+                                onClick={this.handleOpenEditProfile.bind(null,'Email',this.state.email)}
                             />
                             <SettingItem
                                 nameIcon='ios-eye'
                                 styleIcon={{color:global.colorFF,fontSize: 30,}}
-                                txtDetails={'Do Quoc Trung'}
+                                txtDetails={this.state.nameUser}
                                 txtTitle={'Tên hiển thị'}
+                                onClick={this.handleOpenEditProfile.bind(null,'Tên hiển thị',this.state.nameUser)}
                             />
                             <SettingItem
                                 nameIcon='ios-pulse'
                                 styleIcon={{color:global.red,fontSize: 30,}}
-                                txtDetails={'0934197445'}
+                                txtDetails={this.state.phone}
                                 txtTitle={'Số điện thoại'}
+                                onClick={this.handleOpenEditProfile.bind(null,'Số điện thoại',this.state.phone)}
                             />
                             <SettingItem
                                 nameIcon='ios-key'
@@ -105,10 +132,34 @@ class SettingProfile extends Component {
                         onCloseModal={this.onCloseModal}
                         doneEdit ={this.doneEdit}
                         title={this.state.titleSetting}
+                        name={this.state.name}
                     />
                 </ImageBackground>
             </View>
         );
     }
 }
-export  default  SettingProfile;
+function mapStateToProps(state) {
+    return {
+        login: state.loginReducer,
+        error: state.loginReducer.error,
+        dataImage:state.imageReducer,
+        dataTripCreateNew:state.tripReducer.dataTripCreateNew,
+        placeReducer:state.placeReducer,
+        userInfo:state.userReducer
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        loginActions: bindActionCreators(loginActions, dispatch),
+        placeAction: bindActionCreators(placeAction,dispatch),
+        tripActions:bindActionCreators(tripActions,dispatch),
+        uploadImageAction:bindActionCreators(uploadImageAction,dispatch),
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SettingProfile);

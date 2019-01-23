@@ -6,6 +6,7 @@ import placeReducer from "./placeReducer";
 import registerUserReducer from "./registerReducer";
 import imageReducer from "./imageReducer";
 import userReducer from "./userReducer"
+import stopReducer from "./stopReducer"
 const rootReducer = combineReducers ({
     loginReducer,
     tripReducer,
@@ -13,5 +14,6 @@ const rootReducer = combineReducers ({
     registerUserReducer,
     imageReducer,
     userReducer,
+    stopReducer,
 });
 export default rootReducer;

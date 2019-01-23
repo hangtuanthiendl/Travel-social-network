@@ -4,7 +4,7 @@ import {
     Dimensions,
     View,
     TouchableOpacity,
-    Text, TextInput, ScrollView, Image
+    Text, TextInput, ScrollView, Image, ActivityIndicator
 } from 'react-native';
 import _ from "underscore";
 import styles from "../CreateTrip/styles";
@@ -13,7 +13,6 @@ import global from "../../../Styles/global";
 import IconButton from "../../../Components/Button/IconButton";
 import image from "../../../themes/Images";
 import TextComponent from "../../../Components/Text/Text";
-import Icon from "react-native-vector-icons/Ionicons";
 import TextInputItems from "../../../Components/Items/TextInputItem";
 import RoundAvatar from "../../../Components/Avatar/RoundAvatar";
 import DatePicker from 'react-native-datepicker'
@@ -41,6 +40,7 @@ const options = {
         quality:0.1,
         maxWidth:20,
         maxHeight:20,
+        loading:false,
     }
 };
 
@@ -65,19 +65,51 @@ class CreateTrip extends Component {
             description:'',
             pathImage:'',
             params:{},
+            data:{},
+            loading:false,
         };
         this.handleCreateTrip = this.handleCreateTrip.bind(this);
         this.changePhotoBgr = this.changePhotoBgr.bind(this);
         this.handleShowListPlace = this.handleShowListPlace.bind(this);
-        console.log("moment().format('L')",moment().format('YYYY-MM-DD'))
+        this.resetState = this.resetState.bind(this);
+    }
+    componentWillMount(){
+        console.log("Screen Create trip");
     }
     componentWillReceiveProps(nextProps){
-        console.log("this.props.dataImage",this.props.dataImage.data,nextProps.dataImage.data.file);
         if(this.props.dataImage.data && nextProps.dataImage.data && !_.isEqual(this.props.dataImage.data,nextProps.dataImage.data )){
             this.setState({
                 pathImage:nextProps.dataImage.data.file.path.replace("public","."),
             },()=> console.log("pathImage",this.state.pathImage));
         }
+        if(nextProps.tripReducer && !nextProps.tripReducer.fetching && !_.isEqual(nextProps.tripReducer.dataTripCreateNew,this.props.tripReducer.dataTripCreateNew) ){
+           console.log("nextProps.tripReducer",nextProps.tripReducer);
+            this.resetState();
+            this.props.navigation.navigate('CreateStopInTrip');
+        }
+    }
+    resetState(){
+        this.setState({
+            nameTrip:'',
+            nameStartPlace:'',
+            nameEndPlace:'',
+            timeStart:moment().format('YYYY-MM-DD'),
+            timeEnd:moment().format('YYYY-MM-DD'),
+            warningTrip:false,
+            warningStartPlace:false,
+            warningEndPlace:false,
+            warningTimeStart:false,
+            warningTimeEnd:false,
+            avatarSource:'',
+            warningNumberParticipant:false,
+            numberParticipant:'',
+            warningDescription:false,
+            description:'',
+            pathImage:'',
+            params:{},
+            data:{},
+            loading:false,
+        });
     }
     async componentDidMount(){
         if(await getFromLocal('Token_User') !== null) {
@@ -96,16 +128,7 @@ class CreateTrip extends Component {
                 warningTrip:false,
             })
         }
-        if(this.state.nameStartPlace === ''){
-            this.setState({
-                warningStartPlace:true,
-            })
-        }else {
-            this.setState({
-                warningStartPlace:false,
-            })
-        }
-        if(this.state.nameEndPlace === ''){
+        if( Object.keys(this.state.data).length === 0){
             this.setState({
                 warningEndPlace:true,
             })
@@ -152,29 +175,25 @@ class CreateTrip extends Component {
         }
     }
     handleShowListPlace(){
-        this.props.navigation.navigate('ListPlace')
+        this.props.navigation.navigate('ListPlace',{onSelect:this.onSelect})
     }
-    handleCreateTrip(){
+    async handleCreateTrip(){
         const { nameTrip,
-            nameStartPlace,
-            nameEndPlace,
             timeStart,
             timeEnd,avatarSource, numberParticipant,
             description} = this.state;
-        if(nameStartPlace !== '' &&
+        if(
             nameTrip !== ''&&
-            nameEndPlace !== ''&&
-            timeEnd === ''&&
+            timeEnd !== ''&&
             timeStart !== '' &&
             avatarSource !== ''&&
             description !== ''
         ){
             let option = {
-                "idLocation": 1,
-                "idCreator": 1,
+                "idLocation":this.state.data.item.id,
                 "tittle": nameTrip,
                 "description": description,
-                "img": avatarSource,
+                "img": this.state.pathImage,
                 "status": 1,
                 "star": 5,
                 "quantity": numberParticipant,
@@ -183,11 +202,19 @@ class CreateTrip extends Component {
                 "createdAt": "01-01-2018",
                 "updatedAt": "01-01-2018"
             };
-            this.props.tripActions.createTrip(this.props.login.data.token,option)
+            this.setState({
+                loading:true,
+            });
+            if(await getFromLocal('Token_User') !== null){
+                this.props.tripActions.createTrip(await getFromLocal('Token_User'),option)
+            }else {
+                this.props.tripActions.createTrip(this.props.login.data.token,option)
+            }
+
         }else{
-            //this.renderWarningTextInput();
-           // this.props.navigation.navigate('CreateStopInTrip');
-            console.log('trungdo', this.props.navigation.state.params)
+            this.renderWarningTextInput();
+            //this.props.navigation.navigate('CreateStopInTrip')
+           // console.log('trungdo', this.props.navigation.state.params)
         }
 
     }
@@ -203,13 +230,20 @@ class CreateTrip extends Component {
                 const source = { uri: response.uri };
                 this.setState({
                     avatarSource: source,
-                },()=>this.props.uploadImageAction.updateLoadImage(this.props.login.token,response));
+                },async ()=>this.props.uploadImageAction.updateLoadImage(await getFromLocal('Token_User'),response));
             }
         });
         }
+    onSelect = data => {
+        this.setState({
+            data:data
+        });
+    };
+
     render() {
+        console.log("data",this.state.data);
         const { params } = this.props.navigation.state;
-        console.log('params',params);
+        console.log("params",params);
         return (
             <View style={styles.container}>
                 <Header
@@ -233,37 +267,30 @@ class CreateTrip extends Component {
                         onChangeText={(nameTrip) => this.setState({nameTrip})}
                         txtContent={this.state.nameTrip}
                         warning={this.state.warningTrip}
-                        maxLength={20}
+                        maxLength={30}
+                        txtStyle={{width:width}}
                     />
-                    {/*<TextInputItems*/}
-                        {/*nameIcon={'ios-trending-up'}*/}
-                        {/*styleIcon={{color:global.green}}*/}
-                        {/*namePlaceholder={'Nơi xuất phát'}*/}
-                        {/*onChangeText={(nameStartPlace) => this.setState({nameStartPlace})}*/}
-                        {/*txtContent={this.state.nameStartPlace}*/}
-                        {/*warning={this.state.warningStartPlace}*/}
-                        {/*maxLength={15}*/}
-                    {/*/>*/}
                     <TextInputItems
                         nameIcon={'ios-create'}
                         styleIcon={{color:global.colorRed}}
                         namePlaceholder={'Điểm đến (click vào icon)'}
                         onChangeText={(nameEndPlace) => this.setState({nameEndPlace})}
-                        txtContent={params ? params.item.name : ''}
+                        txtContent={Object.keys(this.state.data).length > 0 ? this.state.data.item.name : ''}
                         warning={this.state.warningEndPlace}
-                        maxLength={15}
+                        maxLength={30}
                         editable={false}
                         onClick={this.handleShowListPlace}
                     />
                     <TextInputItems
                         nameIcon={'ios-contacts'}
                         styleIcon={{color:global.orangeColor}}
-                        namePlaceholder={'Tổng số ngừoi có thể tham gia'}
+                        namePlaceholder={'Tổng số thành viên có thể tham gia'}
                         onChangeText={(numberParticipant) => this.setState({numberParticipant})}
                         txtContent={this.state.numberParticipant}
                         warning={this.state.warningNumberParticipant}
                         maxLength={2}
                         isNumber
+                        txtStyle={{width:width}}
                     />
                     <TextInputItems
                         nameIcon={'ios-flower'}
@@ -274,6 +301,8 @@ class CreateTrip extends Component {
                         warning={this.state.warningDescription}
                         style={{height:100}}
                         maxLength={500}
+                        txtStyle={{width:width}}
+                        multiline={true}
                     />
                     <View style={{height:50,alignItems: 'center',flexDirection: 'row',justifyContent: 'space-between'}}>
                         <View style={{flexDirection:'row'}}>
@@ -387,6 +416,10 @@ class CreateTrip extends Component {
                         </Text>
                     </TouchableOpacity>
                 </View>
+                {this.state.loading
+                &&
+                <ActivityIndicator color={'red'} size="small"/>}
+
             </View>
         );
     }
@@ -397,6 +430,7 @@ function mapStateToProps(state) {
         login: state.loginReducer,
         error: state.loginReducer.error,
         dataImage:state.imageReducer,
+        tripReducer:state.tripReducer,
     };
 }
 

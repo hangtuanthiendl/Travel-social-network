@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, StatusBar, UIManager, LayoutAnimation, Image, ImageBackground, FlatList, Dimensions,
+    View, StatusBar, UIManager, LayoutAnimation, Image, ImageBackground, FlatList, Dimensions, Keyboard,
 } from 'react-native';
 import Header from "../../modules/Header";
 import global from '../../Styles/global';
@@ -19,6 +19,7 @@ import connect from "react-redux/es/connect/connect";
 import * as tripActions from "../../action/tripAction";
 import { setToLocal,getFromLocal } from "../../services/storage";
 import * as userInfoAction from "../../action/userAction";
+import urls from "../../api/urls";
 const {height, width} = Dimensions.get('window');
 let dataTrip = [];
 class Home extends Component {
@@ -32,6 +33,8 @@ class Home extends Component {
                 {key: '1', title: 'Đang diễn ra'},
                 {key: '0', title: 'Chưa diễn ra'},],
             onScrolling: false,
+            isLogin:true,
+            dataTrips:this.props.dataTrips.dataTrip
         };
         this.data_DaDienRa = [];
         this.data_ChuaDienRa = [];
@@ -39,7 +42,7 @@ class Home extends Component {
         this._onScroll = this._onScroll.bind(this);
         this.handleGetListPlace = this.handleGetListPlace.bind(this);
         this.handleSearchTrip = this.handleSearchTrip.bind(this);
-
+        this.handleTripDetail = this.handleTripDetail.bind(this);
     }
     handleData(dataTrip){
         dataTrip && dataTrip.map((item,index)=>{
@@ -56,12 +59,38 @@ class Home extends Component {
         console.log("data2",this.data_DaDienRa);
     }
     async componentWillMount(){
+        console.log("dataTrips",this.props.dataTrips);
         this.initData();
-        this.handleData(dataTrip);
-        if(await getFromLocal('Token_User') !== null){
-            this.props.userInfoAction.getUserInfo(await getFromLocal('Token_User'))
+        if(this.props.dataTrips && this.props.dataTrips.dataTrip.length > 0){
+            this.handleData(this.props.dataTrips.dataTrip);
         }else{
-            this.props.userInfoAction.getUserInfo(this.props.login.data.token)
+            this.handleData(dataTrip);
+        }
+        //this.handleData(dataTrip);
+        console.log("Token_User",await getFromLocal('Token_User'));
+        console.log("Token_User2",this.props.login);
+        if(await getFromLocal('Token_User') !== null){
+            this.props.userInfoAction.getUserInfo(await getFromLocal('Token_User'));
+            this.setState({
+                isLogin:true,
+            })
+        }else if(this.props.login.isLogin){
+            this.props.userInfoAction.getUserInfo(this.props.login.data.token);
+            this.setState({
+                isLogin:true,
+            })
+        }else{
+            console.log("da qua");
+            this.setState({
+                isLogin:false,
+            })
+        }
+    }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.login && nextProps.login.isLogin !== this.props.login.isLogin && nextProps.login.isLogin) {
+            this.setState({
+                isLogin:nextProps.login.isLogin,
+            });
         }
     }
     async componentDidMount(){
@@ -82,7 +111,7 @@ class Home extends Component {
         dataTrip = [
             {
                 id: 'a1',
-                title: 'Du lich Nha Trang Du lich Nha Trang Du lich Nha Trang',
+                title: 'Du lich Nha Trang ',
                 numberParticipant: 20,
                 quantity: 30,
                 status: 0,
@@ -91,8 +120,8 @@ class Home extends Component {
                 timeEnd: '20/11/2018',
                 locationStart: 'Tp. Ho Chi Minh',
                 namePersonCreate:'Trung Do',
-                imgBackground:'http://vietnamtourism.gov.vn/images/MuCangChai-YenBai1.jpg',
-                imgAvatar:'http://biketsworldtour.com/wp-content/uploads/2013/04/ef995443d411c0847e8d5f67c83bfd9c_large-e1367182889174.jpeg',
+                imgBackground:'http://www.nivitigala.ps.gov.lk/english/images/com_fwgallery/files/420/mid_2014-beautiful-nature-wallpapers-for-background-beautiful-nature-20.jpg',
+                imgAvatar:'https://i.pinimg.com/236x/d1/48/3e/d1483e43b77a8fe49b6d6856079d3cae--purple-things-purple-stuff.jpg',
             },
             {
                 id: 'a2',
@@ -110,11 +139,11 @@ class Home extends Component {
             },
             {
                 id: 'a3',
-                title: 'Du lich Nha Trang',
+                title: 'Du lich Côn đảo',
                 numberParticipant: 20,
                 quantity: 30,
                 status: 1,
-                numberStar: 4,
+                numberStar: 2,
                 timeStart: '20/10/2018',
                 timeEnd: '20/11/2018',
                 locationStart: 'Tp. Ho Chi Minh',
@@ -124,11 +153,11 @@ class Home extends Component {
             },
             {
                 id: 'a4',
-                title: 'Du lich Nha Trang',
+                title: 'Du lich Vũng Tàu',
                 numberParticipant: 20,
                 quantity: 30,
                 status: 0,
-                numberStar: 4,
+                numberStar: 5,
                 timeStart: '20/10/2018',
                 timeEnd: '20/11/2018',
                 locationStart: 'Tp. Ho Chi Minh',
@@ -138,7 +167,7 @@ class Home extends Component {
             },
             {
                 id: 'a5',
-                title: 'Du lich Nha Trang',
+                title: 'Du lich SaPa',
                 numberParticipant: 20,
                 quantity: 30,
                 status: 2,
@@ -148,25 +177,25 @@ class Home extends Component {
                 locationStart: 'Tp. Ho Chi Minh',
                 namePersonCreate:'Trung Do',
                 imgBackground:'http://vietnamtourism.gov.vn/images/MuCangChai-YenBai1.jpg',
-                imgAvatar:'http://biketsworldtour.com/wp-content/uploads/2013/04/ef995443d411c0847e8d5f67c83bfd9c_large-e1367182889174.jpeg',
+                imgAvatar:'https://i.pinimg.com/236x/76/df/57/76df577ffd358b4cb39e1a69288a5ba1.jpg',
             },
             {
                 id: 'a6',
-                title: 'Du lich Nha Trang',
+                title: 'Du lich Tây Ninh',
                 numberParticipant: 20,
                 quantity: 30,
                 status: 0,
-                numberStar: 4,
+                numberStar: 3,
                 timeStart: '20/10/2018',
                 timeEnd: '20/11/2018',
                 locationStart: 'Tp. Ho Chi Minh',
                 namePersonCreate:'Trung Do',
-                imgBackground:'http://vietnamtourism.gov.vn/images/MuCangChai-YenBai1.jpg',
-                imgAvatar:'http://biketsworldtour.com/wp-content/uploads/2013/04/ef995443d411c0847e8d5f67c83bfd9c_large-e1367182889174.jpeg',
+                imgBackground:'https://anh.24h.com.vn/upload/4-2013/images/2013-10-18/1382066384-sapa.jpg',
+                imgAvatar:'https://anh.24h.com.vn/upload/4-2013/images/2013-10-18/1382066384-sapa.jpg',
             },
             {
                 id: 'a7',
-                title: 'Du lich Nha Trang',
+                title: 'Du lich Hội An',
                 numberParticipant: 20,
                 quantity: 30,
                 status: 0,
@@ -176,7 +205,7 @@ class Home extends Component {
                 locationStart: 'Tp. Ho Chi Minh',
                 namePersonCreate:'Trung Do',
                 imgBackground:'http://vietnamtourism.gov.vn/images/MuCangChai-YenBai1.jpg',
-                imgAvatar:'http://biketsworldtour.com/wp-content/uploads/2013/04/ef995443d411c0847e8d5f67c83bfd9c_large-e1367182889174.jpeg',
+                imgAvatar:'https://i.pinimg.com/236x/76/df/57/76df577ffd358b4cb39e1a69288a5ba1.jpg',
             },
 
         ];
@@ -220,6 +249,13 @@ class Home extends Component {
         // Update your scroll position
         this._listViewOffset = currentOffset;
     }
+    handleTripDetail(){
+        if(this.state.isLogin){
+            this.props.navigation.navigate('Details')
+        }else{
+            this.props.navigation.navigate('Login');
+        }
+    }
     _renderScene = ({route}) => {
         switch (route.key) {
             case '0':
@@ -229,18 +265,18 @@ class Home extends Component {
                                              key={index}
                                              index={index}
                                              id={item.id}
-                                             title={item.title}
+                                             title={item.tittle}
                                              numberParticipant={item.numberParticipant}
                                              quantity={item.quantity}
                                              status={item.status}
                                              numberStar={item.numberStar}
                                              timeStart={item.timeStart}
                                              timeEnd={item.timeEnd}
-                                             locationStart={item.locationStart}
+                                             locationStart={item.placeStart}
                                              namePersonCreate={item.namePersonCreate}
-                                             imgBackground={item.imgBackground}
+                                             imgBackground={item.imgBackground!==null ? (urls.ROOT + item.imgBackground.slice(1)) : 'https://anh.24h.com.vn/upload/4-2013/images/2013-10-18/1382066384-sapa.jpg'}
                                              imgAvatar={item.imgAvatar}
-                                             onClick={()=>this.props.navigation.navigate('Details')}
+                                             onClick={this.handleTripDetail}
                                          />
                                      }
                 />);
@@ -251,18 +287,18 @@ class Home extends Component {
                                               key={index}
                                               index={index}
                                               id={item.id}
-                                              title={item.title}
+                                              title={item.tittle}
                                               numberParticipant={item.numberParticipant}
                                               quantity={item.quantity}
                                               status={item.status}
                                               numberStar={item.numberStar}
                                               timeStart={item.timeStart}
                                               timeEnd={item.timeEnd}
-                                              locationStart={item.locationStart}
+                                              locationStart={item.placeStart}
                                               namePersonCreate={item.namePersonCreate}
-                                              imgBackground={item.imgBackground}
+                                              imgBackground={item.imgBackground!==null ? (urls.ROOT + item.imgBackground.slice(1)) : 'https://anh.24h.com.vn/upload/4-2013/images/2013-10-18/1382066384-sapa.jpg'}
                                               imgAvatar={item.imgAvatar}
-                                              onClick={()=>this.props.navigation.navigate('Details')}
+                                              onClick={this.handleTripDetail}
                                           />
                                       }
                 />);
@@ -273,18 +309,18 @@ class Home extends Component {
                                               key={index}
                                               index={index}
                                               id={item.id}
-                                              title={item.title}
+                                              title={item.tittle}
                                               numberParticipant={item.numberParticipant}
                                               quantity={item.quantity}
                                               status={item.status}
                                               numberStar={item.numberStar}
                                               timeStart={item.timeStart}
                                               timeEnd={item.timeEnd}
-                                              locationStart={item.locationStart}
+                                              locationStart={item.placeStart}
                                               namePersonCreate={item.namePersonCreate}
-                                              imgBackground={item.imgBackground}
+                                              imgBackground={item.imgBackground!==null ? (urls.ROOT + item.imgBackground.slice(1)) : 'https://anh.24h.com.vn/upload/4-2013/images/2013-10-18/1382066384-sapa.jpg'}
                                               imgAvatar={item.imgAvatar}
-                                              onClick={()=>this.props.navigation.navigate('Details')}
+                                              onClick={this.handleTripDetail}
                                           />
                                       }
                 />);
@@ -297,7 +333,9 @@ class Home extends Component {
             index,
         });
     handleSearchTrip(){
-        this.props.navigation.navigate('SearchTrip');
+        this.props.navigation.navigate('SearchTrip',{
+            dataTrips:this.state.dataTrips
+        });
     }
   render() {
     return (
@@ -353,7 +391,8 @@ function mapStateToProps(state) {
     return {
         login: state.loginReducer,
         error: state.loginReducer.error,
-        userInfo:state.userReducer
+        userInfo:state.userReducer,
+        dataTrips : state.tripReducer,
     };
 }
 

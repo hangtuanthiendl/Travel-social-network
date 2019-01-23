@@ -19,6 +19,7 @@ export default {
         fetching:false,
         error :null,
         msg:null,
+        dataTripCreateNew:{}
     }),
     place: Immutable({
         dataPlace:[],
@@ -37,5 +38,11 @@ export default {
     userInfo:Immutable({
         fetching: false,
         data: {},
-    })
+    }),
+    stop: Immutable({
+        dataStop:[],
+        fetching:false,
+        error :null,
+        msg:null,
+    }),
 };
