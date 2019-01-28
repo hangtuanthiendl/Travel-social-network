@@ -13,7 +13,7 @@ export default StyleSheet.create({
         flex: 1,
         width: width,
         height: height,
-        backgroundColor: global.colorFF
+        backgroundColor: global.imgBackgroundTrip
     },
     header_profile_setting:{
         flex: 1,

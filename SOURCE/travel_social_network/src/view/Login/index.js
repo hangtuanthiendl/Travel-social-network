@@ -27,7 +27,7 @@ class Login extends Component {
       super(props);
       this.state = {
           status:'init',
-          username:'0001@gmail.com',
+          username:'0002@gmail.com',
           password:'123',
           loading: false,
           isShowLogin:true,

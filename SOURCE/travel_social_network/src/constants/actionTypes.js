@@ -37,6 +37,19 @@ export const CREATE_NEW_STOP_FAIL = 'CREATE_NEW_STOP_FAIL';
 export const GET_LIST_STOP_LOADING = 'GET_LIST_STOP_LOADING';
 export const GET_LIST_STOP_SUCCESS = 'GET_LIST_STOP_SUCCESS';
 export const GET_LIST_STOP_FAIL    = 'GET_LIST_STOP_FAIL';
+//register trip
+
+export const REQUEST_REGISTER_TRIP    = 'REQUEST_REGISTER_TRIP';
+export const REGISTER_TRIP_SUCCESS    = 'REGISTER_TRIP_SUCCESS';
+export const REGISTER_TRIP_FAIL    = 'REGISTER_TRIP_FAIL';
+
+//get list my trip
+
+export  const GET_LIST_MY_TRIP_LOADING = 'GET_LIST_MY_TRIP_LOADING';
+export  const GET_LIST_MY_TRIP_SUCCESS = 'GET_LIST_MY_TRIP_SUCCESS';
+export  const GET_LIST_MY_TRIP_FAIL    = 'GET_LIST_MY_TRIP_FAIL';
+
+
 
 import {NavigationActions} from "react-navigation";
 export const resetAction = (name) => NavigationActions.reset({

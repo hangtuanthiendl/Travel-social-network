@@ -17,6 +17,8 @@ import SplashScreen from './view/SplashScreen'
 import CreateStopInTrip from './modules/Trips/CreateStopInTrip';
 import ListPlace from './modules/Trips/ListPlace';
 import CreatePlace from './modules/Trips/CreatePlace';
+import ListMemberInTrip from './modules/Trips/ListMember';
+import ListMemberWait from './modules/Trips/ListMemberWait';
 import {createBottomTabNavigator,createStackNavigator} from 'react-navigation'
 import {
     StatusBar,
@@ -92,7 +94,9 @@ const RootNavigator = createStackNavigator({
   SearchTrip:{screen:SearchTrip},
   CreateStopInTrip:{screen:CreateStopInTrip},
   ListPlace:{screen:ListPlace},
-  CreatePlace:{screen:CreatePlace}
+  CreatePlace:{screen:CreatePlace},
+  ListMemberInTrip:{screen:ListMemberInTrip},
+  ListMemberWait:{screen:ListMemberWait},
 },
 {
   initialRouteName: "SplashScreen",

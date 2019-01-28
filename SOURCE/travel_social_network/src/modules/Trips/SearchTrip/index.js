@@ -8,15 +8,12 @@ import {
     Text, TextInput
 } from 'react-native';
 import styles from './styles'
-import Header from "../../Header";
 import global from "../../../Styles/global";
 import IconButton from "../../../Components/Button/IconButton";
-import TextComponent from "../../../Components/Text/Text";
 import image from "../../../themes/Images";
 import styleGlobal from "../../../Styles/styles";
 import TripListView from "../TripListView";
 import CardHistorySearch from "../CardHistorySearch";
-import _ from 'lodash.filter';
 import {getFromLocal, setToLocal} from "../../../services/storage";
 import TripListItem from "../TripListItem";
 import urls from "../../../api/urls";
@@ -40,17 +37,12 @@ class SearchTrip extends Component {
         this.handleGoBack = this.handleGoBack.bind(this);
         this.actionDelete = this.actionDelete.bind(this);
         this.handleDeleteHistory = this.handleDeleteHistory.bind(this);
+        this.handleTripDetail = this.handleTripDetail.bind(this);
     }
      async componentWillMount(){
         const {params} = this.props.navigation.state;
         this.dataTrips.push(params.dataTrips);
         console.log("params Search",this.dataTrips);
-        // if(await getFromLocal('History_Search') !== null){
-        //     let arrKeySearch = await getFromLocal('History_Search');
-        //     this.setState({
-        //         arrKeySearch
-        //     });
-        // }
     }
     onChangeDestination(destination){
         let arr = [];
@@ -91,23 +83,31 @@ class SearchTrip extends Component {
             arrKeySearch:[]
         })
     }
+    handleTripDetail(item){
+        this.props.navigation.navigate('Details', {
+            dataDetail: item
+        });
+    }
     render() {
         console.log("this.datatrips",this.dataTrips);
         return (
             <ImageBackground source={image.backgroundImage} style={styleGlobal.container}>
                 <View style={styles.container_search}>
-                    {this.state.destination === ''
-                        ?
-                        <IconButton nameIcon={"ios-close"}
-                                    iconStyle={{fontSize: 35, color: global.colorFF}}
-                                    btnStyle={{position: 'absolute',top:10,right:15}}
-                                    onClick={this.handleGoBack}/>
-                        :
-                        <IconButton nameIcon={"ios-search"}
-                                    iconStyle={{fontSize: 30, color: global.orange}}
-                                    btnStyle={{position: 'absolute',top:10,right:15,}}
-                                    onClick={this.handleSearch}/>
-                    }
+                    <View style={{width:width,justifyContent: 'center',alignItems: 'flex-end'}}>
+                        {this.state.destination === ''
+                            ?
+                            <IconButton nameIcon={"ios-close"}
+                                        iconStyle={{fontSize: 35, color: global.colorFF}}
+                                        btnStyle={{width:30,height:30,marginTop:10,marginRight: 20}}
+                                        onClick={this.handleGoBack}/>
+                            :
+                            <IconButton nameIcon={"ios-search"}
+                                        iconStyle={{fontSize: 30, color: global.orange}}
+                                        btnStyle={{width:30,height:30,marginTop:10,marginRight: 20}}
+                                        onClick={this.handleSearch}/>
+                        }
+                    </View>
+
 
                     <TextInput
                         onChangeText={(destination)=>this.onChangeDestination(destination)}
@@ -151,6 +151,7 @@ class SearchTrip extends Component {
                                               renderItem={({item,index})=>
                                                   <TripListItem
                                                       key={index}
+                                                      dataDetail={item}
                                                       index={index}
                                                       id={item.id}
                                                       title={item.tittle}

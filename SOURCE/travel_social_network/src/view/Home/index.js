@@ -20,6 +20,7 @@ import * as tripActions from "../../action/tripAction";
 import { setToLocal,getFromLocal } from "../../services/storage";
 import * as userInfoAction from "../../action/userAction";
 import urls from "../../api/urls";
+import * as api from "../../api/Api";
 const {height, width} = Dimensions.get('window');
 let dataTrip = [];
 class Home extends Component {
@@ -34,7 +35,7 @@ class Home extends Component {
                 {key: '0', title: 'Chưa diễn ra'},],
             onScrolling: false,
             isLogin:true,
-            dataTrips:this.props.dataTrips.dataTrip
+            dataTrips:this.props.dataTrips.dataTrip,
         };
         this.data_DaDienRa = [];
         this.data_ChuaDienRa = [];
@@ -96,10 +97,16 @@ class Home extends Component {
     async componentDidMount(){
         console.log("this.props.login.token",this.props.login.token);
         console.log("getFromLocal('Token_User')1",await getFromLocal('Token_User'));
+        if(await getFromLocal('Token_User') !== null){
+            this.props.tripActions.getListMyTrip(await getFromLocal('Token_User'),0);
+        }else{
+            this.props.tripActions.getListMyTrip(this.props.login.token ,0);
+        }
         if(this.props.login.token !== null && await getFromLocal('Token_User') === null){
             console.log("getFromLocal('Token_User')2",await getFromLocal('Token_User'));
             await setToLocal('Token_User', this.props.login.data.token);
         }
+
         StatusBar.setHidden(true);
     }
     handleGetListPlace(){
@@ -249,9 +256,11 @@ class Home extends Component {
         // Update your scroll position
         this._listViewOffset = currentOffset;
     }
-    handleTripDetail(){
+    async handleTripDetail(item){
         if(this.state.isLogin){
-            this.props.navigation.navigate('Details')
+            this.props.navigation.navigate('Details',{
+                dataDetail : item,
+            })
         }else{
             this.props.navigation.navigate('Login');
         }
@@ -262,6 +271,7 @@ class Home extends Component {
                 return (<TripListView onScroll={this._onScroll} data={this.data_ChuaDienRa}
                                      renderItem={({item,index})=>
                                          <TripListItem
+                                             dataDetail={item}
                                              key={index}
                                              index={index}
                                              id={item.id}
@@ -284,6 +294,7 @@ class Home extends Component {
                 return (<TripListView onScroll={this._onScroll} data={this.data_DangDienRa}
                                       renderItem={({item,index})=>
                                           <TripListItem
+                                              dataDetail={item}
                                               key={index}
                                               index={index}
                                               id={item.id}
@@ -306,6 +317,7 @@ class Home extends Component {
                 return (<TripListView onScroll={this._onScroll} data={this.data_DaDienRa}
                                       renderItem={({item,index})=>
                                           <TripListItem
+                                              dataDetail={item}
                                               key={index}
                                               index={index}
                                               id={item.id}

@@ -45,27 +45,24 @@ export default StyleSheet.create({
     },
     header_text_container:{
         height:120,
-        width:220,
+        minWidth:240,
         backgroundColor:global.backgroudText,
         borderTopLeftRadius:200,
         borderTopRightRadius:200,
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        alignItems:'center',
     },
     header_text_child: {
         flexDirection: 'row',
-        width: 180,
-        marginLeft: 10,
         marginBottom: 3,
     },
     icon_numberParticipant:{
         color:global.orange,
         fontSize: 30,
-        marginLeft: 20,
     },
     icon_timeStart:{
         color:global.orange,
         fontSize: 20,
-        marginLeft:50,
         paddingTop: 30,
     },
 
@@ -144,6 +141,23 @@ export default StyleSheet.create({
         borderTopRightRadius:10,
         borderTopLeftRadius:10,
     },
+    header_drop_down2:{
+        backgroundColor:global.backgroudTransparent,
+        marginLeft:10,
+        marginRight: 10,
+        marginBottom:7,
+        height: 40,
+        justifyContent:'space-between',
+        borderBottomColor:global.orange,
+        borderColor:global.backgroudTransparent,
+        borderWidth: 1,
+        borderStyle:'solid',
+        flexDirection: 'row',
+        alignItems:'center',
+        paddingLeft: 5,
+        borderTopRightRadius:10,
+        borderTopLeftRadius:10,
+    },
     content_drop_down:{
         backgroundColor: global.backgroudText,
         marginLeft:10,
@@ -164,7 +178,7 @@ export default StyleSheet.create({
         marginRight:10,
         fontSize: global.sizeP16,
         fontWeight: global.fontWeightNormal,
-        color:global.colorFF
+        color:global.colorFF,
     },
     text_content_drop_down:{
         fontSize: global.sizeP16,

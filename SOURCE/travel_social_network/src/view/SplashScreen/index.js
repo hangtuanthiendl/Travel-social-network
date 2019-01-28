@@ -78,7 +78,7 @@ class SplashScreen extends Component {
                 >
                     <ImageBackground
                         style={styles.slide}
-                        source={image.img_bg_5}
+                        source={image.img_bg_4}
                     >
                         <View style={styles.view_image}>
                             <Text style={styles.text_noidung}>Không phải ai lang thang cũng là đi lạc.</Text>
@@ -97,7 +97,7 @@ class SplashScreen extends Component {
 
                     <ImageBackground
                         style={styles.slide}
-                        source={image.img_bg_4}
+                        source={image.img_bg_2}
                     >
                         <View style={styles.view_image}>
                             <Text style={styles.text_noidung}>Thế giới là một cuốn sách, và ai không đi chỉ đọc được một trang</Text>
@@ -122,7 +122,9 @@ class SplashScreen extends Component {
                                 justifyContent:'center',
                                 alignItems:'center',
                                 borderRadius:30,
-                                backgroundColor:global.backgroudText
+                                backgroundColor:global.backgroudText,
+                                borderColor:global.colorFF,
+                                borderWidth: 1,
                             }}>
                             <Text style={{color:global.colorFF,fontSize:global.sizeP16,fontWeight:global.fontWeightBold}}>
                                 Đăng Nhập
@@ -136,7 +138,9 @@ class SplashScreen extends Component {
                                 justifyContent:'center',
                                 alignItems:'center',
                                 borderRadius:30,
-                                backgroundColor:global.backgroudText
+                                backgroundColor:global.backgroudText,
+                                borderColor:global.colorFF,
+                                borderWidth: 1,
                             }}>
                             <Text style={{color:global.colorFF,fontSize:global.sizeP16,fontWeight:global.fontWeightBold}}>
                                 Đăng Ký

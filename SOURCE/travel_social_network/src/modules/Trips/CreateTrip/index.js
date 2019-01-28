@@ -4,7 +4,7 @@ import {
     Dimensions,
     View,
     TouchableOpacity,
-    Text, TextInput, ScrollView, Image, ActivityIndicator
+    Text, TextInput, ScrollView, Image, ActivityIndicator, ImageBackground
 } from 'react-native';
 import _ from "underscore";
 import styles from "../CreateTrip/styles";
@@ -24,6 +24,7 @@ import * as uploadImageAction from '../../../action/uploadImgaeAction';
 import connect from "react-redux/es/connect/connect";
 import {getFromLocal} from "../../../services/storage";
 import moment from 'moment';
+import styleGlobal from "../../../Styles/styles";
 let ImagePicker = require('react-native-image-picker');
 const {
     height,
@@ -245,182 +246,185 @@ class CreateTrip extends Component {
         const { params } = this.props.navigation.state;
         console.log("params",params);
         return (
-            <View style={styles.container}>
-                <Header
-                    customHeaderStyle={{backgroundColor: global.yellow,marginBottom: 10}}
-                    leftHeader={<TextComponent text={''}/>}
-                    body={<TextComponent
-                        text='Tạo mới chuyến đi'
-                        color={global.black}
-                        size={global.sizeP20}
-                        bold={global.fontWeightDark}/>}
-                    rightHeader={
-                        <IconButton nameIcon={"ios-close"} iconStyle={{fontSize: 35, color: global.black}}
-                                    onClick={() => this.props.navigation.goBack()}/>}
-                />
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
+            <ImageBackground source={image.img_bg_3} style={styleGlobal.container}>
+                <View style={styles.container}>
+                    <Header
+                        customHeaderStyle={{backgroundColor: global.yellow,marginBottom: 10}}
+                        leftHeader={<TextComponent text={''}/>}
+                        body={<TextComponent
+                            text='Tạo mới chuyến đi'
+                            color={global.black}
+                            size={global.sizeP20}
+                            bold={global.fontWeightDark}/>}
+                        rightHeader={
+                            <IconButton nameIcon={"ios-close"} iconStyle={{fontSize: 35, color: global.black}}
+                                        onClick={() => this.props.navigation.goBack()}/>}
+                    />
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
                     >
-                    <TextInputItems
-                        nameIcon={'ios-stats'}
-                        namePlaceholder={'Tên hành trình'}
-                        onChangeText={(nameTrip) => this.setState({nameTrip})}
-                        txtContent={this.state.nameTrip}
-                        warning={this.state.warningTrip}
-                        maxLength={30}
-                        txtStyle={{width:width}}
-                    />
-                    <TextInputItems
-                        nameIcon={'ios-create'}
-                        styleIcon={{color:global.colorRed}}
-                        namePlaceholder={'Điểm đến (click vào icon)'}
-                        onChangeText={(nameEndPlace) => this.setState({nameEndPlace})}
-                        txtContent={Object.keys(this.state.data).length > 0 ? this.state.data.item.name : ''}
-                        warning={this.state.warningEndPlace}
-                        maxLength={30}
-                        editable={false}
-                        onClick={this.handleShowListPlace}
-                    />
-                    <TextInputItems
-                        nameIcon={'ios-contacts'}
-                        styleIcon={{color:global.orangeColor}}
-                        namePlaceholder={'Tổng số thành viên có thể tham gia'}
-                        onChangeText={(numberParticipant) => this.setState({numberParticipant})}
-                        txtContent={this.state.numberParticipant}
-                        warning={this.state.warningNumberParticipant}
-                        maxLength={2}
-                        isNumber
-                        txtStyle={{width:width}}
-                    />
-                    <TextInputItems
-                        nameIcon={'ios-flower'}
-                        styleIcon={{color:global.purple}}
-                        namePlaceholder={'Mô tả sơ lược về chuyến đi của của bạn'}
-                        onChangeText={(description) => this.setState({description})}
-                        txtContent={this.state.description}
-                        warning={this.state.warningDescription}
-                        style={{height:100}}
-                        maxLength={500}
-                        txtStyle={{width:width}}
-                        multiline={true}
-                    />
-                    <View style={{height:50,alignItems: 'center',flexDirection: 'row',justifyContent: 'space-between'}}>
-                        <View style={{flexDirection:'row'}}>
-                            <Text style={{fontSize:20,color:global.black,marginLeft: 10}}>Thời gian bắt đầu :</Text>
-                            <DatePicker
-                                style={{width: 150}}
-                                date={this.state.timeStart}
-                                mode="date"
-                                placeholder="select date"
-                                format="YYYY-MM-DD"
-                                minDate="2018-12-03"
-                                maxDate="3000-12-03"
-                                showIcon= {false}
-                                confirmBtnText="Confirm"
-                                cancelBtnText="Cancel"
-                                customStyles={{
-                                    dateInput: {
-                                        borderColor: 'transparent',
-                                        borderWidth: 0,
-                                        alignItems: 'flex-start',
-                                        justifyContent: 'flex-start'
-                                    },
-                                    dateText: {
-                                        color:global.black,
-                                        fontSize: 20,
-                                        marginLeft:10,
-                                    }
-                                }}
-                                onDateChange={(date) => {this.setState({timeStart: date})}}
-                            />
-                        </View>
-                        <IconButton nameIcon={'ios-calendar'} iconStyle={{marginRight: 10,fontSize:30,color:global.green}}/>
-                    </View>
-                    <View style={{backgroundColor:global.backgroudTransparent, height:1}}>
-
-                    </View>
-                    <TouchableOpacity style={{height:50,alignItems: 'center',flexDirection: 'row',justifyContent: 'space-between'}}>
-                        <View style={{flexDirection:'row'}}>
-                            <Text style={{fontSize:20,color:global.black,marginLeft: 10}}>Thời gian kết thúc :</Text>
-                            <DatePicker
-                                style={{width: 150}}
-                                date={this.state.timeEnd}
-                                mode="date"
-                                placeholder="select date"
-                                format="YYYY-MM-DD"
-                                minDate="2018-12-03"
-                                maxDate="3000-12-03"
-                                showIcon= {false}
-                                confirmBtnText="Confirm"
-                                cancelBtnText="Cancel"
-                                customStyles={{
-                                    dateInput: {
-                                        borderColor: 'transparent',
-                                        borderWidth: 0,
-                                        alignItems: 'flex-start',
-                                        justifyContent: 'flex-start'
-                                    },
-                                    dateText: {
-                                        color:global.black,
-                                        fontSize: 20,
-                                        marginLeft:10,
-                                    }
-                                }}
-                                onDateChange={(date) => {this.setState({timeEnd: date})}}
-                            />
-                        </View>
-                        <IconButton nameIcon={'ios-calendar'} iconStyle={{marginRight: 10,fontSize:30,color:global.red}}/>
-                    </TouchableOpacity>
-                    <View style={{backgroundColor:global.backgroudTransparent, height:1}}>
-
-                    </View>
-                    <View style={{
-                        height:150,
-                        justifyContent:'space-between',
-                        alignItems:'center',
-                        flexDirection:'row',
-                    }}>
-                        <Text style={{fontSize:20,color:global.black,marginLeft: 10}}>
-                            Hình ảnh chuyến đi:
-                        </Text>
-                        {console.log("this.state.avatarSource",require("../../../images/noImage.jpg"))}
-                        <RoundAvatar
-                            size={'x-large'}
-                            //icSrc={'https://anh.24h.com.vn//upload/1-2015/images/2015-02-12/1423706954-anhgirlxinh.jpg'}
-                            imageLocal={this.state.avatarSource ==='' ? image.noPhoto : this.state.avatarSource}
-                            onPress={this.changePhotoBgr}
+                        <TextInputItems
+                            nameIcon={'ios-stats'}
+                            namePlaceholder={'Tên hành trình'}
+                            onChangeText={(nameTrip) => this.setState({nameTrip})}
+                            txtContent={this.state.nameTrip}
+                            warning={this.state.warningTrip}
+                            maxLength={30}
+                            txtStyle={{width:width}}
+                            styleIcon={{color:global.orange}}
                         />
-                        <IconButton
-                            iconStyle={{marginRight: 10,fontSize:30,color:global.color66}}
-                            nameIcon={'ios-reverse-camera'}
-                            onClick={this.changePhotoBgr}
+                        <TextInputItems
+                            nameIcon={'ios-create'}
+                            styleIcon={{color:global.orange}}
+                            namePlaceholder={'Điểm đến (click vào icon)'}
+                            onChangeText={(nameEndPlace) => this.setState({nameEndPlace})}
+                            txtContent={Object.keys(this.state.data).length > 0 ? this.state.data.item.name : ''}
+                            warning={this.state.warningEndPlace}
+                            maxLength={30}
+                            editable={false}
+                            onClick={this.handleShowListPlace}
                         />
-                    </View>
-                </ScrollView>
-                <View style={{height:50,justifyContent:'center',alignItems:'center',backgroundColor:'transparent'}}>
-                    <TouchableOpacity onPress={this.handleCreateTrip} style={{
-                        height:40,
-                        width:'80%',
-                        backgroundColor:global.yellowColor,
-                        justifyContent:'center',
-                        alignItems:'center',
-                        borderRadius:35,
-                        borderColor:global.colorFF,
-                        borderWidth: 2,
-                    }}>
-                        <Text style={{
-                            fontSize:14,
-                            fontWeight: global.fontWeightBold,
+                        <TextInputItems
+                            nameIcon={'ios-contacts'}
+                            styleIcon={{color:global.orange}}
+                            namePlaceholder={'Tổng số thành viên có thể tham gia'}
+                            onChangeText={(numberParticipant) => this.setState({numberParticipant})}
+                            txtContent={this.state.numberParticipant}
+                            warning={this.state.warningNumberParticipant}
+                            maxLength={2}
+                            isNumber
+                            txtStyle={{width:width}}
+                        />
+                        <TextInputItems
+                            nameIcon={'ios-flower'}
+                            styleIcon={{color:global.orange}}
+                            namePlaceholder={'Mô tả sơ lược về chuyến đi của của bạn'}
+                            onChangeText={(description) => this.setState({description})}
+                            txtContent={this.state.description}
+                            warning={this.state.warningDescription}
+                            style={{height:100}}
+                            maxLength={500}
+                            txtStyle={{width:width}}
+                            multiline={true}
+                        />
+                        <View style={{height:50,alignItems: 'center',flexDirection: 'row',justifyContent: 'space-between'}}>
+                            <View style={{flexDirection:'row'}}>
+                                <Text style={{fontSize:20,color:global.colorFF,marginLeft: 10}}>Thời gian bắt đầu :</Text>
+                                <DatePicker
+                                    style={{width: 150}}
+                                    date={this.state.timeStart}
+                                    mode="date"
+                                    placeholder="select date"
+                                    format="YYYY-MM-DD"
+                                    minDate="2018-12-03"
+                                    maxDate="3000-12-03"
+                                    showIcon= {false}
+                                    confirmBtnText="Confirm"
+                                    cancelBtnText="Cancel"
+                                    customStyles={{
+                                        dateInput: {
+                                            borderColor: 'transparent',
+                                            borderWidth: 0,
+                                            alignItems: 'flex-start',
+                                            justifyContent: 'flex-start'
+                                        },
+                                        dateText: {
+                                            color:global.orange,
+                                            fontSize: 20,
+                                            marginLeft:10,
+                                        }
+                                    }}
+                                    onDateChange={(date) => {this.setState({timeStart: date})}}
+                                />
+                            </View>
+                        </View>
+                        <View style={{backgroundColor:global.backgroudTransparent, height:1}}>
+
+                        </View>
+                        <TouchableOpacity style={{height:50,alignItems: 'center',flexDirection: 'row',justifyContent: 'space-between'}}>
+                            <View style={{flexDirection:'row'}}>
+                                <Text style={{fontSize:20,color:global.colorFF,marginLeft: 10}}>Thời gian kết thúc :</Text>
+                                <DatePicker
+                                    style={{width: 150}}
+                                    date={this.state.timeEnd}
+                                    mode="date"
+                                    placeholder="select date"
+                                    format="YYYY-MM-DD"
+                                    minDate="2018-12-03"
+                                    maxDate="3000-12-03"
+                                    showIcon= {false}
+                                    confirmBtnText="Confirm"
+                                    cancelBtnText="Cancel"
+                                    customStyles={{
+                                        dateInput: {
+                                            borderColor: 'transparent',
+                                            borderWidth: 0,
+                                            alignItems: 'flex-start',
+                                            justifyContent: 'flex-start'
+                                        },
+                                        dateText: {
+                                            color:global.orange,
+                                            fontSize: 20,
+                                            marginLeft:10,
+                                        }
+                                    }}
+                                    onDateChange={(date) => {this.setState({timeEnd: date})}}
+                                />
+                            </View>
+                        </TouchableOpacity>
+                        <View style={{backgroundColor:global.backgroudTransparent, height:1}}>
+
+                        </View>
+                        <View style={{
+                            height:150,
+                            justifyContent:'space-between',
+                            alignItems:'center',
+                            flexDirection:'row',
                         }}>
-                            TẠO MỚI
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-                {this.state.loading
-                &&
-                <ActivityIndicator color={'red'} size="small"/>}
+                            <Text style={{fontSize:20,color:global.colorFF,marginLeft: 10}}>
+                                Hình ảnh chuyến đi:
+                            </Text>
+                            {console.log("this.state.avatarSource",require("../../../images/noImage.jpg"))}
+                            <RoundAvatar
+                                size={'x-large'}
+                                //icSrc={'https://anh.24h.com.vn//upload/1-2015/images/2015-02-12/1423706954-anhgirlxinh.jpg'}
+                                imageLocal={this.state.avatarSource ==='' ? image.noPhoto : this.state.avatarSource}
+                                onPress={this.changePhotoBgr}
+                            />
+                            <IconButton
+                                iconStyle={{marginRight: 10,fontSize:30,color:global.orange}}
+                                nameIcon={'ios-reverse-camera'}
+                                onClick={this.changePhotoBgr}
+                            />
+                        </View>
+                    </ScrollView>
+                    <View style={{height:50,justifyContent:'center',alignItems:'center',backgroundColor:'transparent'}}>
+                        <TouchableOpacity onPress={this.handleCreateTrip} style={{
+                            height:40,
+                            width:'80%',
+                            backgroundColor:global.backgroudTransparent,
+                            justifyContent:'center',
+                            alignItems:'center',
+                            borderRadius:35,
+                            borderColor:global.colorFF,
+                            borderWidth: 1,
+                        }}>
+                            <Text style={{
+                                fontSize:14,
+                                fontWeight: global.fontWeightBold,
+                                color:global.colorFF
+                            }}>
+                                TẠO MỚI
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    {this.state.loading
+                    &&
+                    <ActivityIndicator color={'red'} size="small"/>}
 
-            </View>
+                </View>
+            </ImageBackground>
+
         );
     }
 }

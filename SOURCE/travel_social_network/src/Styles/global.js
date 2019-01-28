@@ -22,6 +22,7 @@ export default  {
     imgBackgroundOrange:'rgba(255, 123, 8, 0.8)',
     imgBackgroundCard:'rgba(20, 20, 20, 0.9)',
     backgroudText:'rgba(20, 20, 20, 0.4)',
+    imgBackgroundTrip:'rgba(20, 20, 20, 0.6)',
     backgroudTransparent:'rgba(20, 20, 20, 0.1)',
     naviGreen: '#1ABC9C',
     green: '#2ECC71',

@@ -15,7 +15,6 @@ export default StyleSheet.create({
         height:height,
         position: 'relative',
         backgroundColor: global.imgBackground
-        //backgroundColor: 'red',
     },
     txt_search:{
         height:40,

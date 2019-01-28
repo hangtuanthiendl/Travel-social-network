@@ -12,6 +12,16 @@ export function getListTripFail(error, msg) {
 export function requestgetListTrip(fetching) {
     return {type: types.GET_LIST_TRIP_LOADING,fetching};
 }
+
+export function requestRegisterTrip() {
+    return {type:types.REQUEST_REGISTER_TRIP}
+}
+export function registerTripSuccess(data) {
+    return {type:types.REGISTER_TRIP_SUCCESS,data}
+}
+export function registerTripFail(status) {
+    return {type:types.REGISTER_TRIP_FAIL,status}
+}
 export function getListTrip(offset) {
     return function (dispatch) {
         dispatch(requestgetListTrip(true));
@@ -58,3 +68,54 @@ export function createTrip(token,option) {
             })
     }
 }
+
+//register trip
+export function registerTrip(token,idTrip) {
+    console.log("Token",token,idTrip);
+    return function (dispatch) {
+        dispatch(requestRegisterTrip());
+        api.registerTrip(token,idTrip).then((res)=>{
+            if(res && res.status){
+                console.log("register trip",res.data);
+                dispatch(registerTripSuccess(res.data))
+            }else{
+                dispatch(registerTripFail(res.status))
+            }
+        })
+            .catch((err)=>{
+                console.log("register fail",err);
+                dispatch(registerTripFail(true,"Error occurred when logging in!"))
+            })
+    }
+}
+// get list my trip
+export function getListMyTripSuccess(data) {
+    return {type: types.GET_LIST_MY_TRIP_SUCCESS, data};
+}
+
+export function getListMyTripFail(error, msg) {
+    return {type: types.GET_LIST_MY_TRIP_FAIL, error, msg};
+}
+
+export function requestGetListMyTrip(fetching) {
+    return {type: types.GET_LIST_MY_TRIP_LOADING,fetching};
+}
+export function getListMyTrip(token,offset) {
+    console.log("Token my trip",token);
+    return function (dispatch) {
+        dispatch(requestGetListMyTrip(true));
+        api.getListMyTrip(token,offset).then((res)=>{
+            if(res && res.status){
+                console.log("dataTrip",res.data);
+                dispatch(getListMyTripSuccess(res.data))
+            }else{
+                dispatch(getListTripFail(true,res.data))
+            }
+        })
+            .catch((err)=>{
+                console.log("get list my trip fail",err);
+                dispatch(getListMyTripFail(true,"Error get list my trip fail!"))
+            })
+    }
+}
+

@@ -19,7 +19,9 @@ export default {
         fetching:false,
         error :null,
         msg:null,
-        dataTripCreateNew:{}
+        dataTripCreateNew:{},
+        dataRegister:{},
+        dataMyTrip:[],
     }),
     place: Immutable({
         dataPlace:[],

@@ -29,14 +29,14 @@ export default StyleSheet.create({
         marginBottom: 10,
     },
     btn_login_facebook:{
-        backgroundColor:global.colorF4,
+        backgroundColor:global.colorFF,
         height:50,
         width :width - 50,
         justifyContent:'center',
         alignItems:'center',
         flexDirection: 'row',
         marginBottom: 10,
-        borderRadius:6,
+        borderRadius:50,
     },
     btn_login_email:{
         backgroundColor:global.orangeColor,
@@ -56,6 +56,7 @@ export default StyleSheet.create({
         alignItems:'center',
         position:'absolute',
         bottom:20,
+
     },
     btn_nextHome:{
         width:150,
@@ -64,6 +65,8 @@ export default StyleSheet.create({
         alignItems:'center',
         backgroundColor:global.backgroudText,
         borderRadius:10,
+        borderColor:global.colorFF,
+        borderWidth: 1,
     },
     txt_nextHome:{
       color:global.colorFF,

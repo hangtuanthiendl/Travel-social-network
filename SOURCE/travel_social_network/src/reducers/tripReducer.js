@@ -29,6 +29,39 @@ export default function tripReducer(state = defaultState.trip, action) {
                 fetching: true,
             })
         }
+        case types.REQUEST_REGISTER_TRIP:{
+            return state.merge({
+                fetching: true,
+            })
+        }
+        case types.REGISTER_TRIP_SUCCESS:{
+            console.log("register Data reducer",action.data);
+            return state.merge({
+                fetching: false,
+                dataRegister:action.data
+            })
+        }
+        case types.REGISTER_TRIP_FAIL:{
+            return state.merge({
+                fetching: false,
+                dataRegister:action.status
+            })
+        }
+        case types.GET_LIST_MY_TRIP_SUCCESS: {
+            console.log("trungdo data my trip",action.data);
+            return state.merge({
+                dataMyTrip: action.data,
+                fetching: false,
+            });
+        }
+        case types.GET_LIST_MY_TRIP_LOADING: {
+            return state.merge({
+                fetching:true,
+            });
+        }
+        case types.GET_LIST_MY_TRIP_FAIL: {
+            return state.merge({ fetching: false, error: action.error, msg: action.msg });
+        }
         default:
             return state;
     }

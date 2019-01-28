@@ -16,6 +16,7 @@ class TripListItem extends Component {
             animation: new Animated.Value(0)
         };
         this.convertNumberToCurrency = this.convertNumberToCurrency.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
     componentWillMount(){
         Animated.timing(this.state.animation,{
@@ -51,12 +52,14 @@ class TripListItem extends Component {
         }
         return fields;
     };
+    onClick(){
+        this.props.onClick(this.props.dataDetail)
+    }
     render() {
         const {id, title, numberParticipant, quantity, status, numberStar, timeStart, timeEnd, locationStart,
             namePersonCreate,
             imgBackground,onClick,
             imgAvatar} = this.props;
-        console.log("this.props",this.props);
         return (
             <Animated.View style={{
                 //  opacity: this.state.animation, // Binds directly
@@ -68,7 +71,7 @@ class TripListItem extends Component {
                     }),
                 }],
             }}>
-                <TouchableOpacity onPress={onClick}>
+                <TouchableOpacity onPress={this.onClick}>
                     <ImageBackground source={{uri:imgBackground}} style={styles.container}>
                         <View style={[styleGlobal.imgBackgroundCard]}>
                             <View style={styles.headerCard}>
@@ -166,5 +169,6 @@ TripListItem.propTypes = {
     imgBackground:PropTypes.string,
     imgAvatar:PropTypes.string,
     onClick:PropTypes.func,
+    dataDetail:PropTypes.object,
 };
 export default TripListItem;
