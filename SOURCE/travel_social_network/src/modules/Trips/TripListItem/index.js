@@ -7,6 +7,7 @@ import TextComponent from '../../../Components/Text/Text';
 import styleGlobal from "../../../Styles/styles";
 import IconButton from "../../../Components/Button/IconButton";
 import image from "../../../themes/Images";
+import urls from "../../../api/urls";
 const {height, width} = Dimensions.get('window');
 
 class TripListItem extends Component {
@@ -78,7 +79,7 @@ class TripListItem extends Component {
                                 {imgAvatar!== null
                                 ?
                                     <Image
-                                        source={{uri:imgAvatar}}
+                                        source={{uri:urls.ROOT + imgAvatar.slice(1)}}
                                         style={styleGlobal.avatar}
                                     />
                                 :

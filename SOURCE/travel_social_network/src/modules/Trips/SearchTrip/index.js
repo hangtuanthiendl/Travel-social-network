@@ -104,7 +104,7 @@ class SearchTrip extends Component {
                             <IconButton nameIcon={"ios-search"}
                                         iconStyle={{fontSize: 30, color: global.orange}}
                                         btnStyle={{width:30,height:30,marginTop:10,marginRight: 20}}
-                                        onClick={this.handleSearch}/>
+                                        onClick={()=>{}}/>
                         }
                     </View>
 

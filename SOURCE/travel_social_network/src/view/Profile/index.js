@@ -22,29 +22,67 @@ import * as placeAction from "../../action/placeAction";
 import * as tripActions from "../../action/tripAction";
 import * as userInfoAction from "../../action/userAction";
 import connect from "react-redux/es/connect/connect";
+import * as uploadImageAction from "../../action/uploadImgaeAction";
+import * as api from "../../api/Api";
+import urls from "../../api/urls";
 const {
     height,
     width
 } = Dimensions.get('window');
+let ImagePicker = require('react-native-image-picker');
+const options = {
+    title: 'Chọn hình ảnh',
+  //  takePhotoButtonTitle:'Chọn ảnh từ Camera',
+    chooseFromLibraryButtonTitle:'Chọn ảnh từ thư viện',
+    cancelButtonTitle:'Thoát',
+    storageOptions: {
+        skipBackup: true,
+        path: 'images',
+        quality:0.1,
+        maxWidth:20,
+        maxHeight:20,
+    }
+};
 class Profile extends Component {
 
     constructor(props){
         super(props);
         this.state={
             isLogin:this.props.login.isLogin,
+            avatarSource: '',
+            avatarSourceUrl:'',
         };
         this.thoatApp = this.thoatApp.bind(this);
+        this.changePhotoBgr = this.changePhotoBgr.bind(this);
+        this.handleGetListTripHistory = this.handleGetListTripHistory.bind(this);
     }
     // async componentDidMount(){
     //     if(await getFromLocal('Token_User') === null || this.state.isLogin) {
     //         this.props.navigation.navigate('Login')
     //     }
     // }
+    componentWillMount(){
+        console.log("avatarSourceUrl",this.props.userInfo.data);
+        if(this.props.userInfo && this.props.userInfo.data.img !== null){
+            this.setState({
+                avatarSourceUrl: urls.ROOT + this.props.userInfo.data.img.slice(1)
+            })
+        }else{
+            this.setState({
+                avatarSourceUrl: 'https://anh.24h.com.vn//upload/1-2015/images/2015-02-12/1423706954-anhgirlxinh.jpg',
+            })
+        }
+    }
     componentWillReceiveProps(nextProps) {
         if (nextProps.login && nextProps.login.isLogin !== this.props.login.isLogin && nextProps.login.isLogin) {
             this.setState({
                 isLogin:nextProps.login.isLogin,
             });
+        }
+        if(nextProps.userInfo && nextProps.userInfo.data){
+            this.setState({
+                avatarSource: urls.ROOT + this.props.userInfo.data.img.slice(1),
+            })
         }
     }
     renderStar=(number)=>{
@@ -71,22 +109,71 @@ class Profile extends Component {
                                 // keys k1 & k2 removed, if they existed
                                 // do most stuff after removal (if you want)
                             });
-                        this.props.navigation.navigate('SplashScreen');
+                        this.props.navigation.navigate('SplashScreen',{
+                            isSplashScreen:true,
+                        });
                     }
                 },
             ])
 
     }
+    changePhotoBgr(){
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response);
 
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            }else {
+                const source = { uri: response.uri };
+                this.setState({
+                    avatarSource: source,
+                }, async ()=>api.upLoadAvatar(await getFromLocal('Token_User'),response).then((res)=>{
+                    if(res && res.status){
+                        console.log("res upload avatar",res.data)
+                    }
+                }).catch((err)=>{
+                    console.log("upload avatar err",err.response)
+                }));
+            }
+        });
+    }
+    async handleGetListTripHistory(){
+        if(await getFromLocal('Token_User') !== null){
+            api.getAllMyTrip(await getFromLocal('Token_User')).then((res)=>{
+                if(res && res.status){
+                    console.log("res get all my trip history",res.data);
+                    this.props.navigation.navigate('TripHistory',{
+                        dataTripHistory:res.data
+                    })
+                }
+            })
+                .catch((err)=>{
+                    console.log("err get all my trip history",err.response);
+                })
+        }
+    }
     render() {
     return (
         <View style={styles.container}>
             <ImageBackground source={image.img_bg_1} style={styles.header_profile}>
                 <View style={styles.header_profile_view}>
-                    <RoundAvatar
-                        onPress={()=>alert('change images')}
-                        size={'x-large'}
-                        icSrc={'https://anh.24h.com.vn//upload/1-2015/images/2015-02-12/1423706954-anhgirlxinh.jpg'}/>
+                    {this.state.avatarSource === ''
+                     ?
+                        <RoundAvatar
+                            onPress={this.changePhotoBgr}
+                            size={'x-large'}
+                            icSrc={this.state.avatarSourceUrl}
+                        />
+                        :
+                        <RoundAvatar
+                            onPress={this.changePhotoBgr}
+                            size={'x-large'}
+                            imageLocal={this.state.avatarSource}
+                        />
+                    }
+
                     <View style={{flexDirection: 'row',marginTop: 10}}>
                         {this.renderStar(4)}
                         <Icon name={'ios-star-half'} style={{
@@ -131,7 +218,7 @@ class Profile extends Component {
                     styleIcon={{
                         color:global.orangeColor
                     }}
-                    onClick={()=>alert('Hello')}
+                    onClick={this.handleGetListTripHistory}
                 />
                <AlineItem
                     txtAction={'Tiện ích cho bạn'}
@@ -140,7 +227,7 @@ class Profile extends Component {
                     styleIcon={{
                         color:global.primaryColor
                     }}
-                    onClick={()=>alert('Hello')}
+                    onClick={()=>Alert.alert('Thông báo ','Chức năng đang phát triên')}
                 />
                <AlineItem
                     txtAction={'Đăng xuất tài khoản'}
@@ -162,7 +249,8 @@ function mapStateToProps(state) {
     return {
         login: state.loginReducer,
         error: state.loginReducer.error,
-        userInfo:state.userReducer
+        userInfo:state.userReducer,
+        dataImage:state.imageReducer,
     };
 }
 
@@ -171,7 +259,8 @@ function mapDispatchToProps(dispatch) {
         loginActions: bindActionCreators(loginActions, dispatch),
         placeAction: bindActionCreators(placeAction,dispatch),
         tripActions:bindActionCreators(tripActions,dispatch),
-        userInfoAction:bindActionCreators(userInfoAction,dispatch)
+        userInfoAction:bindActionCreators(userInfoAction,dispatch),
+        uploadImageAction:bindActionCreators(uploadImageAction,dispatch),
     };
 }
 

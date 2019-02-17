@@ -26,6 +26,7 @@ class SplashScreen extends Component {
         this.token_user = null;
     }
    async componentWillMount(){
+        console.log("componentWillMount");
         await this.props.tripActions.getListTrip(0);
     }
     async componentDidMount(){
@@ -48,8 +49,10 @@ class SplashScreen extends Component {
         }
     }
     renderLogin_Register(){
-        if(!this.state.isShowLogin_Register)
+        const {params} = this.props.navigation.state;
+        if(!this.state.isShowLogin_Register && !params)
             return null;
+
         return(
             <View style={styles.container_splash}>
                 <Swiper
@@ -202,20 +205,30 @@ class SplashScreen extends Component {
         );
     }
     handleTimeout(){
+        console.log("handleTimeout");
         this.timeOutSplash = setTimeout(()=>{
             this.handelRender()
         },2000)
     }
     render() {
-        return(
-            <View style={styles.container_splash}>
-                {this.renderSplash()}
-                {
-                  this.handleTimeout()
-                }
-                {this.renderLogin_Register()}
-            </View>
-        );
+        const {params} = this.props.navigation.state;
+        if(params && params.isSplashScreen){
+            return(
+                <View style={styles.container_splash}>
+                    {this.renderLogin_Register()}
+                </View>
+            )
+        }else{
+            return(
+                <View style={styles.container_splash}>
+                    {this.renderSplash()}
+                    {
+                        this.handleTimeout()
+                    }
+                    {this.renderLogin_Register()}
+                </View>
+            );
+        }
     }
 }
 

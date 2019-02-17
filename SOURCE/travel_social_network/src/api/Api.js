@@ -66,6 +66,29 @@ export const upLoadImage = (token,option) =>{
 
     );
 };
+export const upLoadAvatar = (token,option) =>{
+    let url = urls.BASE_URL + urls.AVATARUPLOAD;
+    console.log("token",token);
+    console.log("url",url);
+    const data = new FormData();
+    data.append('image', {
+        uri: option.uri,
+        type: option.type, // or photo.type
+        name: option.fileName,
+    });
+    console.log("data image",data);
+    return customAxios.post(url,
+        data,
+        {
+            headers:
+                {
+                    token:token,
+                    'Content-Type': 'multipart/form-data',
+                }
+        }
+
+    );
+};
 export const getUserInfo = (token)=>{
     let url = urls.BASE_URL + urls.GET_USER_INFO;
     console.log("URL",url,token);
@@ -245,4 +268,42 @@ export const updateStatusMemberInTrip = (token,option)=>{
                 }
         }
     );
+};
+export const getListStopInTrip = (token,idTrip)=>{
+    let url = urls.BASE_URL + urls.GET_STOP_IN_TRIP + idTrip;
+    console.log("URL get list stop in trips",url);
+    return customAxios.get(url,
+        {
+            headers:
+                {
+                    token: token,
+                }
+        }
+    );
+};
+
+export const getStopWithPlace = (token,idTrip,offset)=>{
+    let url = urls.BASE_URL + urls.STOP_WITH_PLACE + idTrip + '&offset=' + offset;
+    console.log("URL get list stop with place",url);
+    return customAxios.get(url,
+        {
+            headers:
+                {
+                    token: token,
+                }
+        }
+    );
+};
+
+export const getAllMyTrip = (token)=>{
+    let url = urls.BASE_URL + urls.GET_ALL_MY_TRIP;
+    console.log("URL",url,token);
+
+    return customAxios.get(url,
+        {
+            headers:
+                {
+                    token:token,
+                }
+        });
 };

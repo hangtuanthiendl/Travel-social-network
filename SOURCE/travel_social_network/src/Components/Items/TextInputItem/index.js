@@ -15,7 +15,7 @@ const TextInputItems = ({onClick,editable,nameIcon,namePlaceholder,isForget,mult
         fontSize:30,
     };
     let txt={
-        color:global.black,
+        color:global.colorFF,
         marginLeft:10,
         minWidth:260,
         maxWidth:width,

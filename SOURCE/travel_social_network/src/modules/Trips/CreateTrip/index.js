@@ -195,7 +195,7 @@ class CreateTrip extends Component {
                 "tittle": nameTrip,
                 "description": description,
                 "img": this.state.pathImage,
-                "status": 1,
+                "status": 0,
                 "star": 5,
                 "quantity": numberParticipant,
                 "timeStart": timeStart.toString(),
@@ -287,18 +287,18 @@ class CreateTrip extends Component {
                         <TextInputItems
                             nameIcon={'ios-contacts'}
                             styleIcon={{color:global.orange}}
-                            namePlaceholder={'Tổng số thành viên có thể tham gia'}
+                            namePlaceholder={'Kinh phí dự kiến'}
                             onChangeText={(numberParticipant) => this.setState({numberParticipant})}
                             txtContent={this.state.numberParticipant}
                             warning={this.state.warningNumberParticipant}
-                            maxLength={2}
+                            maxLength={10}
                             isNumber
                             txtStyle={{width:width}}
                         />
                         <TextInputItems
                             nameIcon={'ios-flower'}
                             styleIcon={{color:global.orange}}
-                            namePlaceholder={'Mô tả sơ lược về chuyến đi của của bạn'}
+                            namePlaceholder={'Mô tả về chuyến đi của của bạn'}
                             onChangeText={(description) => this.setState({description})}
                             txtContent={this.state.description}
                             warning={this.state.warningDescription}

@@ -53,6 +53,34 @@ class TripDetails extends Component {
             keyRoles:null,
              Status : '',
         };
+        this.dataLocation = [
+            {
+                tittle:'Stop 1',
+                latitude: 21.038756,
+                longitude:105.840314,
+            },
+            {
+                tittle:'Stop 2',
+                latitude: 21.338134,
+                longitude:105.742265,
+            },
+            {
+                tittle:'Stop 3',
+                latitude: 21.517253,
+                longitude:104.523863,
+            },
+            {
+                tittle:'Stop 4',
+                latitude: 21.669108,
+                longitude:106.662683,
+            },
+            {
+                tittle:'Stop 5',
+                latitude: 20.639935,
+                longitude: 105.489459,
+            },
+
+        ];
         this.idTrip = null;
         this.handleShowUserInfo = this.handleShowUserInfo.bind(this);
         this.onCloseModal = this.onCloseModal.bind(this);
@@ -65,6 +93,8 @@ class TripDetails extends Component {
         this.handleRegisterTrip = this.handleRegisterTrip.bind(this);
         this.handleShowCmt = this.handleShowCmt.bind(this);
         this.handleGetListMemberInTrip = this.handleGetListMemberInTrip.bind(this);
+        this.handleTripTimeLine = this.handleTripTimeLine.bind(this);
+        this.handleRenderMap = this.handleRenderMap.bind(this);
 
     }
     async componentWillMount(){
@@ -143,6 +173,26 @@ class TripDetails extends Component {
             "Bạn đã gửi yêu cầu tham gia thành công",
             )
 
+    }
+   async handleRenderMap(){
+        if(await getFromLocal('Token_User') !== null)
+        {
+            api.getStopWithPlace(await getFromLocal('Token_User'),this.idTrip,0).then((res)=>{
+                if(res && res.status){
+                    this.props.navigation.navigate("TripMap",{
+                        dataLocation:res.data
+                    });
+                    console.log("data res list stop with place",res.data)
+                }
+            })
+                .catch((err)=>{
+                    console.log("err get list stop with place",err.response);
+                    Alert.alert('Thông báo','Có lỗi xảy ra');
+                })
+        }
+        // this.props.navigation.navigate("TripMap",{
+        //     dataLocation:this.dataLocation
+        // });
     }
     initData(){
         data = [{img:image.img_bg_1},
@@ -337,6 +387,22 @@ class TripDetails extends Component {
 
        //this.props.navigation.navigate('ListMemberInTrip');
     }
+    async handleTripTimeLine(){
+       if( await getFromLocal('Token_User') !== null){
+           api.getListStopInTrip(await getFromLocal('Token_User'),this.idTrip).then((res)=>{
+               if(res && res.status){
+                   this.props.navigation.navigate("TripTimeline",{
+                       dataStop:res.data
+                   });
+                   console.log(' res list stop in trip data',res.data);
+               }
+           })
+               .catch((err)=>{
+                   console.log("err list stop",err.response);
+               });
+       }
+       //this.props.navigation.navigate("TripTimeline")
+    }
     render() {
         const {params} = this.props.navigation.state;
         console.log("paramsTrungDo",params);
@@ -427,7 +493,7 @@ class TripDetails extends Component {
                                 btnStyle={styles.btn_tour}
                                 badge={'Hành trình tour'}
                                 badgeStyle={{}}
-                                onClick={()=>this.props.navigation.navigate('TripTimeline')}
+                                onClick={this.handleTripTimeLine}
                             />
                        </View>
                        <ScrollView
@@ -450,7 +516,7 @@ class TripDetails extends Component {
                                </View>
 
                                <IconButton nameIcon={'ios-arrow-round-forward'} iconStyle={{color:global.orange,
-                                   fontSize:25,}} btnStyle={{marginRight:10,justifyContent:'flex-end'}} onClick={()=>alert('Maps')}/>
+                                   fontSize:25,}} btnStyle={{marginRight:10,justifyContent:'flex-end'}} onClick={this.handleRenderMap}/>
                            </View>
                            {this.state.keyRoles === 1 &&  <View style={styles.header_drop_down2}>
                                <View style={{flexDirection:'row'}}>

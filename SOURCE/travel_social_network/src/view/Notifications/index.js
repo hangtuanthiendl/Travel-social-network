@@ -23,7 +23,8 @@ export default class Notification extends Component {
         super(props);
         this.state = {
             dataCountMemberWaiting :[],
-        }
+        };
+        this.handleGetListNotification = this.handleGetListNotification.bind(this);
     }
     async componentWillMount(){
         if(await getFromLocal('Token_User') !== null){
@@ -42,6 +43,23 @@ export default class Notification extends Component {
                 });
         }
 
+    }
+    async handleGetListNotification(){
+        if(await getFromLocal('Token_User') !== null){
+            api.getCountListMemberInTrip(await getFromLocal('Token_User')).then((res)=>{
+                if(res && res.status){
+                    this.setState({
+                        dataCountMemberWaiting:res.data
+                    })
+                }
+                console.log("res data count member waiting ",res.data);
+
+            })
+                .catch((err)=>{
+                    console.log("err count member waiting",err.response);
+
+                });
+        }
     }
     handleMemberWaiting(item){
         this.props.navigation.navigate("ListMemberWait",{
@@ -62,7 +80,7 @@ export default class Notification extends Component {
                     bold={global.fontWeightDark}/>}
                 rightHeader={
                     <IconButton nameIcon='ios-refresh' iconStyle={{fontSize: 20, color: global.black}}
-                                onClick={() => {}}/>}
+                                onClick={this.handleGetListNotification}/>}
             />
                 {this.state.dataCountMemberWaiting.length > 0
                     ?

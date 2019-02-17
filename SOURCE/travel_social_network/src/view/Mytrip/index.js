@@ -20,6 +20,7 @@ import * as tripActions from "../../action/tripAction";
 import * as userInfoAction from "../../action/userAction";
 import connect from "react-redux/es/connect/connect";
 import {getFromLocal} from "../../services/storage";
+import * as api from "../../api/Api";
 class MyTrip extends Component {
     constructor(props){
         super(props);
@@ -27,6 +28,7 @@ class MyTrip extends Component {
             dataMyTrip : this.props.dataTrips.dataMyTrip
         };
         this.handleTripDetail = this.handleTripDetail.bind(this);
+        this.handleGetListMyTrip = this.handleGetListMyTrip.bind(this);
     }
    async componentWillMount(){
         console.log("da ta my trip",this.props.dataTrips);
@@ -38,6 +40,23 @@ class MyTrip extends Component {
         this.props.navigation.navigate('Details',{
             dataDetail : item,
         })
+    }
+    async handleGetListMyTrip(){
+        if(await getFromLocal('Token_User') !== null){
+            api.getListMyTrip(await getFromLocal('Token_User'),0).then((res)=>{
+                if(res && res.status){
+                    console.log("data  get list my trip",res.data);
+                    this.setState({
+                        dataMyTrip:res.data
+                    })
+                }
+            })
+                .catch((err)=>{
+                    console.log("err get list my trip",err.response);
+                })
+        }else{
+            this.props.tripActions.getListMyTrip(this.props.login.token ,0);
+        }
     }
       render() {
         return (
@@ -53,7 +72,7 @@ class MyTrip extends Component {
                         bold={global.fontWeightDark}/>}
                     rightHeader={
                         <IconButton nameIcon='ios-refresh' iconStyle={{fontSize: 20, color: global.black}}
-                                    onClick={() => alert("TrungDo")}/>}
+                                    onClick={this.handleGetListMyTrip}/>}
                 />
                     <TripListView onScroll={this._onScroll} data={this.state.dataMyTrip}
                                   renderItem={({item,index})=>

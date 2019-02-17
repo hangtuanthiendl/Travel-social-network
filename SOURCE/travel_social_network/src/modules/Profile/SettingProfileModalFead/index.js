@@ -11,27 +11,24 @@ import EditProfileModal from "../../../Components/Modal/EditProfileModal";
 import TextComponent from "../../../Components/Text/Text";
 
 const {height, width} = Dimensions.get("window");
-export default class SettingProfileModal extends EditProfileModal{
+export default class SettingProfileModalFead extends EditProfileModal{
     constructor(props) {
         super(props);
         this.state = {
             name:'',
         };
-       this.doneEdit = this.doneEdit.bind(this);
+        this.doneEdit = this.doneEdit.bind(this);
     }
     doneEdit(){
         console.log("data",this.state.name);
         if(this.state.name === ''){
-            this.setState({
-                name:this.props.name,
-            },()=>{
-                console.log("trungdo",this.props.editable,this.props.name,this.state.name);
-                this.props.doneEdit(!this.props.editable ? this.props.name :this.state.name);
-            });
+            this.props.doneEdit(this.props.name);
         }else{
             this.props.doneEdit(this.state.name);
+            this.setState({
+                name:'',
+            })
         }
-
     }
     renderHeader() {
         return (
@@ -75,7 +72,6 @@ export default class SettingProfileModal extends EditProfileModal{
                     placeholderTextColor={global.black}
                     autoCapitalize = 'none'
                     underlineColorAndroid="transparent"
-                    doneEdit={this.props.editable}
                 />
             </View>
         );
@@ -109,13 +105,12 @@ export default class SettingProfileModal extends EditProfileModal{
     }
 }
 
-SettingProfileModal.defaultProps = {
+SettingProfileModalFead.defaultProps = {
     editable:true,
 };
 
-SettingProfileModal.propTypes = {
+SettingProfileModalFead.propTypes = {
     doneEdit:PropTypes.func,
     title:PropTypes.string,
     name:PropTypes.string,
-    editable:PropTypes.bool
 };

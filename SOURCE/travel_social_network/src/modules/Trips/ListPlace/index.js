@@ -20,18 +20,26 @@ import connect from "react-redux/es/connect/connect";
 import TripListItem from "../TripListItem";
 import TripListView from "../TripListView";
 import CardTripItem from "../CardTripItem";
+import styles from "./styles";
 
 class ListPlace extends Component {
     constructor(props){
         super(props);
         this.state = {
-            dataPlace:this.props.dataListPlace.dataPlace
+            dataPlace:this.props.dataListPlace.dataPlace,
+            isSearch:true,
+            destination:'',
         };
+        this.dataPlace = null;
         this.handleSelectPlace = this.handleSelectPlace.bind(this);
+        this.handleShowSearchPlace = this.handleShowSearchPlace.bind(this);
+        this.handleCloseSearchPlace = this.handleCloseSearchPlace.bind(this);
+        this.onChangeDestination = this.onChangeDestination.bind(this);
     }
 
     componentWillMount(){
-        console.log("this.state.dataPlace",this.state.dataPlace)
+        this.dataPlace = this.props.dataListPlace.dataPlace;
+        console.log("this.state.dataPlace",this.dataPlace)
     }
     renderItem(){
 
@@ -41,8 +49,39 @@ class ListPlace extends Component {
         navigation.state.params.onSelect({item: item});
         navigation.goBack();
     }
-    render() {
+    handleShowSearchPlace(){
+        this.setState({
+            isSearch:false
+        })
+    }
+    handleCloseSearchPlace(){
+        this.setState({
+            isSearch:true,
+            destination:'',
+            dataPlace:this.dataPlace
+        })
+    }
+    onChangeDestination(destination){
+        let arr = [];
+        if(destination !== ''){
+            this.dataPlace.map((item)=>{
+                if(item.name !== null && item.name.indexOf(destination) !== -1){
+                    arr.push(item)
+                }
+            });
+            this.setState({
+                destination,
+                dataPlace:arr
+            })
 
+        }else{
+            this.setState({
+                destination,
+                dataPlace:this.dataPlace
+            })
+        }
+    }
+    render() {
         return (
             <ImageBackground source={image.backgroundImage} style={styleGlobal.container}>
                 <View style={styleGlobal.imgBackground}>
@@ -56,8 +95,27 @@ class ListPlace extends Component {
                             color={global.black}
                             size={global.sizeP20}
                             bold={global.fontWeightDark}/>}
-                        rightHeader={<TextComponent text={''}/>}
+                        rightHeader={
+                            this.state.isSearch
+                                ?
+                            <IconButton nameIcon='ios-search'
+                                                 onClick={this.handleShowSearchPlace}
+                                                 iconStyle={{fontSize: 30, color: global.black}}/>
+                                :
+                            <IconButton nameIcon='ios-close'
+                                        onClick={this.handleCloseSearchPlace}
+                                        iconStyle={{fontSize: 35, color: global.orange}}/>
+                        }
                     />
+                    {!this.state.isSearch &&   <TextInput
+                        onChangeText={(destination)=>this.onChangeDestination(destination)}
+                        style={styles.txt_search_place}
+                        placeholder={"Tìm kiếm điểm du lịch"}
+                        value={this.state.destination}
+                        placeholderTextColor={global.colorB2}
+                        autoCapitalize = 'none'
+                        underlineColorAndroid="transparent"
+                    />}
                     <View style={{marginTop: 10,marginLeft: 10}}>
                         <TripListView onScroll={this._onScroll} data={this.state.dataPlace}
                                       renderItem={({item,index})=>{

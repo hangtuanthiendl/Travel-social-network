@@ -17,13 +17,14 @@ import TextComponent from "../../../Components/Text/Text";
 import PropTypes from "prop-types";
 import Icon from "react-native-vector-icons/Ionicons";
 import SettingItem from "../../../Components/Items/SetteingItem";
-import SettingProfileModal from "../SettingProfileModal";
+import SettingProfileModalFead from "../SettingProfileModalFead";
 import {bindActionCreators} from "redux";
 import * as loginActions from "../../../action/loginAction";
 import * as placeAction from "../../../action/placeAction";
 import * as tripActions from "../../../action/tripAction";
 import * as uploadImageAction from "../../../action/uploadImgaeAction";
 import connect from "react-redux/es/connect/connect";
+import urls from "../../../api/urls";
 const {
     height,
     width
@@ -33,6 +34,7 @@ class SettingProfile extends Component {
         super(props);
         this.state = {
             showEditProfile:false,
+            pass:'*****',
             titleSetting:'',
             email:this.props.userInfo.data.email,
             phone:this.props.userInfo.data.phone,
@@ -42,6 +44,18 @@ class SettingProfile extends Component {
         this.handleOpenEditProfile = this.handleOpenEditProfile.bind(this);
         this.onCloseModal = this.onCloseModal.bind(this);
         this.doneEdit = this.doneEdit.bind(this);
+    }
+    componentWillMount(){
+        console.log("avatarSourceUrl",this.props.userInfo.data);
+        if(this.props.userInfo && this.props.userInfo.data.img !== null){
+            this.setState({
+                avatarSourceUrl: urls.ROOT + this.props.userInfo.data.img.slice(1)
+            })
+        }else{
+            this.setState({
+                avatarSourceUrl: 'https://anh.24h.com.vn//upload/1-2015/images/2015-02-12/1423706954-anhgirlxinh.jpg',
+            })
+        }
     }
     handleOpenEditProfile(titleSetting,name){
         this.setState({
@@ -65,6 +79,12 @@ class SettingProfile extends Component {
             this.setState({
                 nameUser:content,
             })
+
+        }else if(this.state.titleSetting === 'Mật khẩu'){
+            this.setState({
+                pass:'*****',
+            })
+
         }else{
             this.setState({
                 phone:content,
@@ -116,24 +136,26 @@ class SettingProfile extends Component {
                             <SettingItem
                                 nameIcon='ios-key'
                                 styleIcon={{color:global.colorFF,fontSize: 30,}}
-                                txtDetails={'1234567'}
+                                txtDetails={'*****'}
                                 txtTitle={'Mật khẩu'}
+                                onClick={this.handleOpenEditProfile.bind(null,'Mật khẩu','Nhập mật khẩu mới')}
                             />
                         </View>
                         <View style={{flex:1}}>
                             <RoundAvatar
                                 size={'x-large'}
-                                icSrc={'https://anh.24h.com.vn//upload/1-2015/images/2015-02-12/1423706954-anhgirlxinh.jpg'}/>
+                                icSrc={this.state.avatarSourceUrl}/>
                         </View>
 
                     </View>
-                    <SettingProfileModal
+                   <SettingProfileModalFead
                         visible={this.state.showEditProfile}
                         onCloseModal={this.onCloseModal}
                         doneEdit ={this.doneEdit}
                         title={this.state.titleSetting}
                         name={this.state.name}
                     />
+
                 </ImageBackground>
             </View>
         );

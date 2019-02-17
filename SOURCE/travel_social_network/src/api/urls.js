@@ -12,6 +12,7 @@ export default {
     REGISTER_TRIP:'registermember',
     CREATE_USER:'user',
     UPLOAD_IMAGE:'imageUploadTrip',
+    AVATARUPLOAD:'avatarUpload',
     GET_USER_INFO:'user',
     DETAIL_USER:'detailuser?id=',
     CREATE_PLACE:'place',
@@ -22,5 +23,8 @@ export default {
     COUNT_WAITING_MEMBERS:'countwaitingmembers',
     WAITING_MEMBER:'waitingmembers?idTrip=',
     UPDATE_STATUS_MEMBER:'updatestatemember',
+    GET_STOP_IN_TRIP:'stops/',
+    STOP_WITH_PLACE:'stopWithPlaceSort?idTrip=',
+    GET_ALL_MY_TRIP : 'allMyTrip',
 
 }

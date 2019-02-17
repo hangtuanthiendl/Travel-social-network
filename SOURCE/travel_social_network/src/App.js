@@ -19,6 +19,8 @@ import ListPlace from './modules/Trips/ListPlace';
 import CreatePlace from './modules/Trips/CreatePlace';
 import ListMemberInTrip from './modules/Trips/ListMember';
 import ListMemberWait from './modules/Trips/ListMemberWait';
+import TripMap from './modules/Trips/TripMap';
+import TripHistory from './modules/Trips/TripHistory';
 import {createBottomTabNavigator,createStackNavigator} from 'react-navigation'
 import {
     StatusBar,
@@ -97,6 +99,8 @@ const RootNavigator = createStackNavigator({
   CreatePlace:{screen:CreatePlace},
   ListMemberInTrip:{screen:ListMemberInTrip},
   ListMemberWait:{screen:ListMemberWait},
+  TripMap:{screen:TripMap},
+  TripHistory:{screen:TripHistory}
 },
 {
   initialRouteName: "SplashScreen",

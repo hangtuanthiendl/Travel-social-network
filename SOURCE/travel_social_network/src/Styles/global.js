@@ -79,6 +79,9 @@ export default  {
   // for member search screen
     lightGreen:"#7BCB45",
     lightGrey:"#f3f3f3",
+    statusGreen:"#a2ff51",
+    statusRed:"#b15e29",
+    stautsYellow:"#7BCB45",
     apiKey:'AIzaSyAKSoqkh5ct2FAbRF-QfYJJAVYM30viFBk',
   };
   
